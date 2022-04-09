@@ -1,0 +1,30 @@
+{% extends 'base_back.html.twig' %}
+{% block content %}
+    <h1>Paiement</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>ModalitePaiement</th>
+                <td>{{ paiement.modalitePaiement }}</td>
+            </tr>
+            <tr>
+                <th>Montant</th>
+                <td>{{ paiement.montant }}</td>
+            </tr>
+            <tr>
+                <th>Date</th>
+                <td>{{ paiement.date ? paiement.date|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>IdReservation</th>
+                <td>{{ paiement.idReservation.type}}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_reservation_index') }}">back to list</a>
+
+
+
+{% endblock %}

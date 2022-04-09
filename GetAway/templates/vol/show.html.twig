@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+
+<title>Vol</title>
+
+{% block body %}
+    <h1>Vol</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>IdVol</th>
+                <td>{{ vol.idVol }}</td>
+            </tr>
+            <tr>
+                <th>DateDepart</th>
+                <td>{{ vol.dateDepart ? vol.dateDepart|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>DateArrivee</th>
+                <td>{{ vol.dateArrivee ? vol.dateArrivee|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>VilleDepart</th>
+                <td>{{ vol.villeDepart }}</td>
+            </tr>
+            <tr>
+                <th>VilleArrivee</th>
+                <td>{{ vol.villeArrivee }}</td>
+            </tr>
+            <tr>
+                <th>NbrPlacedispo</th>
+                <td>{{ vol.nbrPlacedispo }}</td>
+            </tr>
+            <tr>
+                <th>IdAvion</th>
+                <td>{{ vol.idAvion }}</td>
+            </tr>
+            <tr>
+                <th>Prix</th>
+                <td>{{ vol.prix }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_vol_index') }}">back to list</a>
+
+    <a href="{{ path('app_vol_edit', {'idVol': vol.idVol}) }}">edit</a>
+
+    {{ include('vol/_delete_form.html.twig') }}
+{% endblock %}

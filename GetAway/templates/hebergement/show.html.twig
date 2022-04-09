@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+
+<title>Hebergement</title>
+
+{% block body %}
+    <h1>Hebergement</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Referance</th>
+                <td>{{ hebergement.referance }}</td>
+            </tr>
+            <tr>
+                <th>Paye</th>
+                <td>{{ hebergement.paye }}</td>
+            </tr>
+            <tr>
+                <th>Adress</th>
+                <td>{{ hebergement.adress }}</td>
+            </tr>
+            <tr>
+                <th>Prix</th>
+                <td>{{ hebergement.prix }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ hebergement.description }}</td>
+            </tr>
+            <tr>
+                <th>Photo</th>
+                <td>{{ hebergement.photo }}</td>
+            </tr>
+            <tr>
+                <th>DateStart</th>
+                <td>{{ hebergement.dateStart ? hebergement.dateStart|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>DateEnd</th>
+                <td>{{ hebergement.dateEnd ? hebergement.dateEnd|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Contact</th>
+                <td>{{ hebergement.contact }}</td>
+            </tr>
+            <tr>
+                <th>NbrDetoile</th>
+                <td>{{ hebergement.nbrDetoile }}</td>
+            </tr>
+            <tr>
+                <th>NbrSuite</th>
+                <td>{{ hebergement.nbrSuite }}</td>
+            </tr>
+            <tr>
+                <th>NbrParking</th>
+                <td>{{ hebergement.nbrParking }}</td>
+            </tr>
+            <tr>
+                <th>ModelCaravane</th>
+                <td>{{ hebergement.modelCaravane }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_hebergement_index') }}">back to list</a>
+
+    <a href="{{ path('app_hebergement_edit', {'referance': hebergement.referance}) }}">edit</a>
+
+    {{ include('hebergement/_delete_form.html.twig') }}
+{% endblock %}

@@ -1,0 +1,37 @@
+
+              <table class="table" >
+                  <thead>
+                  <tr class="table-warning">
+                      <th>Id</th>
+                      <th>DateReservation</th>
+                      <th>NbrPlace</th>
+                      <th>DateDebut</th>
+                      <th>DateFin</th>
+                      <th>Etat</th>
+                      <th> type</th>
+                      <th> Action </th>
+                  </tr>
+                <tbody>
+                  </thead>
+                  {% for reservation in reservations %}
+                      <tr class="table-warning">
+                          <td>{{ reservation.id }}</td>
+                          <td>{{ reservation.dateReservation ? reservation.dateReservation|date('Y-m-d') : '' }}</td>
+                          <td>{{ reservation.nbrPlace }}</td>
+                          <td>{{ reservation.dateDebut ? reservation.dateDebut|date('Y-m-d') : '' }}</td>
+                          <td>{{ reservation.dateFin ? reservation.dateFin|date('Y-m-d') : '' }}</td>
+                          <td>{{ reservation.etat }}</td>
+                          <td>{{ reservation.type }}</td>
+                          <td>
+                              <a class="btn btn-primary me-2" href="{{ path('detailsR', {'id': reservation.id}) }}"> Afficher paiement  </a>
+                              <a class="btn btn-primary me-2"  href="{{ path('app_reservation_delete', {'id': reservation.id}) }}"> Delete</a>
+                          </td>
+                      </tr>
+                  {% else %}
+                      <tr class="table-warning">
+                          <td colspan="8">no records found</td>
+                      </tr>
+                  {% endfor %}
+              </table>
+
+
