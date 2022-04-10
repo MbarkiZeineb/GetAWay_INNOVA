@@ -107,7 +107,7 @@ class ReservationController extends AbstractController
                 $voyage->setNbrplace($voyage->getNbrplace() -  $reservation->getNbrPlace());
                 $entityManager->flush();
                 $entityManager->refresh($reservation);
-                return $this->redirectToRoute('app_paiement_new', array('id' => $reservation->getId(),'prix'=>$voyage->getPrix()));
+                return $this->redirectToRoute('app_paiement_newvo', array('id' => $reservation->getId(),'prix'=>$voyage->getPrix()));
             }
             else
             {
@@ -150,7 +150,7 @@ class ReservationController extends AbstractController
                 $vol->setNbrPlacedispo($vol->getNbrPlacedispo() -  $reservation->getNbrPlace());
                 $entityManager->flush();
                 $entityManager->refresh($reservation);
-                return $this->redirectToRoute('app_paiement_new', array('id' => $reservation->getId(),'prix'=>$vol->getPrix()));
+                return $this->redirectToRoute('app_paiement_newvol', array('id' => $reservation->getId(),'prix'=>$vol->getPrix()));
             }
             else
             {
@@ -185,18 +185,22 @@ class ReservationController extends AbstractController
             ->setEtat("Approuve")
             ->setDateReservation($date)
             ->setIdHebergement($reph->find($heb));
-        $check1=$repv->check1($id,$reservation->getDateDebut(),$reservation->getDateFin());
-        $check2=$repv->check2($id,$reservation->getDateDebut(),$reservation->getDateFin());
+        $check1=$repv->check1($id,$reservation->getDateDebut());
+        $check2=$repv->check2($id,$reservation->getDateDebut());
         $check3=$repv->check3($id,$reservation->getDateDebut(),$reservation->getDateFin());
         $check4=$repv->check4($id,$reservation->getDateDebut(),$reservation->getDateFin());
+        $check5=$repv->check4($id,$reservation->getDateDebut(),$reservation->getDateFin());
+
         if($form->isSubmitted() && $form->isValid())
         {
-            if(empty($check1)&&empty($check2)&&empty($check3)&&empty($check4))
+            if(empty($check1)&&empty($check2)&&empty($check3)&&empty($check4)&&empty($check5)&&$reservation->getDateDebut() >= $heb->getDateStart()&&$reservation->getDateFin() <= $heb->getDateEnd() )
             {
                 $entityManager->persist($reservation);
                 $entityManager->flush();
                 $entityManager->refresh($reservation);
-                return $this->redirectToRoute('app_paiement_new', array('id' => $reservation->getId(),'prix'=>$vol->getPrix()));
+                $intvl = $reservation->getDateDebut()->diff($reservation->getDateFin());
+
+                return $this->redirectToRoute('app_paiement_newH', array('id' => $reservation->getId(),'prix'=>$heb->getPrix(),'nbrj'=>$intvl->d));
             }
             else
             {

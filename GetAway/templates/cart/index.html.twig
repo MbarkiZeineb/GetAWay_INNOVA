@@ -26,16 +26,15 @@
                 </tr>
                 </thead>
                 <tbody>
+                {% if items | length > 0  %}
+                {% for voyageorganise in items  %}{%  if  voyageorganise.voyage is empty  %}
+                {% else %}
                 <tr>
-
-                    {% if items | length > 0  %}
-                    {% for voyageorganise in items  %}
-                         {%  if  voyageorganise.voyage is empty  %}
-                        {% else %}
                     <td >Voyage Organise </td>
+
                     <td >{{ voyageorganise.voyage.datedepart}}</td>
                     <td>{{ voyageorganise.voyage.datearrive}}</td>
-                        <td >{{ voyageorganise.voyage.villedest}}</td>
+                            <td >{{ voyageorganise.voyage.villedest}}</td>
                         <td >{{ voyageorganise.voyage.nbrplace}}</td>
                     <td >   <button type="button"  class="btn btn-default"><a href="{{ path('add_vo',{'id':voyageorganise.voyage.idVoy}) }}"> Reserver</a></button> </td>
 
@@ -64,29 +63,22 @@
                     {% endif %}
                 </tr>
                 <tr>
-                    {% if items1 | length > 0  %}
-                        {% for vol in items1  %}
-                            {%  if  vol.vol is empty  %}
+                    {% if items3 | length > 0  %}
+                        {% for heb in items3 %}
+                            {%  if  heb.heb is empty  %}
                             {% else %}
-                                <td > Vol  </td>
-                                <td >{{ vol.vol.dateDepart | date('d-m-Y H:i:s')}}</td>
-                                <td>{{ vol.vol.dateArrivee  | date('d-m-Y H:i:s') }}</td>
-                                <td >{{ vol.vol.villeArrivee}}</td>
-                                <td >{{ vol.vol.nbrPlacedispo}}</td>
+                                <td > Hebergement   </td>
+                                <td >{{ heb.heb.dateStart | date('d-m-Y H:i:s')}}</td>
+                                <td>{{ heb.heb.dateEnd  | date('d-m-Y H:i:s') }}</td>
+                                <td >{{ heb.heb.adress}}</td>
+                                <td >--------</td>
                                 <td >
-                                    <button type="button"  class="btn btn-check"><a href="{{ path('add_vol',{'id':vol.vol.idVol}) }}"> Reserver</a></button>
+                                    <button type="button"  class="btn btn-check"><a href="{{ path('add_H',{'id':heb.heb.referance}) }}"> Reserver</a></button>
                                 </td>
                             {% endif %}
                         {% endfor %}
 
                     {% endif %}
-                </tr>
-                <tr>
-                    <td data-label="Name">John</td>
-                    <td data-label="Surname">Doe</td>
-                    <td data-label="Address">New York</td>
-                    <td data-label="Email">john@doe.com</td>
-                    <td data-label="Address">123456678</td>
                 </tr>
                 </tbody>
             </table>

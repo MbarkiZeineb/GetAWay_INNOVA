@@ -32,9 +32,9 @@ class PaiementController extends AbstractController
     }
 
     /**
-     * @Route("/new/{id}/{prix}", name="app_paiement_new", methods={"GET", "POST"})
+     * @Route("/new/{id}/{prix}", name="app_paiement_newvol", methods={"GET", "POST"})
      */
-    public function new(Request $request, EntityManagerInterface $entityManager,$prix,$id,ReservationRepository $repR): Response
+    public function newvol(Request $request, EntityManagerInterface $entityManager,$prix,$id,ReservationRepository $repR): Response
     {
         $paiement = new Paiement();
         $reservation=$repR->find($id);
@@ -51,7 +51,63 @@ class PaiementController extends AbstractController
             $entityManager->persist($paiement);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_paiement_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('delete_items',array('id'=>$reservation->getIdVol()->getIdVol()));
+        }
+
+        return $this->render('paiement/new.html.twig', [
+            'paiement' => $paiement,
+            'form' => $form->createView(),
+        ]);
+    }
+    /**
+     * @Route("/new/{id}/{prix}", name="app_paiement_newvo", methods={"GET", "POST"})
+     */
+    public function newvo(Request $request, EntityManagerInterface $entityManager,$prix,$id,ReservationRepository $repR): Response
+    {
+        $paiement = new Paiement();
+        $reservation=$repR->find($id);
+        $montant=$prix *$reservation->getNbrPlace();
+        $paiement->setMontant( $montant);
+        $paiement->setIdReservation($reservation);
+        $date1 = new \DateTime('@'.strtotime('now'));
+        $paiement->setDate($date1);
+        $form = $this->createForm(PaiementType::class, $paiement);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->persist($paiement);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('delete_items',array('id'=>$reservation->getIdVoyage()->getIdvoy()));
+        }
+
+        return $this->render('paiement/new.html.twig', [
+            'paiement' => $paiement,
+            'form' => $form->createView(),
+        ]);
+    }
+    /**
+     * @Route("/newH/{id}/{prix}/{nbrj}", name="app_paiement_newH", methods={"GET", "POST"})
+     */
+    public function newH(Request $request, EntityManagerInterface $entityManager,$prix,$id,$nbrj,ReservationRepository $repR): Response
+    {
+        $paiement = new Paiement();
+        $reservation=$repR->find($id);
+        $montant=$prix *$nbrj;
+        $paiement->setMontant( $montant);
+        $paiement->setIdReservation($reservation);
+        $date1 = new \DateTime('@'.strtotime('now'));
+        $paiement->setDate($date1);
+        $form = $this->createForm(PaiementType::class, $paiement);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->persist($paiement);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('delete_items',array('id'=>$reservation->getIdHebergement()->getReferance()));
         }
 
         return $this->render('paiement/new.html.twig', [

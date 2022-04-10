@@ -49,8 +49,8 @@ class ReservationRepository extends ServiceEntityRepository
 
         return $this->createQueryBuilder('r')
             ->where('r.idHebergement=:id')
-            ->andWhere('r.dateDebut < :dd   ')
-            ->andWhere('r.dateFin  > :dd  ')
+            ->andWhere('r.dateDebut <= :dd   ')
+            ->andWhere('r.dateFin  >= :dd  ')
             ->setParameter('id',$id)
             ->setParameter('dd',$dd)
             ->getQuery()
@@ -63,8 +63,8 @@ class ReservationRepository extends ServiceEntityRepository
 
         return $this->createQueryBuilder('r')
             ->where('r.idHebergement=:id')
-            ->andWhere(' r.dateDebut < :df  ')
-            ->andWhere('  r.dateFin >  :df ')
+            ->andWhere(' r.dateDebut <= :df  ')
+            ->andWhere('  r.dateFin >=  :df ')
             ->setParameter('id',$id)
             ->setParameter('df',$df)
             ->getQuery()
@@ -77,8 +77,8 @@ class ReservationRepository extends ServiceEntityRepository
 
         return $this->createQueryBuilder('r')
             ->where('r.idHebergement=:id')
-            ->andWhere('r.dateDebut < :dd      ')
-            ->andWhere(' r.dateFin > :df')
+            ->andWhere('r.dateDebut <= :dd      ')
+            ->andWhere(' r.dateFin >= :df')
             ->setParameter('id',$id)
             ->setParameter('dd',$dd)
             ->setParameter('df',$df)
@@ -92,8 +92,23 @@ class ReservationRepository extends ServiceEntityRepository
 
         return $this->createQueryBuilder('r')
             ->where('r.idHebergement=:id')
-            ->andWhere('r.dateDebut > :dd    ')
-            ->andWhere(' r.dateFin <  :df')
+            ->andWhere('r.dateDebut >= :dd    ')
+            ->andWhere(' r.dateFin <=  :df')
+            ->setParameter('id',$id)
+            ->setParameter('dd',$dd)
+            ->setParameter('df',$df)
+            ->getQuery()
+            ->getResult();
+
+
+    }
+    public function check5($id,$dd,$df)
+    {
+
+        return $this->createQueryBuilder('r')
+            ->where('r.idHebergement=:id')
+            ->andWhere('r.dateDebut = :dd    ')
+            ->andWhere(' r.dateFin = :df')
             ->setParameter('id',$id)
             ->setParameter('dd',$dd)
             ->setParameter('df',$df)

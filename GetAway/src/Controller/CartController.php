@@ -24,7 +24,7 @@ class CartController extends AbstractController
           foreach ($panier as $id=>$value) {
               $voyage[] = ['voyage' => $rep->find($id)];
               $vol[] = ['vol' => $repvol->find($id)];
-              $heb[] = ['vol' => $reph->find($id)];
+              $heb[] = ['heb' => $reph->find($id)];
           }
          dump($voyage);
         dump($vol);
@@ -55,5 +55,21 @@ class CartController extends AbstractController
     }
 
 
+    /**
+     * @Route("/panier/delete/{id}", name="delete_items")
+     *
+     */
+    public function delete($id, SessionInterface $session)
+    {
+        $panier = $session->get('panier', []);
+        if (!empty($panier[$id])) {
+            dump($id);
+            unset($panier[$id]);
+        }
+
+        $session->set('panier', $panier);
+
+        return $this->redirectToRoute('cart_panier');
+    }
 
 }
