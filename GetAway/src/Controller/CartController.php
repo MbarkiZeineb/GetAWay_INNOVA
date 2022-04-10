@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\ActiviteRepository;
 use App\Repository\HebergementRepository;
 use App\Repository\VolRepository;
 use App\Repository\VoyageorganiseRepository;
@@ -16,23 +17,23 @@ class CartController extends AbstractController
     /**
      * @Route("/panier", name="cart_panier")
      */
-    public function index(SessionInterface  $s,VoyageorganiseRepository $rep,HebergementRepository $reph,VolRepository  $repvol )
+    public function index(SessionInterface  $s,VoyageorganiseRepository $rep,HebergementRepository $reph,VolRepository  $repvol ,ActiviteRepository  $repa)
     {
         $panier=$s->get('panier',[]);
-        dump($panier);
-
+        $voyage[]=[];
+        $vol[]=[];
+        $heb[]=[];
+        $act[]=[];
           foreach ($panier as $id=>$value) {
+
               $voyage[] = ['voyage' => $rep->find($id)];
               $vol[] = ['vol' => $repvol->find($id)];
               $heb[] = ['heb' => $reph->find($id)];
+              $act[]=['act' => $repa->find($id)];
           }
-         dump($voyage);
-        dump($vol);
 
 
-
-
-        return $this->render('cart/index.html.twig', ['items'=>$voyage,'items1'=>$vol,'items3'=>$heb
+        return $this->render('cart/index.html.twig', ['items'=>$voyage,'items1'=>$vol,'items3'=>$heb,'items4'=>$act
 
         ]);
     }
@@ -51,6 +52,7 @@ class CartController extends AbstractController
         }
         $session->set('panier', $panier);
 
+
         return $this->redirectToRoute('cart_panier');
     }
 
@@ -59,14 +61,13 @@ class CartController extends AbstractController
      * @Route("/panier/delete/{id}", name="delete_items")
      *
      */
-    public function delete($id, SessionInterface $session)
+    public function delete($id, SessionInterface $session,VoyageorganiseRepository $repv)
     {
         $panier = $session->get('panier', []);
+
         if (!empty($panier[$id])) {
-            dump($id);
             unset($panier[$id]);
         }
-
         $session->set('panier', $panier);
 
         return $this->redirectToRoute('cart_panier');

@@ -36,8 +36,10 @@ class Reservation
      * @ORM\Column(name="nbr_place", type="integer", nullable=false)
      * @Assert\GreaterThanOrEqual(
      *value=1,
-     *message="le nombre de place doit etre superieur ou egale a 1 ")
-     * groups={"VVA"}
+     *message="le nombre de place doit etre superieur ou egale a 1 ",
+     * groups={"VVA"})
+     *
+     *
      */
     private $nbrPlace;
 
@@ -45,9 +47,9 @@ class Reservation
      * @var \DateTime
      *
      * @ORM\Column(name="date_debut", type="date", nullable=false)
-     * @Assert\GreaterThan("today")
-     * groups={"Hebergement"}
-     *
+     * @Assert\GreaterThan("today",
+     * groups={"Hebergement"})
+     *@Assert\NotBlank(groups={"Hebergement"})
      */
     private $dateDebut;
 
@@ -57,10 +59,9 @@ class Reservation
      * @ORM\Column(name="date_fin", type="date", nullable=false)
      *@Assert\Expression(
      * "this.getDateDebut()<this.getDateFin()",
-     *  message="La date fin ne doit pas être antérieure à la date début",
-     * groups={"Hebergement"}
-     *)
-     *
+     *message="La date fin ne doit pas être antérieure à la date début"
+     *,groups={"Hebergement"})
+     * @Assert\NotBlank(groups={"Hebergement"})
      */
     private $dateFin;
 

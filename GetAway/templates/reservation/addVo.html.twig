@@ -20,12 +20,14 @@
                         <div class="wrap">
 
                             {{ form_start(form) }}
-                            <div class="form-holder">
+                            <div class="form-group">
                                 <div class="hold">
 
                                     {{ form_label(form.nbrPlace)}}
                                     {{ form_widget(form.nbrPlace,{ 'attr': {'class': 'form-control'}}) }}
-                                    {{ form_errors(form.nbrPlace) }}
+                                    <div>
+                                    <p class="card-description"> <code> {{ form_errors(form.nbrPlace) }} </code> </p>
+                                </div>
                                 </div>
                             </div>
                             <div class="col-md-6">

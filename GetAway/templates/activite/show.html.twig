@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+
+<title>Activite</title>
+
+{% block body %}
+    <h1>Activite</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Refact</th>
+                <td>{{ activite.refact }}</td>
+            </tr>
+            <tr>
+                <th>Nom</th>
+                <td>{{ activite.nom }}</td>
+            </tr>
+            <tr>
+                <th>Descrip</th>
+                <td>{{ activite.descrip }}</td>
+            </tr>
+            <tr>
+                <th>Duree</th>
+                <td>{{ activite.duree }}</td>
+            </tr>
+            <tr>
+                <th>Nbrplace</th>
+                <td>{{ activite.nbrplace }}</td>
+            </tr>
+            <tr>
+                <th>Date</th>
+                <td>{{ activite.date }}</td>
+            </tr>
+            <tr>
+                <th>Type</th>
+                <td>{{ activite.type }}</td>
+            </tr>
+            <tr>
+                <th>Location</th>
+                <td>{{ activite.location }}</td>
+            </tr>
+            <tr>
+                <th>Prix</th>
+                <td>{{ activite.prix }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_activite_index') }}">back to list</a>
+
+    <a href="{{ path('app_activite_edit', {'refact': activite.refact}) }}">edit</a>
+
+    {{ include('activite/_delete_form.html.twig') }}
+{% endblock %}

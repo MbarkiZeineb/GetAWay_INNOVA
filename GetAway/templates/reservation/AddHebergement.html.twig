@@ -23,16 +23,22 @@
                             <div class="col-md-6">
                                 <div class="hold">
                                     {{ form_label(form.dateDebut) }}
-                                    {{ form_widget(form.dateDebut  ,{ 'attr': {'class': 'input-group date'}}) }}
-                                    {{ form_errors(form.dateDebut) }}
+                                    {{ form_widget(form.dateDebut  ) }}
+                                    <div>
+                                        <p class="card-description"> <code>    {{ form_errors(form.dateDebut) }} </code> </p>
+                                    </div>
+
                                 </div>
                             </div>
 
                             <div class="col-md-6">
                                 <div class="hold">
                                     {{ form_label(form.dateFin) }}
-                                    {{ form_widget(form.dateFin  ,{ 'attr': {'class': 'input-group date'}}) }}
-                                    {{ form_errors(form.dateFin) }}
+                                    {{ form_widget(form.dateFin) }}
+                                    <div>
+                                        <p class="card-description"> <code>       {{ form_errors(form.dateFin) }} </code> </p>
+                                    </div>
+
                                 </div>
                             </div>
                             <div class="col-md-6">

@@ -3,11 +3,11 @@
       {% block content %}
 <body>
 <div class="table-responsive pt-3">
-    <table class="table" >
+    <table class="table table-bordered table-striped">
         <tbody>
 
         <thead>
-            <tr class="table-warning">
+            <tr class="table-info" >
                 <th>Id</th>
                 <th>DateReservation</th>
                 <th>NbrPlace</th>
@@ -19,8 +19,8 @@
             </tr>
         </thead>
         {% for reservation in reservations %}
-            <tr class="table-warning">
-                <td>{{ reservation.id }}</td>
+            <tr>
+                <td >{{ reservation.id }}</td>
                 <td>{{ reservation.dateReservation ? reservation.dateReservation|date('Y-m-d') : '' }}</td>
                 <td>{{ reservation.nbrPlace }}</td>
                 <td>{{ reservation.dateDebut ? reservation.dateDebut|date('Y-m-d') : '' }}</td>

@@ -6,6 +6,7 @@ use App\Entity\Reservation;
 use App\Form\ReservationHbergementType;
 use App\Form\ReservationType;
 use App\Form\ReservationVoyType;
+use App\Repository\ActiviteRepository;
 use App\Repository\HebergementRepository;
 use App\Repository\PaiementRepository;
 use App\Repository\ReservationRepository;
@@ -150,6 +151,7 @@ class ReservationController extends AbstractController
                 $vol->setNbrPlacedispo($vol->getNbrPlacedispo() -  $reservation->getNbrPlace());
                 $entityManager->flush();
                 $entityManager->refresh($reservation);
+
                 return $this->redirectToRoute('app_paiement_newvol', array('id' => $reservation->getId(),'prix'=>$vol->getPrix()));
             }
             else
@@ -258,5 +260,53 @@ class ReservationController extends AbstractController
         }
 
         return $this->redirectToRoute('app_reservation_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    /**
+     * @Route("/addAct/{id}", name="add_Act", methods={"GET", "POST"})
+     */
+    public function addAct(Request $request, EntityManagerInterface $entityManager,$id,ActiviteRepository  $repv): Response
+    {
+        $reservation = new Reservation();
+
+        $form = $this->createForm(ReservationVoyType::class,$reservation);
+        $form->handleRequest($request);
+        $act=$repv->find($id);
+        $dated= new \DateTime($act->getDate());
+        $datef= new \DateTime($act->getDate());
+        $reservation->setDateDebut($dated);
+        $reservation->setDateFin($datef);
+        $reservation->setIdActivite($act);
+        $reservation->setType("Activite");
+        $reservation->setEtat("Approuve");
+        $date = new \DateTime('@'.strtotime('now'));
+        $reservation->setDateReservation($date);
+        dump("hello");
+        if ($form->isSubmitted() && $form->isValid()){
+
+            if($act->getNbrplace() >=  $reservation->getNbrPlace())
+            {
+                 dump("hello");
+                $entityManager->persist($reservation);
+                $act->setNbrplace($act->getNbrplace() -  $reservation->getNbrPlace());
+                $entityManager->flush();
+                $entityManager->refresh($reservation);
+                return $this->redirectToRoute('app_paiement_newAct', array('id' => $reservation->getId(),'prix'=>$act->getPrix()));
+            }
+            else
+            {
+                $this->addFlash('warning','nombre de place non disponible  ');
+                return $this->render('reservation/addVo.html.twig', [
+                    'reservation' => $reservation,
+                    'form' => $form->createView(),
+                ]);
+            }
+
+        }
+
+        return $this->render('reservation/addVo.html.twig', [
+            'reservation' => $reservation,
+            'form' => $form->createView(),
+        ]);
     }
 }
