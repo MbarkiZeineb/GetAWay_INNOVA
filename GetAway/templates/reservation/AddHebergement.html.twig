@@ -4,27 +4,23 @@
     <main id="main">
 
         <div class="inner-main common-spacing container">
-            <div class="form-control-color" >
+            <div class="form-control" >
                 {% for message in  app.flashes('warning')%}
                     <div class="top-box" >
-
                         <div class="alert alert-danger" role="alert">{{ message }}</div>
-
-
                     </div>
-
                 {% endfor %}
             <div class="row">
-                <div class="col-md-6">
                     <div class="form-holder">
                         <h1 class="small-size">Create Reservation </h1>
                         <div class="wrap">
-                            {{ form_start(form) }}
+                            {{ form_start(form,{'attr': {'novalidate':'novalidate'}}) }}
+                            <form>
                             <div class="col-md-6">
-                                <div class="hold">
+                                <div class="form-group">
                                     {{ form_label(form.dateDebut) }}
-                                    {{ form_widget(form.dateDebut  ) }}
-                                    <div>
+                                    {{ form_widget(form.dateDebut , {'attr': {'class': 'input-group date' }} ) }}
+                                </div>
                                         <p class="card-description"> <code>    {{ form_errors(form.dateDebut) }} </code> </p>
                                     </div>
 
@@ -32,9 +28,9 @@
                             </div>
 
                             <div class="col-md-6">
-                                <div class="hold">
+                                <div class="form-group">
                                     {{ form_label(form.dateFin) }}
-                                    {{ form_widget(form.dateFin) }}
+                                    {{ form_widget(form.dateFin, {'attr': {'class': 'input-group date' }}) }}
                                     <div>
                                         <p class="card-description"> <code>       {{ form_errors(form.dateFin) }} </code> </p>
                                     </div>
@@ -55,7 +51,8 @@
                             </div>
                             <br>
                             {{ form_end(form) }}
-                        </div>
+                    </form>
+
                     </div>
                 </div>
             </div>

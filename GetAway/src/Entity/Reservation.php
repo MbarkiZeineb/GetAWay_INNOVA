@@ -45,11 +45,16 @@ class Reservation
 
     /**
      * @var \DateTime
-     *
+     **@Assert\NotNull()(
+     *      message = "The building date can't be empty", groups={"Hebergement"}
+     * )
      * @ORM\Column(name="date_debut", type="date", nullable=false)
      * @Assert\GreaterThan("today",
      * groups={"Hebergement"})
-     *@Assert\NotBlank(groups={"Hebergement"})
+     *@Assert\NotNull()(
+     *      message = "The building date can't be empty", groups={"Hebergement"}
+     * )
+     *
      */
     private $dateDebut;
 
@@ -57,11 +62,14 @@ class Reservation
      * @var \DateTime
      *
      * @ORM\Column(name="date_fin", type="date", nullable=false)
+     * @Assert\NotNull(
+     *      message = "The building date can't be empty",groups={"Hebergement"}
+     * )
      *@Assert\Expression(
      * "this.getDateDebut()<this.getDateFin()",
      *message="La date fin ne doit pas être antérieure à la date début"
      *,groups={"Hebergement"})
-     * @Assert\NotBlank(groups={"Hebergement"})
+
      */
     private $dateFin;
 
@@ -172,7 +180,7 @@ class Reservation
         return $this->dateDebut;
     }
 
-    public function setDateDebut(\DateTimeInterface $dateDebut): self
+    public function setDateDebut(?\DateTimeInterface $dateDebut): self
     {
         $this->dateDebut = $dateDebut;
 
@@ -184,7 +192,7 @@ class Reservation
         return $this->dateFin;
     }
 
-    public function setDateFin(\DateTimeInterface $dateFin): self
+    public function setDateFin(?\DateTimeInterface $dateFin): self
     {
         $this->dateFin = $dateFin;
 

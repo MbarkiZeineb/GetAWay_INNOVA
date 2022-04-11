@@ -21,7 +21,10 @@ class ReservationHbergementType extends AbstractType
             ->add('dateDebut',DateType::class, array(
                 'widget' => 'single_text',
                 'html5' => true,
-                'required' => true,))
+                'attr' => array('class' => 'form-control input-inline datetimepicker',
+                    'data-provide' => 'datetimepicker',
+                    'data-format' => 'dd-mm-yyyy',
+                )))
             ->add('dateFin',DateType::class, array(
                 'widget' => 'single_text',
                 'html5' => true,
