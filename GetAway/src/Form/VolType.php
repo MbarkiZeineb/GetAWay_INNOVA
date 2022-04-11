@@ -9,8 +9,6 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
-use Symfony\Component\Validator\Constraints\DateTime;
-use Symfony\Component\Validator\Constraints\NotNull;
 
 class VolType extends AbstractType
 {
@@ -19,7 +17,7 @@ class VolType extends AbstractType
         $builder
             ->add('dateDepart',DateTimeType::class, array(
         'widget' => 'single_text',
-        'html5' => true,
+                'html5' => true,
         'required' => true,
         'attr' => array('class' => 'form-control input-inline datetimepicker',
             'data-provide' => 'datetimepicker',
