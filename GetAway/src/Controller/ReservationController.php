@@ -39,6 +39,20 @@ class ReservationController extends AbstractController
         ]);
     }
 
+    /**
+     * @Route("/AfficherClient", name="AfficherClient")
+     */
+    public function AfficherClient(EntityManagerInterface $entityManager): Response
+    {
+        $reservations = $entityManager
+            ->getRepository(Reservation::class)
+            ->findAll();
+
+        return $this->render('reservation/AfficherFront.html.twig', [
+            'reservations' => $reservations,
+        ]);
+    }
+
 
     /**
      * @Route("/listr", name="app_reservation_imp")
