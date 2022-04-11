@@ -1,0 +1,64 @@
+{% extends 'base_front.html.twig' %}
+
+
+
+
+{% block content %}
+
+    <br>
+    <br>
+    <br>
+    <br>
+    <div class="app-content">
+        <div class="side-app">
+            <div class="page-header">
+                <h1 class="page-title">Liste de reservation </h1>
+
+            </div>
+            <div class="row">
+                <div class="col-md-12 col-lg-12">
+                    <div class="card">
+
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-striped table-bordered">
+                                    <thead>
+                                    <tr>
+
+                                        <th>DateReservation</th>
+                                        <th>NbrPlace</th>
+                                        <th>DateDebut</th>
+                                        <th>DateFin</th>
+                                        <th>Etat</th>
+                                        <th> type</th>
+                                        <th> Action </th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for reservation in reservations %}
+                                        <tr>
+
+                                        <td>{{ reservation.dateReservation ? reservation.dateReservation|date('Y-m-d') : '' }}</td>
+                                        <td>{{ reservation.nbrPlace }}</td>
+                                        <td>{{ reservation.dateDebut ? reservation.dateDebut|date('Y-m-d') : '' }}</td>
+                                        <td>{{ reservation.dateFin ? reservation.dateFin|date('Y-m-d') : '' }}</td>
+                                        <td>{{ reservation.etat }}</td>
+                                        <td>{{ reservation.type }}</td>
+                                        <td>
+                                        <a class="btn btn-primary me-2" href="{{ path('app_reservation_edit', {'id': reservation.id}) }}">update </a>
+                                    {% else %}
+                                        <tr>
+                                            <td colspan="9">no records found</td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

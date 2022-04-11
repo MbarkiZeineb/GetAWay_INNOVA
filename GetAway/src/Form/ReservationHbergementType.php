@@ -21,6 +21,7 @@ class ReservationHbergementType extends AbstractType
             ->add('dateDebut',DateType::class, array(
                 'widget' => 'single_text',
                 'html5' => true,
+                'required' => true,
                 'attr' => array('class' => 'form-control input-inline datetimepicker',
                     'data-provide' => 'datetimepicker',
                     'data-format' => 'dd-mm-yyyy',
@@ -41,7 +42,7 @@ class ReservationHbergementType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Reservation::class,'Hebergement'
+            'data_class' => Reservation::class, 'validation_groups' => ['Default', 'Hebergement']
         ]);
     }
 }

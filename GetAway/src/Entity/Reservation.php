@@ -32,8 +32,9 @@ class Reservation
 
     /**
      * @var int
-     *@Assert\NotBlank(groups={"VVA"})
+     *
      * @ORM\Column(name="nbr_place", type="integer", nullable=false)
+     * @Assert\NotBlank(groups={"VVA"})
      * @Assert\GreaterThanOrEqual(
      *value=1,
      *message="le nombre de place doit etre superieur ou egale a 1 ",
@@ -45,9 +46,9 @@ class Reservation
 
     /**
      * @var \DateTime
+     * @ORM\Column(name="date_debut", type="date", nullable=false)
      * @Assert\NotBlank(
-     * message = "The building date can't be empty",groups={"Hebergement"}
-     * )
+     * message = "The building date can't be empty",groups={"Hebergement"})
      * @ORM\Column(name="date_debut", type="date", nullable=false)
      * @Assert\GreaterThan("today",
      * groups={"Hebergement"})

@@ -110,7 +110,7 @@ class ReservationController extends AbstractController
         $reservation->setDateFin($datef);
         $reservation->setIdVoyage($voyage);
         $reservation->setType("voyageOrganise");
-        $reservation->setEtat("En attente");
+        $reservation->setEtat("Approuve");
         $date = new \DateTime('@'.strtotime('now'));
         $reservation->setDateReservation($date);
 

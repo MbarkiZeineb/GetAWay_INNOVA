@@ -25,7 +25,7 @@ class ReservationVoyType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Reservation::class,"VVA"
+            'data_class' => Reservation::class,'validation_groups' => ['Default', 'VAA']
         ]);
 
     }
