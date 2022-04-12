@@ -32,7 +32,8 @@ class Reservation
 
     /**
      * @var int
-     *
+     *@Assert\NotBlank(
+     * message = " le champ nombre de place est vide ",groups={"VVA"})
      * @ORM\Column(name="nbr_place", type="integer", nullable=false)
      * @Assert\NotBlank(groups={"VVA"})
      * @Assert\GreaterThanOrEqual(
@@ -46,9 +47,8 @@ class Reservation
 
     /**
      * @var \DateTime
-     * @ORM\Column(name="date_debut", type="date", nullable=false)
      * @Assert\NotBlank(
-     * message = "The building date can't be empty",groups={"Hebergement"})
+     * message = " la date debut ne doit pas etre vide ",groups={"Hebergement"})
      * @ORM\Column(name="date_debut", type="date", nullable=false)
      * @Assert\GreaterThan("today",
      * groups={"Hebergement"})
@@ -59,13 +59,12 @@ class Reservation
     /**
      * @var \DateTime
      *
-     * @Assert\NotNull(
-     * message = "The building date can't be empty",groups={"Hebergement"}
-     * )
+     * @Assert\NotBlank(
+     * message = " la date fin  ne doit pas etre vide ",groups={"Hebergement"})
      * @ORM\Column(name="date_fin", type="date", nullable=false)
      *@Assert\Expression(
      * "this.getDateDebut()<this.getDateFin()",
-     *message="La date fin ne doit pas être antérieure à la date début"
+     *message="La date fin ne doit pas être  inferieur  à la date début"
      *,groups={"Hebergement"})
      * groups={"Hebergement"}
 

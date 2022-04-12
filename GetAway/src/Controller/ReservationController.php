@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Reservation;
+use App\Form\ModifierReservationType;
 use App\Form\ReservationHbergementType;
 use App\Form\ReservationType;
 use App\Form\ReservationVoyType;
@@ -244,15 +245,46 @@ class ReservationController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="app_reservation_edit", methods={"GET", "POST"})
+     * @Route("/edit/{id}", name="app_reservation_edit", methods={"GET", "POST"})
      */
-    public function edit(Request $request, Reservation $reservation, EntityManagerInterface $entityManager): Response
+    public function edit(Request $request, Reservation $reservation,$id,  EntityManagerInterface $entityManager,VolRepository $repvol,VoyageorganiseRepository $repvo,ActiviteRepository $repa): Response
     {
-        $form = $this->createForm(ReservationType::class, $reservation);
+
+        $form = $this->createForm(ModifierReservationType::class, $reservation);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->flush();
+           if($reservation->getEtat()=="Annulee")
+           {
+               if($reservation->getType()=="Vol")
+               {
+                   $vol= $repvol->find($reservation->getIdVol()->getIdVol());
+                   $vol->setNbrPlacedispo($vol->getNbrPlacedispo()+$reservation->getNbrPlace());
+                   $entityManager->flush();
+               }
+               if($reservation->getType()=="voyageOrganise")
+               {
+                   $voy= $repvo->find($reservation->getIdVoyage()->getIdvoy());
+                   $voy->setNbrplace($voy->getNbrplace()+$reservation->getNbrPlace());
+                   $entityManager->flush();
+               }
+               if($reservation->getType()=="Activite")
+               {
+                   $act= $repa->find($reservation->getIdActivite()->getRefact());
+                   $act->setNbrplace($act->getNbrplace()+$reservation->getNbrPlace());
+                   $entityManager->flush();
+               }
+               else
+               {
+                   $entityManager->flush();
+               }
+
+
+               return $this->redirectToRoute('AfficherClient', [], Response::HTTP_SEE_OTHER);
+
+           }
+
+
 
             return $this->redirectToRoute('app_reservation_index', [], Response::HTTP_SEE_OTHER);
         }

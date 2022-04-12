@@ -24,7 +24,7 @@ class PaiementType extends AbstractType
                     'Chèque' => 'CHEQUE',
                     'Virement'   => 'VIREMENT',
                     'Caisse'   => 'CAISSE',
-                    'Rembousement' => 'REMBOURSEMENT'
+                    'Paypal' => 'Paypal'
                 )
             ))
             ->add('montant' )
