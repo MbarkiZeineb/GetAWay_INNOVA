@@ -1,0 +1,15 @@
+{% extends 'base_back.html.twig' %}
+
+
+{% block title %}New Activite{% endblock %}
+
+{% block content %}
+
+{{ form_start(form, {attr:{novalidate:'novalidate'}}) }}
+
+ {{ include('activite/_form.html.twig', {'button_label': 'Ajouter'}) }}
+
+  <a href="{{ path('app_activite_index') }}">  <button type="button" class="btn btn-warning btn-icon-text icon-lg-3 col-1">Vider
+    <i class="mdi mdi-delete-variant"></i></button></a>
+
+{% endblock %}

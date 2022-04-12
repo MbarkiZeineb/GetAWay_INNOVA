@@ -1,0 +1,5 @@
+<form method="post" action="{{ path('app_activite_delete', {'refact': activite.refact}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
+    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ activite.refact) }}">
+
+    <button class="btn btn-warning btn-icon-text icon-lg-3 col-1">Supprimer<i class="mdi mdi-delete-variant"></i></button>
+</form>

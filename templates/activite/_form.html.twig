@@ -1,0 +1,130 @@
+{{ form_start(form) }}
+<div class="card">
+    <div class="card-body">
+        <form class="form-sample">
+
+            <a href="{{ path('app_activite_index') }}"><button type="button" class="btn btn-inverse-primary btn-rounded btn-icon col-lg-0 ">
+                    <i class="ti-home"></i>
+                </button></a>
+
+
+            <br>
+            <br>
+            <div class="row">
+                <div class="col-sm-5">
+                    <div class="form-group row">
+
+                        <label for="exampleInputUsername2" class="col-sm-4 col-form-label"><h5><i>Nom</i></h5></label>
+                        <div class="col-sm-5">
+                            {{ form_widget(form.nom , {'attr': {'class': 'form-control' , 'placeholder' : 'Nom'}} ) }}
+                            <div>
+                                <p class="card-description"> <code> {{ form_errors(form.nom) }}</code></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-5">
+                    <div class="form-group row">
+                        <label for="exampleInputUsername2" class="col-sm-4 col-form-label"><h5><i>Description</i></h5></label>
+                        <div class="col-sm-5">
+                            {{ form_widget(form.descrip , {'attr': {'class': 'form-control' , 'placeholder' : 'Description'}} ) }}
+                            <div>
+                                <p class="card-description"> <code> {{ form_errors(form.descrip) }}</code></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-5">
+                    <div class="form-group row">
+                        <label for="exampleInputUsername2" class="col-sm-4 col-form-label"><h5><i>Durée</i></h5></label>
+                        <div class="col-sm-5">
+                            {{ form_widget(form.duree , {'attr': {'class': 'form-control' , 'placeholder' : 'Durée'}} ) }}
+                            <div>
+                                <p class="card-description"> <code> {{ form_errors(form.duree ) }}</code></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-5">
+                    <div class="form-group row">
+                        <label for="exampleInputUsername2" class="col-sm-4 col-form-label"><h5><i>Nombre de place</i></h5></label>
+                        <div class="col-sm-5">
+                            {{ form_widget(form.nbrplace , {'attr': {'class': 'form-control' , 'placeholder' : 'Nombre de place'}} ) }}
+                            <div>
+                                <p class="card-description"> <code> {{ form_errors(form.nbrplace ) }}</code></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-5">
+                    <div class="form-group row">
+                        <label for="exampleInputUsername2" class="col-sm-4 col-form-label"><h5><i>Date</i></h5></label>
+                        <div class="col-sm-5 ">
+                            {{ form_widget(form.date, {'attr': {'class': 'input-group date' , 'placeholder' : 'Date'}} ) }}
+                            <div>
+                                <p class="card-description"> <code> {{ form_errors(form.date) }}</code></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-5">
+                    <div class="form-group row">
+                        <label for="exampleInputUsername2" class="col-sm-4 col-form-label"><h5><i>Type</i></h5></label>
+                        <div class="col-sm-5">
+                            {{ form_widget(form.type , {'attr': {'class': 'form-control' , 'placeholder' : 'Type'}} ) }}
+                            <div>
+                                <p class="card-description"> <code> {{ form_errors(form.type) }}</code></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                <div class="col-sm-5">
+                    <div class="form-group row">
+                                <label for="exampleInputUsername2" class="col-sm-4 col-form-label"><h5><i>Localisation</i></h5></label>
+                                <div class="col-sm-5">
+                                    {{ form_widget(form.location , {'attr': {'class': 'form-control' , 'placeholder' : 'Location'}} ) }}
+                                    <div>
+                                        <p class="card-description"> <code> {{ form_errors(form.location) }}</code></p>
+                                    </div>
+                                </div>
+                    </div>
+                </div>
+                </div>
+
+            <div class="row">
+                <div class="col-sm-5">
+                    <div class="form-group row">
+                        <label for="exampleInputUsername2" class="col-sm-4 col-form-label"><h5><i>Prix</i></h5></label>
+                        <div class="col-sm-5">
+                            {{ form_widget(form.prix , {'attr': {'class': 'form-control' , 'placeholder' : 'Prix'}} ) }}
+                            <div>
+                                <p class="card-description"> <code> {{ form_errors(form.prix) }}</code></p>
+                            </div>
+                        </div>
+                </div>
+            </div>
+     </div>
+
+    </div>
+
+        </form>
+
+    </div>
+
+
+    {{ form_widget(form) }}
+    <button class="btn btn-primary btn-icon-text icon-lg-3 col-1">{{ button_label|default('Save') }}<i class="mdi mdi-plus-one"></i></button>
+
+
+{{ form_end(form) }}
