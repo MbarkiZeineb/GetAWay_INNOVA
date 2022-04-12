@@ -2,56 +2,60 @@
 
 {% block content %}
 
+
+
     <main id="main">
-
-        <div class="inner-main common-spacing container">
-            <div class="form-control-color" >
-                <h1 class="small-size">Create new Reservation </h1>
-                {% for message in  app.flashes('warning')%}
-                    <div class="top-box" >
-
-                        <div class="alert alert-danger" role="alert">{{ message }}</div>
+        <div class="inner-top">
+            <div class="container">
+                <h1 class="inner-main-heading"> Ajouter une Reservation</h1>
 
 
-                    </div>
-
-                {% endfor %}
-            <div class="row">
-                <div class="col-md-6">
-
-                    <div class="form-holder">
-                        <h1 class="small-size">Create Reservation </h1>
-                        <div class="wrap">
-                            {{ form_start(form,{'attr': {'novalidate':'novalidate'}}) }}
-                            <div class="col-md-6">
-                                <div class="hold">
-                                    {{ form_label(form.nbrPlace) }}
-
-                                    {{ form_widget(form.nbrPlace,{ 'attr': {'class': 'form-control'}}) }}
-                                    <p class="card-description"> <code> {{ form_errors(form.nbrPlace) }} </code> </p>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="hold">
-                                    {{ form_label(form.idClient) }}
-
-                                    {{ form_widget(form.idClient,{ 'attr': {'class': 'form-control'}}) }}
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="hold">
-                                    {{ form_widget(form.Ajouter, { 'attr': {'class': 'btn btn-default'}} )}}
-                                </div>
-                            </div>
-
-                            {{ form_end(form) }}
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
+        <div class="inner-main common-spacing container">
+            <div class="top-box" >
+                {% for message in  app.flashes('warning')%}
+
+                <div class="alert alert-danger" role="alert">{{ message }}</div>
+
+            </div>
+            <br>
+            {% endfor %}
+            <div class="form-holder">
+                <div class="wrap">
+
+                    {{ form_start(form,{'attr': {'novalidate':'novalidate'}}) }}
+                    <form>
+                        <div class="col-md-6">
+                            <div class="hold">
+
+                                {{ form_label(form.nbrPlace)}}
+                                {{ form_widget(form.nbrPlace , { 'attr': {'class': 'form-control'}} ) }}
+                                <div class="has-error error">
+                                    {{ form_errors(form.nbrPlace) }}
+                                </div>
+                            </div>
+
+                            <div class="hold">
+                                <label>  Nom client </label>
+                                {{ form_widget(form.idClient,{ 'attr': {'class': 'form-control'}}) }}
+                            </div>
+                            <div class="hold">{{ form_widget(form.Ajouter, { 'attr': {'class': 'btn btn-default'}} )}}
+                            </div>
+                        </div>
+
+
+
+
+                        {{ form_end(form) }}
+                    </form>
+                </div>
+            </div>
+
 
 
 
     </main>
+
+
 {% endblock %}
