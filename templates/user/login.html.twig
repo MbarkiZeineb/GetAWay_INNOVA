@@ -1,0 +1,28 @@
+{% extends 'base_front.html.twig' %}
+{% block content %}
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <h2>Se connecter :</h2>
+    <form action="{{ path('security_login') }}" method="post">
+       <div class="form-group">
+           <input placeholder="Adresse email ..." required name="_username"
+                  type="text" class="form-control">
+       </div>
+        <div class="form-group">
+            <input placeholder="Mot de passe ..." required name="_password"
+                   type="password" class="form-control">
+        </div>
+        <div class="btn-hold">
+            <button type="submit" class="btn btn-default">
+                Connexion
+            </button>
+        </div>
+
+
+    </form>
+
+
+{% endblock %}
