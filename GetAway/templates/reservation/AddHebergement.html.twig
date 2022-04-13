@@ -1,4 +1,7 @@
 {% extends 'base_front.html.twig ' %}
+ {% block panier %}
+     <span class="text hidden-xs hidden-sm">  {{ app.request.cookies.get('nombre') }} </span>
+ {% endblock %}
 {% block content %}
     <main id="main">
             <div class="inner-top">
@@ -40,6 +43,7 @@
                                         </div>
                                     </div>
                                     <div class="hold">
+                                        <label>  Nom client </label>
                                         {{ form_widget(form.idClient,{ 'attr': {'class': 'form-control'}}) }}
                                     </div>
                                     <div class="hold">{{ form_widget(form.Ajouter, { 'attr': {'class': 'btn btn-default'}} )}}

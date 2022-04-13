@@ -56,6 +56,7 @@ class Reservation
      * message = " la date debut ne doit pas etre vide ",groups={"Hebergement"})
      * @ORM\Column(name="date_debut", type="date", nullable=false)
      * @Assert\GreaterThan("today",
+     *     message = " la date debut doit etre superieur a la date d'aujourd'hui ",
      * groups={"Hebergement"})
      *
      */

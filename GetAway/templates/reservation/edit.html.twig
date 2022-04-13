@@ -5,6 +5,11 @@
 
 {% block  content  %}
     <main id="main">
+        <div class="inner-top">
+            <div class="container">
+                <h1 class="inner-main-heading"> Modifier  Reservation </h1>
+            </div>
+        </div>
         <div class="inner-main common-spacing container">
             <div class="form-control" >
                 {% for message in  app.flashes('warning')%}
@@ -19,7 +24,6 @@
                     <div class="wrap">
                         {{ form_start(form,{'attr': {'novalidate':'novalidate'}}) }}
                         <form>
-                            <h1 class="small-size ">Create Reservation </h1>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     {{ form_label(form.dateReservation) }}

@@ -11,7 +11,7 @@
                 <div class="form-holder">
                     <h1 class="small-size">Create new Paiement</h1>
                     <div class="wrap">
-                        {{ form_start(form) }}
+                        {{ form_start(form,{'attr': {'novalidate':'novalidate'}}) }}
                         <div class="col-md-6">
                             <div class="hold">
                             {{ form_label(form.montant) }}
@@ -23,6 +23,9 @@
                             <div class="hold">
                                 {{ form_label(form.modalitePaiement) }}
                                 {{ form_widget(form.modalitePaiement,{ 'attr': {'class': 'form-control'}} ) }}
+                                <div class="has-error error">
+                                {{ form_errors(form.modalitePaiement) }}
+                            </div>
                             </div>
                         </div>
                         <div class="col-md-6">

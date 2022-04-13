@@ -193,11 +193,11 @@ class ReservationController extends AbstractController
     public function addH(Request $request, EntityManagerInterface $entityManager,$id,ReservationRepository $repv,HebergementRepository $reph ): Response
     {
         $reservation = new Reservation();
-
+        $heb=$reph->find($id);
         $form = $this->createForm(ReservationHbergementType::class,$reservation);
         $form->handleRequest($request);
         $date = new \DateTime('@'.strtotime('now'));
-        $heb=$reph->find($id);
+
         $reservation->setNbrPlace(0)
             ->setType("Hebergement")
             ->setEtat("Approuve")
@@ -222,7 +222,8 @@ class ReservationController extends AbstractController
             }
             else
             {
-                $this->addFlash('warning',' les dates selectionees non disponible   ');
+
+                $this->addFlash('warning',' les dates selectionees ne sont pas  disponible   ');
                 return $this->render('reservation/AddHebergement.html.twig', [
                     'reservation' => $reservation,
                     'form' => $form->createView(),
@@ -281,13 +282,13 @@ class ReservationController extends AbstractController
                }
 
 
-               return $this->redirectToRoute('AfficherClient', [], Response::HTTP_SEE_OTHER);
+               return $this->redirectToRoute('AfficherClient');
 
            }
 
 
 
-            return $this->redirectToRoute('app_reservation_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('AfficherClient');
         }
 
         return $this->render('reservation/edit.html.twig', [

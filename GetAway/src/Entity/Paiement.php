@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Paiement
@@ -23,7 +24,8 @@ class Paiement
 
     /**
      * @var string
-     *
+     * @Assert\NotBlank(
+     * message = " vous devez selectionner le mode de paiement",groups={"p"})
      * @ORM\Column(name="modalite_paiement", type="string", length=30, nullable=false)
      */
     private $modalitePaiement;

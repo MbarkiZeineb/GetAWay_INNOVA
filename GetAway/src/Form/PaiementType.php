@@ -22,7 +22,7 @@ class PaiementType extends AbstractType
     {
         $builder
             ->add('modalitePaiement',ChoiceType::class,array(
-                'choices' => array(
+                'choices' => array(''=>'',
                     'Carte bleue' => 'CARTE BLEUE',
                     'Chèque' => 'CHEQUE',
                     'Virement'   => 'VIREMENT',
@@ -39,7 +39,7 @@ class PaiementType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Paiement::class,
+            'data_class' => Paiement::class,'validation_groups' => ['p']
         ]);
     }
 }

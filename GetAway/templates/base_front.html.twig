@@ -267,44 +267,14 @@
                         <li
                                 class="visible-xs visible-sm nav-visible dropdown last-dropdown v-divider"
                         >
-                            <a href="my-cart.html" data-toggle="dropdown">
+                            <a href="{{ path('cart_panier')}}" >
                                 <span class="icon icon-cart"></span>
                                 <span class="text hidden-md hidden-lg">Cart</span>
                                 {% block panier %}
 
                                 {% endblock %}
                             </a>
-                            <div class="dropdown-menu dropdown-md">
-                                <div class="drop-wrap cart-wrap">
-                                    <strong class="title">Shopping Cart</strong>
-                                    <ul class="cart-list">
-                                        <li>
 
-                                            <div class="text-holder">
-                                                <span class="amount">x 2</span>
-                                                <div class="text-wrap">
-                                                    <strong class="name"
-                                                    ><a href="#">Weekend in Paradise</a></strong
-                                                    >
-                                                    <span class="price">$199</span>
-                                                </div>
-                                            </div>
-                                        </li>
-
-                                        <li>
-                                            <div class="img">
-                                            </div>
-
-                                        </li>
-                                    </ul>
-                                    <div class="footer">
-                                        <a href="{{ path('cart_panier')}}" class="btn btn-primary"
-                                        >View cart</a
-                                        >
-
-                                    </div>
-                                </div>
-                            </div>
                         </li>
 
 
