@@ -1,5 +1,7 @@
 {% extends 'base_front.html.twig ' %}
-
+ {% block panier %}
+     <span class="text hidden-xs hidden-sm">  {{ app.request.cookies.get('nombre') }} </span>
+ {% endblock %}
 {% block content %}
 <main id="main">
     <h1>Hebergement index</h1>

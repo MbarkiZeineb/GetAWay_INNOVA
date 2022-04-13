@@ -1,24 +1,20 @@
 {% extends 'base_front.html.twig' %}
-
+ {% block panier %}
+     <span class="text hidden-xs hidden-sm">  {{ app.request.cookies.get('nombre') }} </span>
+ {% endblock %}
 
 
 
 {% block content %}
 
-    <br>
-    <br>
-    <br>
-    <br>
-    <div class="app-content">
-        <div class="side-app">
-            <div class="page-header">
-                <h1 class="page-title">Liste de reservation </h1>
 
-            </div>
-            <div class="row">
-                <div class="col-md-12 col-lg-12">
-                    <div class="card">
-
+<main id="main">
+    <div class="inner-top">
+        <div class="container">
+            <h1 class="inner-main-heading"> Liste des Reservations </h1>
+        </div>
+    </div>
+    <div class="inner-main common-spacing container">
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table class="table table-striped table-bordered">
@@ -45,7 +41,8 @@
                                         <td>{{ reservation.etat }}</td>
                                         <td>{{ reservation.type }}</td>
                                         <td>
-                                        <a class="btn btn-primary me-2" href="{{ path('app_reservation_edit', {'id': reservation.id}) }}">update </a>
+                                        <a class="btn btn-default" href="{{ path('app_reservation_edit', {'id': reservation.id}) }}">Annuler </a>
+                                        <a class="btn btn-default" href="{{ path('detailsRFront', {'id': reservation.id}) }}">Paiement </a>
                                     {% else %}
                                         <tr>
                                             <td colspan="9">no records found</td>
@@ -55,10 +52,8 @@
                                 </table>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
+</main>
+
 
 {% endblock %}

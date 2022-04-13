@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\Paiement;
+use App\Form\ModifierPType;
 use App\Form\PaiementType;
+use App\Form\ReservationVoyType;
 use App\Repository\PaiementRepository;
 use App\Repository\ReservationRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -132,8 +134,29 @@ class PaiementController extends AbstractController
     {
         $paiement=$rep->showPaiement($id);
 
+
         return $this->render('paiement/show.html.twig', [
             'paiement' => $paiement,
+        ]);
+    }
+
+    /**
+     * @Route("/DetailsRFront/{id}", name="detailsRFront" , methods={"GET", "POST"})
+     */
+    public function showPFront(Request $request,$id,PaiementRepository $rep,EntityManagerInterface $entityManager): Response
+    {
+        $paiement=$rep->showPaiement($id);
+        $form = $this->createForm(ModifierPType::class, $paiement);
+        $form->handleRequest($request);
+        dump($paiement);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->flush();
+            dump("aaaa");
+            dump($paiement);
+            return $this->redirectToRoute('AfficherClient');
+        }
+        return $this->render('paiement/PaiementFront.html.twig', [
+            'paiement' => $paiement,'form'=>$form->createView()
         ]);
     }
 

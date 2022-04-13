@@ -1,5 +1,12 @@
 {% extends 'base_back.html.twig' %}
 {% block content %}
+<div class="card">
+    <div class="card-body">
+        <form class="form-sample">
+
+    <a href="{{ path('app_reservation_index') }}"><button type="button" class="btn btn-inverse-primary btn-rounded btn-icon col-lg-0 ">
+            <i class="ti-home"></i>
+        </button></a>
     <h1>Paiement</h1>
 
     <table class="table">
@@ -17,13 +24,17 @@
                 <td>{{ paiement.date ? paiement.date|date('Y-m-d') : '' }}</td>
             </tr>
             <tr>
-                <th>IdReservation</th>
+                <th>Type reservation </th>
                 <td>{{ paiement.idReservation.type}}</td>
             </tr>
         </tbody>
-    </table>
 
-    <a href="{{ path('app_reservation_index') }}">back to list</a>
+    </table>
+        </form>
+    </div>
+</div>
+
+
 
 
 

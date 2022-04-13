@@ -103,6 +103,7 @@ class ReservationController extends AbstractController
         $reservation = new Reservation();
 
         $form = $this->createForm(ReservationVoyType::class, $reservation);
+
         $form->handleRequest($request);
           $voyage=$repv->find($id);
         $dated= new \DateTime($voyage->getDatedepart());
@@ -126,8 +127,8 @@ class ReservationController extends AbstractController
                 return $this->redirectToRoute('app_paiement_newvo', array('id' => $reservation->getId(),'prix'=>$voyage->getPrix()));
             }
             else
-            {
-                $this->addFlash('warning','nombre de place non disponible  ');
+            {  $message=" nombre de place non disponible il reste ".''.$voyage->getNbrplace().''." palces seulement ";
+                $this->addFlash('warning',$message);
                 return $this->render('reservation/addVo.html.twig', [
                     'reservation' => $reservation,
                     'form' => $form->createView(),
@@ -170,8 +171,8 @@ class ReservationController extends AbstractController
                 return $this->redirectToRoute('app_paiement_newvol', array('id' => $reservation->getId(),'prix'=>$vol->getPrix()));
             }
             else
-            {
-                $this->addFlash('warning','nombre de place non disponible  ');
+            { $message=" nombre de place non disponible il reste ".''.$vol->getNbrPlacedispo().''." palces seulement ";
+                $this->addFlash('warning',$message);
                 return $this->render('reservation/addVo.html.twig', [
                     'reservation' => $reservation,
                     'form' => $form->createView(),
@@ -341,7 +342,8 @@ class ReservationController extends AbstractController
             }
             else
             {
-                $this->addFlash('warning','nombre de place non disponible  ');
+                $message=" nombre de place non disponible il reste ".''.$act->getNbrplace().''." palces seulement ";
+                $this->addFlash('warning',$message);
                 return $this->render('reservation/addVo.html.twig', [
                     'reservation' => $reservation,
                     'form' => $form->createView(),

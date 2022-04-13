@@ -270,7 +270,9 @@
                             <a href="my-cart.html" data-toggle="dropdown">
                                 <span class="icon icon-cart"></span>
                                 <span class="text hidden-md hidden-lg">Cart</span>
-                                <span class="text hidden-xs hidden-sm"> </span>
+                                {% block panier %}
+
+                                {% endblock %}
                             </a>
                             <div class="dropdown-menu dropdown-md">
                                 <div class="drop-wrap cart-wrap">
