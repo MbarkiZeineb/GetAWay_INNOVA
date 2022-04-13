@@ -7256,7 +7256,7 @@ body > .jcf-select-drop.jcf-drop-flipped {
 }
 
 .inner-top {
-	background: #f8f8f8;
+	background: #D3D3D3;
 	padding: 30px 0;
 	box-shadow: 1px 1.7px 2px rgba(173, 173, 173, .35);
 }
@@ -7268,7 +7268,7 @@ body > .jcf-select-drop.jcf-drop-flipped {
 
 .inner-top .breadcrumbs {
 	font-size: .8em;
-	color: #5c5e62;
+	color: #FFFAFA;
 }
 
 .inner-top .breadcrumbs a {
@@ -7282,7 +7282,7 @@ body > .jcf-select-drop.jcf-drop-flipped {
 .inner-main .contact-form {
 	padding: 20px 10px;
 	margin-bottom: 20px;
-	background: #9d9d9d;
+	background: #B1D4E0;
 }
 
 .inner-main .contact-form .form-title {
@@ -7291,7 +7291,7 @@ body > .jcf-select-drop.jcf-drop-flipped {
 
 .inner-main .contact-form .form-control {
 	border: 1px solid transparent;
-	border-bottom-color: #adadad;
+	border-bottom-color: #B1D4E0;
 	-webkit-transition: border .2s linear;
 	transition: border .2s linear;
 	padding: 5px;
@@ -7328,7 +7328,7 @@ body > .jcf-select-drop.jcf-drop-flipped {
 	background: #474d4b;
 	padding: 30px 0;
 	border: 20px solid #5f6865;
-	color: #fff;
+	color: #B1D4E0;
 }
 
 .special-block .special-text {
