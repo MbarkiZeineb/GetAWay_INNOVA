@@ -108,11 +108,6 @@
             <div class="logo">
                 <a href="index.html">
                     <img class="normal" src="{{ asset('front/img/logos/logo.png') }}" alt="Entrada" />
-                    <img
-                            class="gray-logo"
-                            src="img/logos/logo-gray.svg"
-                            alt="Entrada"
-                    />
                 </a>
             </div>
             <!-- main navigation -->
@@ -134,83 +129,14 @@
                 <div class="collapse navbar-collapse" id="nav">
                     <!-- main navbar -->
                     <ul class="nav navbar-nav">
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"
-                            >Home <b class="icon-angle-down"></b
-                                ></a>
-                            <div class="dropdown-menu">
-                                <ul>
-                                    <li><a href="index.html">Home - Icon Bar</a></li>
-                                    <li>
-                                        <a href="home-search-bar.html">Home - Tour Search</a>
-                                    </li>
-                                    <li>
-                                        <a href="home-icon-search.html"
-                                        >Home - Icon + Search</a
-                                        >
-                                    </li>
-                                    <li>
-                                        <a href="home-revolution.html">Home - Revolution</a>
-                                    </li>
-                                    <li>
-                                        <a href="home-parallax.html">Home - Parallax</a>
-                                    </li>
-                                    <li>
-                                        <a href="home-html5-video.html">Home - HTML5 Video</a>
-                                    </li>
-                                    <li>
-                                        <a href="home-static-image.html"
-                                        >Home - Static Image</a
-                                        >
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"
-                            >Tour Listing <b class="icon-angle-down"></b
-                                ></a>
-                            <div class="dropdown-menu">
-                                <ul>
-                                    <li>
-                                        <a href="grid-view-2-column.html"
-                                        >Grid View - 2 Column</a
-                                        >
-                                    </li>
-                                    <li>
-                                        <a href="grid-view-3-column.html"
-                                        >Grid View - 3 Column</a
-                                        >
-                                    </li>
-                                    <li>
-                                        <a href="grid-view-4-column.html"
-                                        >Grid View - 4 Column</a
-                                        >
-                                    </li>
-                                    <li>
-                                        <a href="grid-view-sidebar.html"
-                                        >Grid View - Sidebar</a
-                                        >
-                                    </li>
-                                    <li>
-                                        <a href="grid-view-full-width.html"
-                                        >Grid View - Full Width</a
-                                        >
-                                    </li>
-                                    <li>
-                                        <a href="list-view-normal.html">List View - Normal</a>
-                                    </li>
-                                    <li>
-                                        <a href="list-view-detail.html">List View - Detail</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-                        <li><a href="tour-detail.html">Tour Detail</a></li>
+                        <li><a href="{{ path('app_vol_index')}}">  Home  </a></li>
+                        <li><a href="{{ path('app_activite_index')}}"> Activites  </a></li>
+                        <li><a href="{{ path('app_hebergement_index')}}"> Hebergement </a></li>
+                        <li><a href="{{ path('app_voyageorganise_index')}}"> Voyage organise </a></li>
+                        <li><a href="{{ path('app_vol_index')}}">  Vol  </a></li>
                         <li class="dropdown has-mega-dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"
-                            >Activities <b class="icon-angle-down"></b
-                                ></a>
+                            <a href="{{ path('app_activite_index')}}" class="dropdown-toggle" data-toggle="dropdown"
+                            >Activities </a>
                             <div class="dropdown-menu">
                                 <div class="drop-wrap">
                                     <div class="drop-holder">
@@ -218,7 +144,7 @@
                                             <div class="col-sm-6 col-md-3">
                                                 <div class="col">
                                                     <div class="img-wrap">
-                                                        <a href="hiking-camping.html"
+                                                        <a href="{{ path('app_activite_index')}}"
                                                         ><img
                                                                     src="img/generic/img-01.jpg"
                                                                     height="228"
@@ -324,258 +250,16 @@
                                 </div>
                             </div>
                         </li>
-                        <li class="dropdown has-mega-dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"
-                            >Pages <b class="icon-angle-down"></b
-                                ></a>
-                            <div class="dropdown-menu">
-                                <div class="drop-wrap">
-                                    <div class="five-col">
-                                        <div class="column">
-                                            <strong class="title sub-link-opener"
-                                            >General</strong
-                                            >
-                                            <ul class="header-link">
-                                                <li><a href="about.html">About Us</a></li>
-                                                <li><a href="error.html">404 Error</a></li>
-                                                <li>
-                                                    <a href="tour-detail.html">Tour Detail</a>
-                                                </li>
-                                                <li><a href="megamenu.html">Megamenu</a></li>
-                                                <li><a href="contact.html">Contact</a></li>
-                                            </ul>
-                                        </div>
-                                        <div class="column">
-                                            <strong class="title sub-link-opener"
-                                            >Layout</strong
-                                            >
-                                            <ul class="header-link">
-                                                <li>
-                                                    <a href="layout-fullwidth.html"
-                                                    >Full Width Page</a
-                                                    >
-                                                </li>
-                                                <li>
-                                                    <a href="layout-fullwidth-wide.html"
-                                                    >Full Width Wide</a
-                                                    >
-                                                </li>
-                                                <li>
-                                                    <a href="layout-left-sidebar.html"
-                                                    >Left Sidebar</a
-                                                    >
-                                                </li>
-                                                <li>
-                                                    <a href="layout-right-sidebar.html"
-                                                    >Right Sidebar</a
-                                                    >
-                                                </li>
-                                                <li>
-                                                    <a href="layout-both-sidebar.html"
-                                                    >Both Sidebar</a
-                                                    >
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        <div class="column">
-                                            <strong class="title sub-link-opener"
-                                            >Booking</strong
-                                            >
-                                            <ul class="header-link">
-                                                <li><a href="login.html">Login/Register</a></li>
-                                                <li>
-                                                    <a href="my-wishlist.html">My Wishlist</a>
-                                                </li>
-                                                <li><a href="my-cart.html">My Cart</a></li>
-                                                <li><a href="checkout.html">Checkout</a></li>
-                                                <li>
-                                                    <a href="confirmation.html">Confirmation</a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        <div class="column">
-                                            <strong class="title sub-link-opener"
-                                            >Header Styles</strong
-                                            >
-                                            <ul class="header-link">
-                                                <li>
-                                                    <a href="header-top-bar.html"
-                                                    >Header - Top Bar</a
-                                                    >
-                                                </li>
-                                                <li>
-                                                    <a href="header-centered.html"
-                                                    >Header - Centered</a
-                                                    >
-                                                </li>
-                                                <li>
-                                                    <a href="header-default-white.html"
-                                                    >Header - White</a
-                                                    >
-                                                </li>
-                                                <li>
-                                                    <a href="header-dark.html">Header - Dark</a>
-                                                </li>
-                                                <li>
-                                                    <a href="header-transparent.html"
-                                                    >Header - Transparent</a
-                                                    >
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        <div class="column">
-                                            <strong class="title sub-link-opener">Misc</strong>
-                                            <ul class="header-link">
-                                                <li><a href="icon-font.html">Icon Fonts</a></li>
-                                                <li>
-                                                    <a href="home-boxed.html">Boxed Layout</a>
-                                                </li>
-                                                <li><a href="home-image-bg.html">Image BG</a></li>
-                                                <li>
-                                                    <a href="home-pattern-bg.html">Pattern BG</a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"
-                            >Blog <b class="icon-angle-down"></b
-                                ></a>
-                            <div class="dropdown-menu">
-                                <ul>
-                                    <li><a href="blog-default.html">Blog Default</a></li>
-                                    <li>
-                                        <a href="blog-left-sidebar.html">Left Sidebar</a>
-                                    </li>
-                                    <li>
-                                        <a href="blog-right-sidebar.html">Right Sidebar</a>
-                                    </li>
-                                    <li><a href="blog-fullwidth.html">Full Width</a></li>
-                                    <li><a href="blog-single.html">Blog Single</a></li>
-                                </ul>
-                            </div>
-                        </li>
-                        <li class="dropdown has-mega-dropdown mega-md">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"
-                            >Elements <b class="icon-angle-down"></b
-                                ></a>
-                            <div class="dropdown-menu">
-                                <div class="drop-wrap">
-                                    <div class="row">
-                                        <div class="col-sm-4">
-                                            <ul class="header-link">
-                                                <li>
-                                                    <a href="elements-animations.html"
-                                                    >Animations</a
-                                                    >
-                                                </li>
-                                                <li>
-                                                    <a href="elements-blockquotes.html"
-                                                    >Blockquotes</a
-                                                    >
-                                                </li>
-                                                <li>
-                                                    <a href="elements-buttons.html">Buttons</a>
-                                                </li>
-                                                <li>
-                                                    <a href="elements-carousel.html">Carousel</a>
-                                                </li>
-                                                <li>
-                                                    <a href="elements-counters.html">Counters</a>
-                                                </li>
-                                                <li>
-                                                    <a href="elements-modal-boxes.html"
-                                                    >Modal Boxes</a
-                                                    >
-                                                </li>
-                                                <li>
-                                                    <a href="elements-paginations.html"
-                                                    >Paginations</a
-                                                    >
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        <div class="col-sm-4">
-                                            <ul class="header-link">
-                                                <li>
-                                                    <a href="elements-columns.html">Columns</a>
-                                                </li>
-                                                <li>
-                                                    <a href="elements-data-tables.html"
-                                                    >Data Tables</a
-                                                    >
-                                                </li>
-                                                <li>
-                                                    <a href="elements-date-picker.html"
-                                                    >Date Pickers</a
-                                                    >
-                                                </li>
-                                                <li>
-                                                    <a href="elements-dividers.html">Dividers</a>
-                                                </li>
-                                                <li>
-                                                    <a href="elements-icon-boxes.html"
-                                                    >Icon Boxes</a
-                                                    >
-                                                </li>
-                                                <li><a href="icon-font.html">Icon Fonts</a></li>
-                                                <li>
-                                                    <a href="elements-accordions.html"
-                                                    >Accordions</a
-                                                    >
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        <div class="col-sm-4">
-                                            <ul class="header-link">
-                                                <li>
-                                                    <a href="elements-headings.html">Headings</a>
-                                                </li>
-                                                <li>
-                                                    <a href="elements-galleries.html">Galleries</a>
-                                                </li>
-                                                <li>
-                                                    <a href="elements-labels-badges.html"
-                                                    >Labels/Badges</a
-                                                    >
-                                                </li>
-                                                <li>
-                                                    <a href="elements-media-option.html"
-                                                    >Media Options</a
-                                                    >
-                                                </li>
-                                                <li>
-                                                    <a href="elements-search-options.html"
-                                                    >Search Options</a
-                                                    >
-                                                </li>
-                                                <li>
-                                                    <a href="elements-social-icons.html"
-                                                    >Social Icons</a
-                                                    >
-                                                </li>
-                                                <li>
-                                                    <a href="elements-responsive.html"
-                                                    >Responsive/Visibility</a
-                                                    >
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
+
+
                         <li class="visible-xs visible-sm">
-                            <a href="login.html">
+                            <a href="">
                                 <span class="icon icon-user"></span>
                                 <span class="text">Login</span>
                             </a>
                         </li>
                         <li class="hidden-xs hidden-sm v-divider">
-                            <a href="login.html">
+                            <a href="{{ path('AfficherClient')}}">
                                 <span class="icon icon-user"></span>
                             </a>
                         </li>
@@ -585,7 +269,7 @@
                             <a href="my-cart.html" data-toggle="dropdown">
                                 <span class="icon icon-cart"></span>
                                 <span class="text hidden-md hidden-lg">Cart</span>
-                                <span class="text hidden-xs hidden-sm">3</span>
+                                <span class="text hidden-xs hidden-sm"> </span>
                             </a>
                             <div class="dropdown-menu dropdown-md">
                                 <div class="drop-wrap cart-wrap">
@@ -606,14 +290,6 @@
 
                                         <li>
                                             <div class="img">
-                                                <a href="#">
-                                                    <img
-                                                            src="img/listing/img-18.jpg"
-                                                            height="165"
-                                                            width="170"
-                                                            alt="image description"
-                                                    />
-                                                </a>
                                             </div>
 
                                         </li>
@@ -627,65 +303,8 @@
                                 </div>
                             </div>
                         </li>
-                        <li
-                                class="dropdown hidden-xs hidden-sm last-dropdown v-divider"
-                        >
-                            <a href="#"
-                            ><span class="text">EN</span>
-                                <span class="icon-angle-down"></span
-                                ></a>
-                            <div class="dropdown-menu dropdown-sm">
-                                <div class="drop-wrap lang-wrap">
-                                    <div class="lang-row">
-                                        <div class="lang-col">
-                                            <a href="#">
-                                                <span class="text">English</span>
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <div class="lang-row">
-                                        <div class="lang-col">
-                                            <a href="#">
-                                                <span class="text">German</span>
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <div class="lang-row">
-                                        <div class="lang-col">
-                                            <a href="#">
-                                                <span class="text">Russian</span>
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <div class="lang-row">
-                                        <div class="lang-col">
-                                            <a href="#">
-                                                <span class="text">Czech</span>
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <div class="lang-row">
-                                        <div class="lang-col">
-                                            <a href="#">
-                                                <span class="text">Chinese</span>
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <div class="lang-row">
-                                        <div class="lang-col">
-                                            <a href="#">
-                                                <span class="text">Danish</span>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="visible-md visible-lg nav-visible v-divider">
-                            <a href="#" class="search-opener"
-                            ><span class="icon icon-search"></span
-                                ></a>
-                        </li>
+
+
                     </ul>
                 </div>
             </nav>
@@ -732,23 +351,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="holder">
-                                <label for="select-region">Select Region</label>
-                                <div class="select-holder">
-                                    <select
-                                            class="trip-select trip-select-v2 region"
-                                            name="region"
-                                            id="select-region"
-                                    >
-                                        <option value="select">Africa</option>
-                                        <option value="select">Arctic</option>
-                                        <option value="select">Asia</option>
-                                        <option value="select">Europe</option>
-                                        <option value="select">Oceanaia</option>
-                                        <option value="select">Polar</option>
-                                    </select>
-                                </div>
-                            </div>
+
                             <div class="holder">
                                 <label for="select-activity">Select Activity</label>
                                 <div class="select-holder">

@@ -45,7 +45,7 @@ class Reservation
      * )
      * @ORM\Column(name="nbr_place", type="integer", nullable=false)
      *
-     *
+     *groups={"VVA"}
      *
      */
     private $nbrPlace;
