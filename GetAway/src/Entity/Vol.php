@@ -25,7 +25,7 @@ class Vol
     /**
      * @var \DateTime
      *
-     * @Assert\NotNull()
+     *@Assert\NotBlank()
      * @ORM\Column(name="date_depart", type="datetime", nullable=false)
      * @Assert\GreaterThan("today")
      *
@@ -36,12 +36,13 @@ class Vol
     /**
      * @var \DateTime
      *
-     * @Assert\NotNull()
-     * @ORM\Column(name="date_arrivee", type="datetime", nullable=false)
-     *  @Assert\Expression(
+     * @Assert\NotBlank()
+     * @Assert\Expression(
      *     "this.getDateDepart() < this.getDateArrivee()",
      *     message="La date fin ne doit pas être antérieure à la date début"
      * )
+     * @ORM\Column(name="date_arrivee", type="datetime", nullable=false)
+     *
      *
      */
     private $dateArrivee;
@@ -50,6 +51,10 @@ class Vol
      * @var string
      *
      * @ORM\Column(name="ville_depart", type="string", length=60, nullable=false)
+     *   @Assert\Regex(
+     *     pattern     = "/^[a-z]+$/i",
+     *     htmlPattern = "[a-zA-Z]+"
+     * )
      * @Assert\NotBlank
      */
     private $villeDepart;
@@ -58,7 +63,12 @@ class Vol
      * @var string
      *
      * @ORM\Column(name="ville_arrivee", type="string", length=50, nullable=false)
+     *   @Assert\Regex(
+     *     pattern     = "/^[a-z]+$/i",
+     *     htmlPattern = "[a-zA-Z]+"
+     * )
      * @Assert\NotBlank
+     *
      */
     private $villeArrivee;
 
@@ -106,7 +116,7 @@ class Vol
         return $this->dateDepart;
     }
 
-    public function setDateDepart(\DateTimeInterface $dateDepart): self
+    public function setDateDepart(?\DateTimeInterface $dateDepart): self
     {
         $this->dateDepart = $dateDepart;
 
@@ -118,7 +128,7 @@ class Vol
         return $this->dateArrivee;
     }
 
-    public function setDateArrivee(\DateTimeInterface $dateArrivee): self
+    public function setDateArrivee(?\DateTimeInterface $dateArrivee): self
     {
         $this->dateArrivee = $dateArrivee;
 

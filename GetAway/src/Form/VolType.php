@@ -21,7 +21,7 @@ class VolType extends AbstractType
         'required' => true,
         'attr' => array('class' => 'form-control input-inline datetimepicker',
             'data-provide' => 'datetimepicker',
-            'data-format' => 'dd-mm-yyyy HH:ii',
+            'data-format' => 'dd-mm-yyyy HH:ii:ss',
         ), ))
             ->add('dateArrivee',DateTimeType::class, array(
                 'widget' => 'single_text',
@@ -29,7 +29,7 @@ class VolType extends AbstractType
                 'required' => true,
                 'attr' => array('class' => 'form-control input-inline datetimepicker',
                     'data-provide' => 'datetimepicker',
-                    'data-format' => 'dd-mm-yyyy HH:ii',
+                    'data-format' => 'dd-mm-yyyy HH:ii:ss',
                 ), ))
             ->add('villeDepart')
             ->add('villeArrivee')

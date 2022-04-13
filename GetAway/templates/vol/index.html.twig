@@ -22,10 +22,10 @@
                             <div class="card-title">*Liste des Vols*</div>
                         </div>
                         <div class="card-body">
-                            <div class="table-responsive">
+                            <div class="table-info">
                                 <table class="table table-striped table-bordered">
                                     <thead>
-                                    <tr>
+                                    <tr class="table-info">
                                         <th class="wd-15p">Date Depart</th>
                                         <th class="wd-15p">Date Arrivee</th>
                                         <th class="wd-15p">Ville Depart</th>
@@ -39,8 +39,8 @@
                                     {% for vol in vols %}
                                         <tr>
 
-                                            <td>{{ vol.dateDepart ? vol.dateDepart|date('Y-m-d H:i:s') : '' }}</td>
-                                            <td>{{ vol.dateArrivee ? vol.dateArrivee|date('Y-m-d H:i:s') : '' }}</td>
+                                            <td>{{ vol.dateDepart ? vol.dateDepart|date('Y-m-d H:i') : '' }}</td>
+                                            <td>{{ vol.dateArrivee ? vol.dateArrivee|date('Y-m-d H:i') : '' }}</td>
                                             <td>{{ vol.villeDepart }}</td>
                                             <td>{{ vol.villeArrivee }}</td>
                                             <td>{{ vol.nbrPlacedispo }}</td>

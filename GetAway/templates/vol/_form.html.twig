@@ -5,14 +5,14 @@
 <form>
     <div class="form-group">
         <label class="form-label" for="exampleInputname">Date depart</label>
-        {{ form_widget(form.dateDepart , {'attr': {'class': 'input-group date' }} ) }}
+        {{ form_widget(form.dateDepart , {'attr': {'class': 'form-control input-inline datetimepicker' }} ) }}
         <div>
             <p class="card-description"> <code>{{form_errors(form.dateDepart)}}</code></p>
         </div>
     </div>
     <div class="form-group">
         <label class="form-label" for="exampleInputname">Date arrivee</label>
-        {{ form_widget(form.dateArrivee , {'attr': {'class': 'input-group date' , 'placeholder' : 'Date'}} ) }}
+        {{ form_widget(form.dateArrivee , {'attr': {'class': 'form-control input-inline datetimepicker' }} ) }}
         <div>
             <p class="card-description"> <code> {{ form_errors(form.dateArrivee) }}</code></p>
         </div>

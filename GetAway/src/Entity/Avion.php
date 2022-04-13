@@ -43,6 +43,10 @@ class Avion
      * @var string
      *
      * @ORM\Column(name="nom_avion", type="string", length=30, nullable=false)
+     *    @Assert\Regex(
+     *     pattern     = "/^[a-z]+$/i",
+     *     htmlPattern = "[a-zA-Z]+"
+     * )
      *  @Assert\NotBlank
      */
     private $nomAvion;

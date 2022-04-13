@@ -12,10 +12,11 @@
     <div class="app-content">
         <div class="side-app">
             <div class="page-header">
-                <h1 class="page-title">Liste des Vols</h1>
+                <header>
+                <h2 class="main-heading">Liste des Vols</h2>
+                </header>
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="#"><i class="fe   fe-box mr-1"></i> Tables</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Data Tables</li>
+                    <li class="breadcrumb-item"><a href="index1.html.twig"><i class="fe   fe-box mr-1"></i>Voyager en toute sécurité </a></li>
                 </ol>
             </div>
             <div class="row">
@@ -32,36 +33,51 @@
                                         <body>
                                         <div class="snip1265">
 
-                                            <div class="plan">
+                                                <div class="content-holder list-view">
                                                 <header><i class="ion-ios-navigate-outline"></i>
-                                                    <h4 class="plan-title">
-                                                        Vol num°: {{ vol.idVol }}
+
+                                                    <div class="content-holder content-sub-holder">
+                                                        <div class="row db-3-col" >
+                                                            <article class="col-sm-6 article has-hover-s1">
+                                                                <div class="thumbnail">
+
+
+                                                                <h4 class="plan-title">
+                                                        <div class="img-wrap">
+                                                            <img src="{{ asset('front/img/listing/pays.jpg')}}" height="228" width="350" alt="image description">
+                                                        </div>
+                                                                    <h2 class="main-heading">Vol num°: {{ vol.idVol }}</h2>
                                                     </h4>
-                                                    <div class="plan-cost"><span class="plan-price">Prix : {{ vol.prix }} DNT</span><span class="plan-type"></span></div>
+                                                                    <h5> <div class="plan-cost"><span class="plan-price">${{ vol.prix }} </span><span class="plan-type"></span></div></h5>
+                                                                    <ul class="info">
+                                                                        <span class="country"><span class="icon-world"></span> Ville depart : {{ vol.villeDepart }}</span>
+                                                                        <br>
+                                                                        <span class="country"><span class="icon-world"></span> Ville arrivée : {{ vol.villeArrivee }}</span>
+                                                                        <br>
+                                                                        <span class="level"><span class="icon-level4"></span> Date Depart : {{ vol.getDateDepart()|date('d-m-y H:i')  }} </span>
+                                                                        <br>
+                                                                        <span class="level"><span class="icon-level4"></span> Date arrivée : {{ vol.getDateArrivee()|date('d-m-y H:i')  }}</span>
+                                                                        <br>
+                                                                        <span class="plane"><span class="icon-plane"> Nombre de Place dispo : {{ vol.NbrPlacedispo }}
+                                                                    </ul>
+                                                                </div>
+                                                            </article>
+                                                        </div>
+                                                    </div>
+
                                                 </header>
-                                                <ul class="plan-features">
-                                                    <li>Ville depart : {{ vol.villeDepart }}<i class="ion-ios-navigate-outline"></i>
-                                                    </li>
 
-                                                    <li>Ville arrivée : {{ vol.villeArrivee }}<i class="ion-ios-navigate-outline"></i>
-                                                    </li>
 
-                                                    <li>Date Depart : {{ vol.getDateDepart()|date('d-m-y H:i')  }}<i class="ion-ios-navigate-outline"></i>
-                                                    </li>
+                                                        </div>
 
-                                                    <li>Date arrivée : {{ vol.getDateArrivee()|date('d-m-y H:i')  }}<i class="ion-ios-navigate-outline"></li>
-                                                    </li>
-                                                    <li>Nombre de Place dispo : {{ vol.NbrPlacedispo }}<i class="ion-ios-navigate-outline"></li>
-                                                    </li>
-                                                </ul>
-                                                </div>
-                                            <hr>
+
                                         </div>
                                         </body>
                                     {% endfor %}
                                 </table>
-                            </div>
-                        </div>
+
+                    </div>
+                </div>
                     </div>
                 </div>
             </div>

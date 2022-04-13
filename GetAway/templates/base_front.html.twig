@@ -2,92 +2,95 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>{% block title %}GetAway{% endblock %}</title>
+    <title>{% block title %} GetAWay {% endblock %}</title>
     {# Run `composer require symfony/webpack-encore-bundle`
            and uncomment the following Encore helpers to start using Symfony UX #}
 
     {% block stylesheets %}
-        {#{{ encore_entry_link_tags('app') }}#}
-        <meta charset="utf-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>GetAway</title>
-        <!-- favion -->
-        <link
-                rel="icon"
-                type="image/png"
-                sizes="16x16"
-                href="{{ asset('front/img/favicon-16x16.png')}}"
-        />
-        <!-- link to font awesome -->
-        <link
-                media="all"
-                rel="stylesheet"
-                href="{{ asset('front/vendors/font-awesome/css/font-awesome.css')}}"
-        />
-        <!-- link to material icon font -->
-        <link
-                media="all"
-                rel="stylesheet"
-                href="{{ asset('front/vendors/material-design-icons/material-icons.css')}}"
-        />
+    {#{{ encore_entry_link_tags('app') }}#}
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Entrada</title>
+    <!-- favion -->
+    <link
+            rel="icon"
+            type="image/png"
+            sizes="16x16"
+            href="{{ asset('front/img/favicon-16x16.png')}}"
+    />
+    <!-- link to font awesome -->
+    <link
+            media="all"
+            rel="stylesheet"
+            href="{{ asset('front/vendors/font-awesome/css/font-awesome.css')}}"
+    />
+    <!-- link to material icon font -->
+    <link
+            media="all"
+            rel="stylesheet"
+            href="{{ asset('front/vendors/material-design-icons/material-icons.css')}}"
+    />
 
-        <link
-                rel="stylesheet"
-                type="text/css"
-                href="{{ asset('front/css/fonts/icomoon/icomoon.css')}}"
-        />
-        <!-- link to wow js animation -->
-        <link media="all" rel="stylesheet" href="{{ asset('front/vendors/animate/animate.css')}}" />
-        <!-- include bootstrap css -->
-        <link media="all" rel="stylesheet" href="{{ asset('front/css/bootstrap.css')}}" />
-        <!-- include owl css -->
-        <link
-                media="all"
-                rel="stylesheet"
-                href="{{ asset('front/vendors/owl-carousel/owl.carousel.css')}}"
-        />
-        <link
-                media="all"
-                rel="stylesheet"
-                href="{{ asset('front/vendors/owl-carousel/owl.theme.css')}}"
-        />
-        <!-- include main css -->
-        <link media="all" rel="stylesheet" href="{{ asset('front/css/main.css')}}" />
-        <!-- link to revolution css  -->
-        <link
-                rel="stylesheet"
-                type="text/css"
-                href="{{ asset('front/vendors/revolution/css/settings.css')}}"
-        />
-    {% endblock %}
+    <link
+            rel="stylesheet"
+            type="text/css"
+            href="{{ asset('front/css/fonts/icomoon/icomoon.css')}}"
+    />
+    <!-- link to wow js animation -->
+    <link media="all" rel="stylesheet" href="{{ asset('front/vendors/animate/animate.css')}}" />
+    <!-- include bootstrap css -->
+    <link media="all" rel="stylesheet" href="{{ asset('front/css/bootstrap.css')}}" />
+    <!-- include owl css -->
+    <link
+            media="all"
+            rel="stylesheet"
+            href="{{ asset('front/vendors/owl-carousel/owl.carousel.css')}}"
+    />
+    <link
+            media="all"
+            rel="stylesheet"
+            href="{{ asset('front/vendors/owl-carousel/owl.theme.css')}}"
+    />
+    <!-- include main css -->
+    <link media="all" rel="stylesheet" href="{{ asset('front/css/main.css')}}" />
+    <!-- link to revolution css  -->
+    <link
+            rel="stylesheet"
+            type="text/css"
+            href="{{ asset('front/vendors/revolution/css/settings.css')}}"
+    />
 
-    {% block javascripts %}
-        {#{{ encore_entry_script_tags('app') }}#}
-        <script src="{{ asset('front/vendors/jquery/jquery-2.1.4.min.js')}}"></script>
-        <!-- external scripts -->
-        <script src="{{ asset('front/vendors/bootstrap/javascripts/bootstrap.min.js')}}"></script>
-        <script src="{{ asset('front/vendors/jquery-placeholder/jquery.placeholder.min.js')}}"></script>
-        <script src="{{ asset('front/vendors/match-height/jquery.matchHeight.js')}}"></script>
-        <script src="{{ asset('front/vendors/wow/wow.min.js')}}"></script>
-        <script src="{{ asset('front/vendors/stellar/jquery.stellar.min.js')}}"></script>
-        <script src="{{ asset('front/vendors/validate/jquery.validate.js')}}"></script>
-        <script src="{{ asset('front/vendors/waypoint/waypoints.min.js')}}"></script>
-        <script src="{{ asset('front/vendors/counter-up/jquery.counterup.min.js')}}"></script>
-        <script src="{{ asset('front/vendors/jquery-ui/jquery-ui.min.js')}}"></script>
-        <script src="{{ asset('front/vendors/jQuery-touch-punch/jquery.ui.touch-punch.min.js')}}"></script>
-        <script src="{{ asset('front/vendors/fancybox/jquery.fancybox.js')}}"></script>
-        <script src="{{ asset('front/vendors/owl-carousel/owl.carousel.min.js')}}"></script>
-        <script src="{{ asset('front/vendors/jcf/js/jcf.js')}}"></script>
-        <script src="{{ asset('front/vendors/jcf/js/jcf.select.js')}}"></script>
-        <script src="{{ asset('front/js/mailchimp.js')}}"></script>
-        <script src="{{ asset('front/vendors/retina/retina.min.js')}}"></script>
-        <script src="{{ asset('front/vendors/sticky-kit/sticky-kit.js')}}"></script>
-        <script src="{{ asset('front/js/sticky-kit-init.js')}}"></script>
-        <script src="{{ asset('front/vendors/bootstrap-datetimepicker-master/dist/js/bootstrap-datepicker.js')}}"></script>
-        <!-- custom jquery script -->
-        <script src="{{ asset('front/js/jquery.main.js')}}"></script>
-    {% endblock %}
+</head>
+
+{% endblock %}
+
+{% block javascripts %}
+    {#{{ encore_entry_script_tags('app') }}#}
+    <script src="{{ asset('front/vendors/jquery/jquery-2.1.4.min.js')}}"></script>
+    <!-- external scripts -->
+    <script src="{{ asset('front/vendors/bootstrap/javascripts/bootstrap.min.js')}}"></script>
+    <script src="{{ asset('front/vendors/jquery-placeholder/jquery.placeholder.min.js')}}"></script>
+    <script src="{{ asset('front/vendors/match-height/jquery.matchHeight.js')}}"></script>
+    <script src="{{ asset('front/vendors/wow/wow.min.js')}}"></script>
+    <script src="{{ asset('front/vendors/stellar/jquery.stellar.min.js')}}"></script>
+    <script src="{{ asset('front/vendors/validate/jquery.validate.js')}}"></script>
+    <script src="{{ asset('front/vendors/waypoint/waypoints.min.js')}}"></script>
+    <script src="{{ asset('front/vendors/counter-up/jquery.counterup.min.js')}}"></script>
+    <script src="{{ asset('front/vendors/jquery-ui/jquery-ui.min.js')}}"></script>
+    <script src="{{ asset('front/vendors/jQuery-touch-punch/jquery.ui.touch-punch.min.js')}}"></script>
+    <script src="{{ asset('front/vendors/fancybox/jquery.fancybox.js')}}"></script>
+    <script src="{{ asset('front/vendors/owl-carousel/owl.carousel.min.js')}}"></script>
+    <script src="{{ asset('front/vendors/jcf/js/jcf.js')}}"></script>
+    <script src="{{ asset('front/vendors/jcf/js/jcf.select.js')}}"></script>
+    <script src="{{ asset('front/js/mailchimp.js')}}"></script>
+    <script src="{{ asset('front/vendors/retina/retina.min.js')}}"></script>
+    <script src="{{ asset('front/vendors/sticky-kit/sticky-kit.js')}}"></script>
+    <script src="{{ asset('front/js/sticky-kit-init.js')}}"></script>
+    <script src="{{ asset('front/vendors/bootstrap-datetimepicker-master/dist/js/bootstrap-datepicker.js')}}"></script>
+    <!-- custom jquery script -->
+    <script src="{{ asset('front/js/jquery.main.js')}}"></script>
+{% endblock %}
 </head>
 <body class="default-page">
 <div class="preloader" id="pageLoad">
@@ -99,17 +102,13 @@
     <div class="page-wrapper">
         {% block header %}
 
-            <header id="header">
+            <header id="header" class="default-white-header">
                 <div class="container-fluid">
                     <!-- logo -->
                     <div class="logo">
                         <a href="index.html">
-                            <img class="normal" src="{{ asset('front/img/logos/logo.png')}}" alt="GetAway" />
-                            <img
-                                    class="gray-logo"
-                                    src="{{ asset('front/img/logos/logo.png')}}"
-                                    alt="GetAway"
-                            />
+                            <img class="normal" src="{{ asset('front/img/logos/logo.png') }}" alt="Entrada">
+                            <img class="gray-logo" src="{{ asset('front/img/logos/logo.png') }}" alt="Entrada">
                         </a>
                     </div>
                     <!-- main navigation -->
@@ -131,83 +130,14 @@
                         <div class="collapse navbar-collapse" id="nav">
                             <!-- main navbar -->
                             <ul class="nav navbar-nav">
-                                <li class="dropdown">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"
-                                    >Home <b class="icon-angle-down"></b
-                                        ></a>
-                                    <div class="dropdown-menu">
-                                        <ul>
-                                            <li><a href="index.html">Home - Icon Bar</a></li>
-                                            <li>
-                                                <a href="home-search-bar.html">Home - Tour Search</a>
-                                            </li>
-                                            <li>
-                                                <a href="home-icon-search.html"
-                                                >Home - Icon + Search</a
-                                                >
-                                            </li>
-                                            <li>
-                                                <a href="home-revolution.html">Home - Revolution</a>
-                                            </li>
-                                            <li>
-                                                <a href="home-parallax.html">Home - Parallax</a>
-                                            </li>
-                                            <li>
-                                                <a href="home-html5-video.html">Home - HTML5 Video</a>
-                                            </li>
-                                            <li>
-                                                <a href="home-static-image.html"
-                                                >Home - Static Image</a
-                                                >
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </li>
-                                <li class="dropdown">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"
-                                    >Tour Listing <b class="icon-angle-down"></b
-                                        ></a>
-                                    <div class="dropdown-menu">
-                                        <ul>
-                                            <li>
-                                                <a href="grid-view-2-column.html"
-                                                >Grid View - 2 Column</a
-                                                >
-                                            </li>
-                                            <li>
-                                                <a href="grid-view-3-column.html"
-                                                >Grid View - 3 Column</a
-                                                >
-                                            </li>
-                                            <li>
-                                                <a href="grid-view-4-column.html"
-                                                >Grid View - 4 Column</a
-                                                >
-                                            </li>
-                                            <li>
-                                                <a href="grid-view-sidebar.html"
-                                                >Grid View - Sidebar</a
-                                                >
-                                            </li>
-                                            <li>
-                                                <a href="grid-view-full-width.html"
-                                                >Grid View - Full Width</a
-                                                >
-                                            </li>
-                                            <li>
-                                                <a href="list-view-normal.html">List View - Normal</a>
-                                            </li>
-                                            <li>
-                                                <a href="list-view-detail.html">List View - Detail</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </li>
-                                <li><a href="tour-detail.html">Tour Detail</a></li>
+                                <li><a href="{{ path('app_vol_index1')}}">  Home  </a></li>
+                                <li><a href="#"> Activites  </a></li>
+                                <li><a href="#"> Hebergement </a></li>
+                                <li><a href="#"> Voyage organise </a></li>
+                                <li><a href="{{ path('app_vol_index1')}}">  Vol  </a></li>
                                 <li class="dropdown has-mega-dropdown">
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"
-                                    >Activities <b class="icon-angle-down"></b
-                                        ></a>
+                                    >Activities </a>
                                     <div class="dropdown-menu">
                                         <div class="drop-wrap">
                                             <div class="drop-holder">
@@ -215,9 +145,9 @@
                                                     <div class="col-sm-6 col-md-3">
                                                         <div class="col">
                                                             <div class="img-wrap">
-                                                                <a href="hiking-camping.html"
+                                                                <a href="#"
                                                                 ><img
-                                                                            src="{{ asset('front/img/generic/img-01.jpg')}}"
+                                                                            src="img/generic/img-01.jpg"
                                                                             height="228"
                                                                             width="350"
                                                                             alt="image description"
@@ -243,7 +173,7 @@
                                                             <div class="img-wrap">
                                                                 <a href="jungle-safari.html"
                                                                 ><img
-                                                                            src="{{ asset('front/img/generic/img-02.jpg')}}"
+                                                                            src="img/generic/img-02.jpg"
                                                                             height="215"
                                                                             width="370"
                                                                             alt="image description"
@@ -269,7 +199,7 @@
                                                             <div class="img-wrap">
                                                                 <a href="city-tour.html"
                                                                 ><img
-                                                                            src="{{ asset('front/img/generic/img-03.jpg')}}"
+                                                                            src="img/generic/img-03.jpg"
                                                                             height="215"
                                                                             width="370"
                                                                             alt="image description"
@@ -295,7 +225,7 @@
                                                             <div class="img-wrap">
                                                                 <a href="family-fun.html"
                                                                 ><img
-                                                                            src="{{ asset('front/img/generic/img-04.jpg')}}"
+                                                                            src="img/generic/img-04.jpg"
                                                                             height="215"
                                                                             width="370"
                                                                             alt="image description"
@@ -321,258 +251,16 @@
                                         </div>
                                     </div>
                                 </li>
-                                <li class="dropdown has-mega-dropdown">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"
-                                    >Pages <b class="icon-angle-down"></b
-                                        ></a>
-                                    <div class="dropdown-menu">
-                                        <div class="drop-wrap">
-                                            <div class="five-col">
-                                                <div class="column">
-                                                    <strong class="title sub-link-opener"
-                                                    >General</strong
-                                                    >
-                                                    <ul class="header-link">
-                                                        <li><a href="about.html">About Us</a></li>
-                                                        <li><a href="error.html">404 Error</a></li>
-                                                        <li>
-                                                            <a href="tour-detail.html">Tour Detail</a>
-                                                        </li>
-                                                        <li><a href="megamenu.html">Megamenu</a></li>
-                                                        <li><a href="contact.html">Contact</a></li>
-                                                    </ul>
-                                                </div>
-                                                <div class="column">
-                                                    <strong class="title sub-link-opener"
-                                                    >Layout</strong
-                                                    >
-                                                    <ul class="header-link">
-                                                        <li>
-                                                            <a href="layout-fullwidth.html"
-                                                            >Full Width Page</a
-                                                            >
-                                                        </li>
-                                                        <li>
-                                                            <a href="layout-fullwidth-wide.html"
-                                                            >Full Width Wide</a
-                                                            >
-                                                        </li>
-                                                        <li>
-                                                            <a href="layout-left-sidebar.html"
-                                                            >Left Sidebar</a
-                                                            >
-                                                        </li>
-                                                        <li>
-                                                            <a href="layout-right-sidebar.html"
-                                                            >Right Sidebar</a
-                                                            >
-                                                        </li>
-                                                        <li>
-                                                            <a href="layout-both-sidebar.html"
-                                                            >Both Sidebar</a
-                                                            >
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                                <div class="column">
-                                                    <strong class="title sub-link-opener"
-                                                    >Booking</strong
-                                                    >
-                                                    <ul class="header-link">
-                                                        <li><a href="login.html">Login/Register</a></li>
-                                                        <li>
-                                                            <a href="my-wishlist.html">My Wishlist</a>
-                                                        </li>
-                                                        <li><a href="my-cart.html">My Cart</a></li>
-                                                        <li><a href="checkout.html">Checkout</a></li>
-                                                        <li>
-                                                            <a href="confirmation.html">Confirmation</a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                                <div class="column">
-                                                    <strong class="title sub-link-opener"
-                                                    >Header Styles</strong
-                                                    >
-                                                    <ul class="header-link">
-                                                        <li>
-                                                            <a href="header-top-bar.html"
-                                                            >Header - Top Bar</a
-                                                            >
-                                                        </li>
-                                                        <li>
-                                                            <a href="header-centered.html"
-                                                            >Header - Centered</a
-                                                            >
-                                                        </li>
-                                                        <li>
-                                                            <a href="header-default-white.html"
-                                                            >Header - White</a
-                                                            >
-                                                        </li>
-                                                        <li>
-                                                            <a href="header-dark.html">Header - Dark</a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="header-transparent.html"
-                                                            >Header - Transparent</a
-                                                            >
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                                <div class="column">
-                                                    <strong class="title sub-link-opener">Misc</strong>
-                                                    <ul class="header-link">
-                                                        <li><a href="icon-font.html">Icon Fonts</a></li>
-                                                        <li>
-                                                            <a href="home-boxed.html">Boxed Layout</a>
-                                                        </li>
-                                                        <li><a href="home-image-bg.html">Image BG</a></li>
-                                                        <li>
-                                                            <a href="home-pattern-bg.html">Pattern BG</a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="dropdown">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"
-                                    >Blog <b class="icon-angle-down"></b
-                                        ></a>
-                                    <div class="dropdown-menu">
-                                        <ul>
-                                            <li><a href="blog-default.html">Blog Default</a></li>
-                                            <li>
-                                                <a href="blog-left-sidebar.html">Left Sidebar</a>
-                                            </li>
-                                            <li>
-                                                <a href="blog-right-sidebar.html">Right Sidebar</a>
-                                            </li>
-                                            <li><a href="blog-fullwidth.html">Full Width</a></li>
-                                            <li><a href="blog-single.html">Blog Single</a></li>
-                                        </ul>
-                                    </div>
-                                </li>
-                                <li class="dropdown has-mega-dropdown mega-md">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"
-                                    >Elements <b class="icon-angle-down"></b
-                                        ></a>
-                                    <div class="dropdown-menu">
-                                        <div class="drop-wrap">
-                                            <div class="row">
-                                                <div class="col-sm-4">
-                                                    <ul class="header-link">
-                                                        <li>
-                                                            <a href="elements-animations.html"
-                                                            >Animations</a
-                                                            >
-                                                        </li>
-                                                        <li>
-                                                            <a href="elements-blockquotes.html"
-                                                            >Blockquotes</a
-                                                            >
-                                                        </li>
-                                                        <li>
-                                                            <a href="elements-buttons.html">Buttons</a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="elements-carousel.html">Carousel</a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="elements-counters.html">Counters</a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="elements-modal-boxes.html"
-                                                            >Modal Boxes</a
-                                                            >
-                                                        </li>
-                                                        <li>
-                                                            <a href="elements-paginations.html"
-                                                            >Paginations</a
-                                                            >
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                                <div class="col-sm-4">
-                                                    <ul class="header-link">
-                                                        <li>
-                                                            <a href="elements-columns.html">Columns</a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="elements-data-tables.html"
-                                                            >Data Tables</a
-                                                            >
-                                                        </li>
-                                                        <li>
-                                                            <a href="elements-date-picker.html"
-                                                            >Date Pickers</a
-                                                            >
-                                                        </li>
-                                                        <li>
-                                                            <a href="elements-dividers.html">Dividers</a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="elements-icon-boxes.html"
-                                                            >Icon Boxes</a
-                                                            >
-                                                        </li>
-                                                        <li><a href="icon-font.html">Icon Fonts</a></li>
-                                                        <li>
-                                                            <a href="elements-accordions.html"
-                                                            >Accordions</a
-                                                            >
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                                <div class="col-sm-4">
-                                                    <ul class="header-link">
-                                                        <li>
-                                                            <a href="elements-headings.html">Headings</a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="elements-galleries.html">Galleries</a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="elements-labels-badges.html"
-                                                            >Labels/Badges</a
-                                                            >
-                                                        </li>
-                                                        <li>
-                                                            <a href="elements-media-option.html"
-                                                            >Media Options</a
-                                                            >
-                                                        </li>
-                                                        <li>
-                                                            <a href="elements-search-options.html"
-                                                            >Search Options</a
-                                                            >
-                                                        </li>
-                                                        <li>
-                                                            <a href="elements-social-icons.html"
-                                                            >Social Icons</a
-                                                            >
-                                                        </li>
-                                                        <li>
-                                                            <a href="elements-responsive.html"
-                                                            >Responsive/Visibility</a
-                                                            >
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
+
+
                                 <li class="visible-xs visible-sm">
-                                    <a href="login.html">
+                                    <a href="">
                                         <span class="icon icon-user"></span>
                                         <span class="text">Login</span>
                                     </a>
                                 </li>
                                 <li class="hidden-xs hidden-sm v-divider">
-                                    <a href="login.html">
+                                    <a href="#">
                                         <span class="icon icon-user"></span>
                                     </a>
                                 </li>
@@ -582,23 +270,14 @@
                                     <a href="my-cart.html" data-toggle="dropdown">
                                         <span class="icon icon-cart"></span>
                                         <span class="text hidden-md hidden-lg">Cart</span>
-                                        <span class="text hidden-xs hidden-sm">3</span>
+                                        <span class="text hidden-xs hidden-sm"> </span>
                                     </a>
                                     <div class="dropdown-menu dropdown-md">
                                         <div class="drop-wrap cart-wrap">
                                             <strong class="title">Shopping Cart</strong>
                                             <ul class="cart-list">
                                                 <li>
-                                                    <div class="img">
-                                                        <a href="#">
-                                                            <img
-                                                                    src="{{ asset('front/img/listing/img-16.jpg')}}"
-                                                                    height="165"
-                                                                    width="170"
-                                                                    alt="image description"
-                                                            />
-                                                        </a>
-                                                    </div>
+
                                                     <div class="text-holder">
                                                         <span class="amount">x 2</span>
                                                         <div class="text-wrap">
@@ -609,117 +288,24 @@
                                                         </div>
                                                     </div>
                                                 </li>
+
                                                 <li>
                                                     <div class="img">
-                                                        <a href="#">
-                                                            <img
-                                                                    src="{{ asset('front/img/listing/img-17.jpg')}}"
-                                                                    height="165"
-                                                                    width="170"
-                                                                    alt="image description"
-                                                            />
-                                                        </a>
                                                     </div>
-                                                    <div class="text-holder">
-                                                        <span class="amount">x 4</span>
-                                                        <div class="text-wrap">
-                                                            <strong class="name"
-                                                            ><a href="#">Water Sports in Spain</a></strong
-                                                            >
-                                                            <span class="price">$199</span>
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <div class="img">
-                                                        <a href="#">
-                                                            <img
-                                                                    src="{{ asset('front/img/listing/img-18.jpg')}}"
-                                                                    height="165"
-                                                                    width="170"
-                                                                    alt="image description"
-                                                            />
-                                                        </a>
-                                                    </div>
-                                                    <div class="text-holder">
-                                                        <span class="amount">x 4</span>
-                                                        <div class="text-wrap">
-                                                            <strong class="name"
-                                                            ><a href="#">Beach Party in Greece</a></strong
-                                                            >
-                                                            <span class="price">$199</span>
-                                                        </div>
-                                                    </div>
+
                                                 </li>
                                             </ul>
                                             <div class="footer">
-                                                <a href="my-cart.html" class="btn btn-primary"
+                                                <a href="#" class="btn btn-primary"
                                                 >View cart</a
                                                 >
-                                                <span class="total">$3300</span>
+
                                             </div>
                                         </div>
                                     </div>
                                 </li>
-                                <li
-                                        class="dropdown hidden-xs hidden-sm last-dropdown v-divider"
-                                >
-                                    <a href="#"
-                                    ><span class="text">EN</span>
-                                        <span class="icon-angle-down"></span
-                                        ></a>
-                                    <div class="dropdown-menu dropdown-sm">
-                                        <div class="drop-wrap lang-wrap">
-                                            <div class="lang-row">
-                                                <div class="lang-col">
-                                                    <a href="#">
-                                                        <span class="text">English</span>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            <div class="lang-row">
-                                                <div class="lang-col">
-                                                    <a href="#">
-                                                        <span class="text">German</span>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            <div class="lang-row">
-                                                <div class="lang-col">
-                                                    <a href="#">
-                                                        <span class="text">Russian</span>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            <div class="lang-row">
-                                                <div class="lang-col">
-                                                    <a href="#">
-                                                        <span class="text">Czech</span>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            <div class="lang-row">
-                                                <div class="lang-col">
-                                                    <a href="#">
-                                                        <span class="text">Chinese</span>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            <div class="lang-row">
-                                                <div class="lang-col">
-                                                    <a href="#">
-                                                        <span class="text">Danish</span>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="visible-md visible-lg nav-visible v-divider">
-                                    <a href="#" class="search-opener"
-                                    ><span class="icon icon-search"></span
-                                        ></a>
-                                </li>
+
+
                             </ul>
                         </div>
                     </nav>
@@ -766,23 +352,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="holder">
-                                        <label for="select-region">Select Region</label>
-                                        <div class="select-holder">
-                                            <select
-                                                    class="trip-select trip-select-v2 region"
-                                                    name="region"
-                                                    id="select-region"
-                                            >
-                                                <option value="select">Africa</option>
-                                                <option value="select">Arctic</option>
-                                                <option value="select">Asia</option>
-                                                <option value="select">Europe</option>
-                                                <option value="select">Oceanaia</option>
-                                                <option value="select">Polar</option>
-                                            </select>
-                                        </div>
-                                    </div>
+
                                     <div class="holder">
                                         <label for="select-activity">Select Activity</label>
                                         <div class="select-holder">
@@ -829,7 +399,12 @@
                 </form>
             </header>
         {% endblock %}
+
+
+
         {% block content %}
+
+
 
 
         {% endblock %}
@@ -991,45 +566,7 @@
                                 Adventure Theme - by <a href="#">Waituk</a></strong
                             >
                         </div>
-                        <div class="col-lg-6">
-                            <ul class="payment-option">
-                                <li>
-                                    <img src="{{ asset('front/img/footer/visa.png')}}" alt="visa" />
-                                </li>
-                                <li>
-                                    <img
-                                            src="{{ asset('front/img/footer/mastercard.png')}}"
-                                            height="20"
-                                            width="33"
-                                            alt="master card"
-                                    />
-                                </li>
-                                <li>
-                                    <img
-                                            src="{{ asset('front/img/footer/paypal.png')}}"
-                                            height="20"
-                                            width="72"
-                                            alt="paypal"
-                                    />
-                                </li>
-                                <li>
-                                    <img
-                                            src="{{ asset('front/img/footer/maestro.png')}}"
-                                            height="20"
-                                            width="33"
-                                            alt="maestro"
-                                    />
-                                </li>
-                                <li>
-                                    <img
-                                            src="{{ asset('front/img/footer/bank-transfer.png')}}"
-                                            height="20"
-                                            width="55"
-                                            alt="bank transfer"
-                                    />
-                                </li>
-                            </ul>
-                        </div>
+
                     </div>
                 </div>
             </div>
