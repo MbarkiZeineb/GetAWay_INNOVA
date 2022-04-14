@@ -3,7 +3,7 @@
 {% block title %}New Avis{% endblock %}
 
 {% block content %}
-    <h1>Create new Avis</h1>
+    {{ form_start(form, {attr:{novalidate:'novalidate'}}) }}
 
     {{ include('avis/_form.html.twig') }}
 

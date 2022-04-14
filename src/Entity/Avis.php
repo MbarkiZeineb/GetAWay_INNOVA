@@ -3,7 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-
+use Symfony\Component\Validator\Constraints as Assert;
 /**
  * Avis
  *
@@ -24,7 +24,7 @@ class Avis
 
     /**
      * @var string
-     *
+     * @Assert\NotBlank(message="Message ne doit pas être vide")
      * @ORM\Column(name="Message", type="string", length=250, nullable=false)
      */
     private $message;
@@ -38,7 +38,8 @@ class Avis
 
     /**
      * @var int
-     *
+     * @Assert\NotBlank(message="Rating ne doit pas être vide")
+     * @Assert\Positive(message="Le rating ne dois pas etre négatif")
      * @ORM\Column(name="Rating", type="integer", nullable=false)
      */
     private $rating;
