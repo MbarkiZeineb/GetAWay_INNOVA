@@ -5,46 +5,52 @@
 
 {% block content %}
 
-    <div class="table-responsive pt-3">
-        <table class="table table-dark">
-        <thead>
-            <tr>
-                <th>Refact</th>
-                <th>Nom</th>
-                <th>Descrip</th>
-                <th>Duree</th>
-                <th>Nbrplace</th>
-                <th>Date</th>
-                <th>Type</th>
-                <th>Location</th>
-                <th>Prix</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for activite in activites %}
-            <tr>
-                <td>{{ activite.refact }}</td>
-                <td>{{ activite.nom }}</td>
-                <td>{{ activite.descrip }}</td>
-                <td>{{ activite.duree }}</td>
-                <td>{{ activite.nbrplace }}</td>
-                <td>{{ activite.date }}</td>
-                <td>{{ activite.type }}</td>
-                <td>{{ activite.location }}</td>
-                <td>{{ activite.prix }}</td>
-                <td>
-                    <a href="{{ path('app_activite_show', {'refact': activite.refact}) }}">show</a>
-                    <a href="{{ path('app_activite_edit', {'refact': activite.refact}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="10">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-</div>
-    <a href="{{ path('app_activite_new') }}">Create new</a>
+    <div class="content-block content-spacing">
+        <div class="container">
+            <header class="content-heading">
+                <br>
+                <br>
+                <h2 class="main-heading">Nos Activitès</h2>
+                <span class="main-subtitle">Nous avons une façon unique de répondre à vos attentes aventureuses!</span>
+                <div class="seperator"></div>
+            </header>
+
+            <div class="content-holder">
+                <div class="row db-3-col">
+                    {% for activite in activites %}
+                    <article class="col-sm-6 col-md-4 article has-hover-s3">
+                        <div class="img-wrap">
+                            <a href="#">
+                                <img src={{ asset("front/img/img-01.jpg")}} height="215" width="370" alt="image description">
+                            </a>
+                            <div class="img-caption text-uppercase">
+                               {{ activite.nom }}
+                            </div>
+                            <div class="hover-article">
+                                <div class="star-rating">
+                                    <span><span class="icon-star"></span></span>
+                                    <span><span class="icon-star"></span></span>
+                                    <span><span class="icon-star"></span></span>
+                                    <span><span class="icon-star"></span></span>
+                                    <span class="disable"><span class="icon-star"></span></span>
+                                </div>
+
+                                <div class="info-footer">
+                                    <span class="price">from <span>${{ activite.prix }}</span></span>
+                                    <a href="{{ path('app_avis_act',{'RefAct': activite.refact})}}" class="link-more">Détails</a>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <h3><a href="#">{{ activite.nom }}</a></h3>
+                        <p>
+                            {{ activite.descrip }}
+                        </p>
+                    </article>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

@@ -2,6 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\Activite;
+use App\Form\ActiviteType;
+use App\Repository\ActiviteRepository;
 use App\Entity\Avis;
 use App\Form\AvisType;
 use Doctrine\ORM\EntityManagerInterface;
@@ -26,6 +29,21 @@ class AvisController extends AbstractController
 
         return $this->render('avis/index.html.twig', [
             'avis' => $avis,
+        ]);
+    }
+
+    /**
+     * @Route("/avisf", name="app_avis_indexfront", methods={"GET"})
+     */
+    public function indexFront(EntityManagerInterface $entityManager): Response
+    {
+        $avis = $entityManager
+            ->getRepository(Avis::class)
+            ->findAll();
+
+        return $this->render('avis/index_front.html.twig', [
+            'avis' => $avis,
+
         ]);
     }
 
@@ -73,7 +91,7 @@ class AvisController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_avis_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_avis_indexfront', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('avis/edit.html.twig', [
@@ -92,6 +110,34 @@ class AvisController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('app_avis_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_avis_indexfront', [], Response::HTTP_SEE_OTHER);
     }
+
+
+    /**
+     * @Route("/new/{RefAct}", name="app_avis_act", methods={"GET", "POST"})
+     */
+    public function addavisAct(Request $request, EntityManagerInterface $entityManager,$RefAct): Response
+    {
+        $activite= $entityManager->getRepository(Activite::class)->find($RefAct);
+        $avis = new Avis();
+        $avis->setDate(new \DateTime('now'));
+        $form = $this->createForm(AvisType::class, $avis);
+        $form->handleRequest($request);
+        $avis->setRefactivite($activite);
+        dump($avis);
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $entityManager->persist($avis);
+            $entityManager->flush();
+
+        }
+
+        return $this->render('activite/show_front.html.twig', [
+            'activite'=>$activite,
+            'form' => $form->createView(),
+        ]);
+    }
+
+
 }

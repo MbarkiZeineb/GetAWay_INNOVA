@@ -1,4 +1,35 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
-{{ form_end(form) }}
+
+<form action="#" class="comment-form">
+    <fieldset>
+        <br>
+        <br>
+        <br>
+        <h2>Modifier votre avis.</h2>
+        <div class="row">
+            <div class="col-sm-6 form-group">
+                {{ form_widget(form.message , {'attr': {'class': 'form-control' , 'placeholder' : 'Commentaire'}} ) }}
+            </div>
+            <div class="col-sm-6 form-group">
+                {{ form_widget(form.Id , {'attr': {'class': 'form-control' , 'placeholder' : 'client'}} ) }}
+            </div>
+            <div class="col-sm-6 form-group form-rate">
+                {{ form_widget(form.rating , {'attr': {'class': 'form-control' , 'placeholder' : 'Rating'}} ) }}
+                <div class="star-rating">
+                    <span class="disable"><span class="icon-star"></span></span>
+                    <span class="disable"><span class="icon-star"></span></span>
+                    <span class="disable"><span class="icon-star"></span></span>
+                    <span class="disable"><span class="icon-star"></span></span>
+                    <span class="disable"><span class="icon-star"></span></span>
+                </div>
+            </div>
+
+        </div>
+        {{ form_widget(form) }}
+        <button class="btn btn-md btn-default">{{ button_label|default('Save') }}</button>
+        {{ form_end(form) }}
+    </fieldset>
+</form>
+
+
+

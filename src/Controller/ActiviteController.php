@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Controller;
-
+use App\Entity\Avis;
 use App\Entity\Activite;
 use App\Form\ActiviteType;
 use Doctrine\ORM\EntityManagerInterface;
@@ -73,6 +73,18 @@ class ActiviteController extends AbstractController
 
         return $this->render('activite/show.html.twig', [
             'activite' => $activite,
+        ]);
+    }
+
+    /**
+     * @Route("/actf/{refact}", name="app_activite_showfront", methods={"GET"})
+     */
+    public function showFront(Activite $activite): Response
+    {
+
+        return $this->render('activite/show_front.html.twig', [
+            'activite' => $activite,
+
         ]);
     }
 

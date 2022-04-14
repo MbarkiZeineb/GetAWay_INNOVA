@@ -1,0 +1,234 @@
+{% extends 'base_front.html.twig' %}
+
+{% block title %}{{ activite.nom }}{% endblock %}
+
+{% block content %}
+
+    <section class="container-fluid trip-info">
+        <div class="same-height two-columns row">
+            <div class="height col-md-6" style="height: 728px;">
+                <!-- top image slideshow -->
+                <div id="tour-slide" class="owl-carousel owl-theme" style="opacity: 1; display: block;">
+                    <div class="owl-wrapper-outer">
+                        <div class="owl-wrapper" style="width: 3084px; left: 0px; display: block; transition: all 0ms ease 0s; transform: translate3d(0px, 0px, 0px);">
+                            <div class="owl-item" style="width: 771px;">
+                                <div class="slide">
+                                    <div class="bg-stretch">
+                                        <img src={{ asset('front/img/generic/img-17.jpg') }} alt="image descriprion" height="1104" width="966" style="width: 771px; height: 881.143px; margin-top: -76.5714px; margin-left: 0px;">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="height col-md-6 text-col" style="height: 728px;">
+                <br>
+                <br>
+                <div class="holder">
+                    <h1 class="small-size">{{ activite.nom }}</h1>
+                    <div><strong>{{ activite.type }}</strong></div>
+                    <div class="price">à partir de <strong>${{ activite.prix }}</strong></div>
+                    <div class="description">
+                        <p>
+                            {{ activite.descrip }}
+                        </p>
+                    </div>
+                    <ul class="reviews-info">
+
+                        <li>
+                            <div class="info-left">
+                                <strong class="title">Places</strong>
+                                <span class="value">{{ activite.nbrplace }}</span>
+                            </div>
+                            <div class="info-right">
+                                <ul class="ico-list">
+                                    <li>
+                                        <span class="icon-foot-step"></span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="info-left">
+                                <strong class="title">Date & Heure</strong>
+                                <span class="value">{{ activite.date|date ('d-m-y H:i') }}</span>
+                            </div>
+                            <div class="material-icons align right"><i class="material-icons">date_range</i></div>
+
+                        </li>
+                        <li>
+                            <div class="info-left">
+                                <strong class="title">Type</strong>
+                                <span class="value">{{ activite.type }}</span>
+                            </div>
+                            <div class="info-right">
+                                <ul class="ico-list">
+                                    <li>
+                                        <span class="icon icon-list"></span>
+                                    </li>
+                                </ul>
+
+                            </div>
+                        </li>
+                        <li>
+                            <div class="info-left">
+                                <strong class="title">Localisation</strong>
+                                <span class="value">{{ activite.location }}</span>
+                            </div>
+                            <i class="material-icons">gps_fixed</i>
+                        </li>
+
+                        <li>
+                            <div class="info-center">
+                                <strong class="title">Reviews</strong>
+                                <span class="value">75 Reviews</span>
+                            </div>
+                            <div class="info-center">
+                                <div class="star-rating">
+                                    <span><span class="icon-star"></span></span>
+                                    <span><span class="icon-star"></span></span>
+                                    <span><span class="icon-star"></span></span>
+                                    <span><span class="icon-star"></span></span>
+                                    <span class="disable"><span class="icon-star"></span></span>
+                                </div>
+                                <span class="value">5/5</span>
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="btn-holder">
+                        <a href="#" class="btn btn-lg btn-warning">Réserver</a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div id="content" class="left col-sm-8 col-md-12 ">
+        <div class="blog-holder no-pagination ">
+            <!-- blog single -->
+            <article class="blog-single">
+
+                <div class="header-box">
+                    <a href="#" class="link-right">75 Commenting</a>
+                    <span class="rate-left">
+                          <strong class="title">Overall Rating</strong>
+                          <span class="star-rating">
+                            <span><span class="icon-star"></span></span>
+                            <span><span class="icon-star"></span></span>
+                            <span><span class="icon-star"></span></span>
+                            <span><span class="icon-star"></span></span>
+                            <span class="disable"><span class="icon-star"></span></span>
+                          </span>
+                          <span class="value">4.7/5</span>
+                        </span>
+                </div>
+
+                        <!-- comment form -->
+                        {{ form_start(form,{'attr': {'novalidate':'novalidate'}}) }}
+
+                        <form action="#" class="comment-form">
+                            <fieldset>
+                                <h2>Veuillez mettre votre Avis, Merci.</h2>
+                                <div class="row">
+                                    <div class="col-sm-6 form-group">
+                                        {{ form_widget(form.message , {'attr': {'class': 'form-control' , 'placeholder' : 'Commentaire'}} ) }}
+                                    </div>
+                                    <div class="col-sm-6 form-group">
+                                        {{ form_widget(form.Id , {'attr': {'class': 'form-control' , 'placeholder' : 'client'}} ) }}
+                                    </div>
+                                    <div class="col-sm-6 form-group form-rate">
+                                        {{ form_widget(form.rating , {'attr': {'class': 'form-control' , 'placeholder' : 'Rating'}} ) }}
+                                        <div class="star-rating">
+                                            <span class="disable"><span class="icon-star"></span></span>
+                                            <span class="disable"><span class="icon-star"></span></span>
+                                            <span class="disable"><span class="icon-star"></span></span>
+                                            <span class="disable"><span class="icon-star"></span></span>
+                                            <span class="disable"><span class="icon-star"></span></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12 btn-holder">
+                                        {{ form_widget(form.Ajouter) }}
+                                        {{ form_end(form) }}
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </form>
+                <!-- comments -->
+                <div class="comments">
+                    <div class="comment-slot">
+                        <div class="thumb">
+                            <a href="#"><img src="img/blog/thumb-07.jpg" height="50" width="50" alt="image description"></a>
+                        </div>
+                        <div class="text">
+                            <header class="comment-head">
+                                <div class="left">
+                                    <strong class="name">
+                                        <a href="#">Foulen ben foulen</a>
+                                    </strong>
+                                    <div class="meta">
+                                        Commented on
+                                        <time datetime="2016-07-19">14/1/2016</time>
+                                    </div>
+                                </div>
+
+                            </header>
+                            <div class="comment-detail">
+                                <p>
+                                    This is Photoshop's version of Lorem Ipsum.
+                                    Proin gravida nibh vel velit auctor aliquet.
+                                    Aenean sollicitudin, lorem quis bibendum auctor,
+                                    nisi elit consequat ipsum, nec sagittis sem nibh
+                                    id elit. Duis sed odio sit amet nibh vulputate
+                                    cursus a sit amet mauris.
+                                </p>
+                                <div class="link-holder">
+                                    <a href="#">Read Full Review</a>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- comemmts reply -->
+                        <div class="comments reply">
+                            <div class="comment-slot">
+                                <div class="thumb">
+                                    <a href="#"><img src="img/blog/thumb-08.jpg" height="50" width="50" alt="image description"></a>
+                                </div>
+                                <div class="text">
+                                    <header class="comment-head">
+                                        <div class="left">
+                                            <strong class="name">
+                                                <a href="#">Cleona Torez - Spain</a>
+                                            </strong>
+                                            <div class="meta">
+                                                Commented on
+                                                <time datetime="2016-07-19">14/1/2016</time>
+                                            </div>
+                                        </div>
+                                    </header>
+                                    <div class="comment-detail">
+                                        <p>
+                                            This is Photoshop's version of Lorem Ipsum.
+                                            Proin gravida nibh vel velit auctor aliquet.
+                                            Aenean sollicitudin, lorem quis bibendum
+                                            auctor, nisi elit consequat ipsum, nec
+                                            sagittis sem nibh id elit. Duis sed odio sit
+                                            amet nibh vulputate cursus a sit amet
+                                            mauris.
+                                        </p>
+                                        <div class="link-holder">
+                                            <a href="#">Read Full Review</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+
+                </div>
+
+            </article>
+        </div>
+    </div>
+{% endblock %}
