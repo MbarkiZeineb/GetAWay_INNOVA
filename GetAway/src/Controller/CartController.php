@@ -9,9 +9,6 @@ use App\Repository\HebergementRepository;
 use App\Repository\ReservationRepository;
 use App\Repository\VolRepository;
 use App\Repository\VoyageorganiseRepository;
-use http\Env\Request;
-use http\Env\Response;
-use mysql_xdevapi\Table;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -26,44 +23,40 @@ class CartController extends AbstractController
     /**
      * @Route("/panier", name="cart_panier")
      */
-    public function index(SessionInterface  $s,VoyageorganiseRepository $rep,HebergementRepository $reph,VolRepository  $repvol ,ActiviteRepository  $repa) :\Symfony\Component\HttpFoundation\Response
+    public function index(SessionInterface $s, VoyageorganiseRepository $rep, HebergementRepository $reph, VolRepository $repvol, ActiviteRepository $repa): \Symfony\Component\HttpFoundation\Response
     {
-        $panier=$s->get('panier',[]);
-        $voyage[]=[];
-        $vol[]=[];
-        $heb[]=[];
-        $act[]=[];
-          foreach ($panier as $id=>$value) {
-              $voyage[] = ['voyage' => $rep->find($id)];
-              $vol[] = ['vol' => $repvol->find($id)];
-              $heb[] = ['heb' => $reph->find($id)];
-              $act[]=['act' => $repa->find($id)];
-          }
-        $options=true;
+        $panier = $s->get('panier', []);
+        $voyage[] = [];
+        $vol[] = [];
+        $heb[] = [];
+        $act[] = [];
+        foreach ($panier as $id => $value) {
+            $voyage[] = ['voyage' => $rep->find($id)];
+            $vol[] = ['vol' => $repvol->find($id)];
+            $heb[] = ['heb' => $reph->find($id)];
+            $act[] = ['act' => $repa->find($id)];
+        }
         $reservation = new Reservation();
-        $form = $this->createFormBuilder( $reservation)
-            ->add('nbrPlace',NumberType::class)
-            ->add('submit',SubmitType::class,array(
+        $form = $this->createFormBuilder($reservation)
+            ->add('nbrPlace', NumberType::class)
+            ->add('submit', SubmitType::class, array(
                     'label' => 'Submit',
-                    'disabled' => $options
+                    'disabled' => $this->check($s,$rep,$reph,$repvol, $repa)
                 )
-              )
+            )
             ->getForm();
-        foreach ($vol as $i=>$value)
-        {
-            if(!empty($value["vol"]))
-            {
-                     dump($value["vol"]);
-            }
+
+        if($form->isSubmitted() && $form->isValid() ){
+
+            dump("eeeeeee");
+
 
         }
-
-        // Disponible uniquement dans le protocole HTTP
-
-        return $this->render('cart/index.html.twig', ['items'=>$voyage,'items1'=>$vol,'items3'=>$heb,'items4'=>$act
-        ,'form'=>$form->createView()
+        return $this->render('cart/index.html.twig', ['items' => $voyage, 'items1' => $vol, 'items3' => $heb, 'items4' => $act
+            , 'form' => $form->createView()
         ]);
     }
+
     /**
      * @Route("/panier/add/{id}", name="cart_add")
      *
@@ -77,15 +70,15 @@ class CartController extends AbstractController
         } else {
             $panier[$id] = 1;
         }
-        $var=0;
-        foreach ($panier as $id=>$value) {
-            $var+=1;
+        $var = 0;
+        foreach ($panier as $id => $value) {
+            $var += 1;
         }
         $session->set('panier', $panier);
-        $cookie=new Cookie('nombre',$var);
+        $cookie = new Cookie('nombre', $var);
         $res = new \Symfony\Component\HttpFoundation\Response();
 
-        $res->headers->setCookie( $cookie );
+        $res->headers->setCookie($cookie);
         $res->send();
 
         return $this->redirectToRoute('cart_panier');
@@ -96,7 +89,7 @@ class CartController extends AbstractController
      * @Route("/panier/delete/{id}", name="delete_items")
      *
      */
-    public function delete($id, SessionInterface $session,VoyageorganiseRepository $repv)
+    public function delete($id, SessionInterface $session, VoyageorganiseRepository $repv)
     {
         $panier = $session->get('panier', []);
 
@@ -113,7 +106,7 @@ class CartController extends AbstractController
      * @Route("/panier/deletetab/{id}", name="delete_itemstab")
      *
      */
-    public function deletetab($id, SessionInterface $session,VoyageorganiseRepository $repv)
+    public function deletetab($id, SessionInterface $session, VoyageorganiseRepository $repv)
     {
         $panier = $session->get('panier', []);
 
@@ -129,7 +122,7 @@ class CartController extends AbstractController
      * @Route("/panier/count", name="count")
      *
      */
-    public function count( SessionInterface $session)
+    public function count(SessionInterface $session)
     {
         $panier = $session->get('panier', []);
 
@@ -137,11 +130,71 @@ class CartController extends AbstractController
         $size = count($panier);
 
 
-        return $this->render('base_front.twig', ['size'=>$size
+        return $this->render('base_front.twig', ['size' => $size
 
         ]);
     }
 
+
+    public function check(SessionInterface $s, VoyageorganiseRepository $rep, HebergementRepository $reph, VolRepository $repvol, ActiviteRepository $repa)
+    {
+        $panier = $s->get('panier', []);
+        $voyage[] = [];
+        $vol[] = [];
+        $heb[] = [];
+        $act[] = [];
+        foreach ($panier as $id => $value) {
+            $voyage[] = ['voyage' => $rep->find($id)];
+            $vol[] = ['vol' => $repvol->find($id)];
+            $heb[] = ['heb' => $reph->find($id)];
+            $act[] = ['act' => $repa->find($id)];
+        }
+        $startDays[] = [];
+        foreach ($vol as $i => $value) {
+            if (!empty($value["vol"])) {
+                $startDays[] = $value["vol"]->getDateDepart()->format('Y-m-d');
+            }
+        }
+
+        foreach ($act as $i => $value) {
+            if (!empty($value["act"])) {
+                $startDays[] = (new \DateTime($value["act"]->getDate()))->format('Y-m-d');
+            }
+
+        }
+
+        foreach ($voyage as $i => $value) {
+            if (!empty($value["voyage"])) {
+                $startDays[] = $value["voyage"]->getDatedepart();
+            }
+
+        }
+        dump($startDays);
+        $uniqueArry = array();
+        foreach ($startDays as $val) { //Loop1
+
+            foreach ($uniqueArry as $uniqueValue) { //Loop2
+
+                if ($val == $uniqueValue) {
+                    continue 2; // Referring Outer loop (Loop 1)
+                }
+            }
+            $uniqueArry[] =$val;
+        }
+
+        dump($uniqueArry);
+        unset($uniqueArry[0]);
+       if(empty( $uniqueArry))
+       {
+           return true;
+       }
+       else
+       {
+            return false;
+       }
+       dump($uniqueArry);
+
+    }
 
 
 }
