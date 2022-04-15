@@ -32,21 +32,18 @@ class Reservation
 
     /**
      * @var int
-     *@Assert\NotBlank(
-     * message = " le champ nombre de place  ne doit pas etre vide  ",groups={"VVA"})
-     *  * @Assert\Type(
-     *     type="integer",
-     *     message="The value {{ value }} is not a valid {{ type }},groups={"VVA"}"
-     * )
+     * @ORM\Column(name="nbr_place", type="integer", nullable=false)
+     * @Assert\NotBlank( message = " le champ nombre de place  ne doit pas etre vide  ",groups={"VVA"})
+     * @Assert\Type( type="integer",
+     * message="The value {{ value }} is not a valid {{ type }}",groups={"VVA"})
+     * @ORM\Column(name="nbr_place", type="integer", nullable=false)
      * @Assert\Range(
      *      min = 1,
      *      max = 20,
-     *      notInRangeMessage = " nombre de place doit etre entre {{ min }} et {{ max }}",groups={"VVA"}
-     * )
-     * @ORM\Column(name="nbr_place", type="integer", nullable=false)
+     *      notInRangeMessage = " nombre de place doit etre entre {{ min }} et {{ max }}",groups={"VVA"})
      *
-     *groups={"VVA"}
      *
+
      */
     private $nbrPlace;
 

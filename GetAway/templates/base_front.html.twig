@@ -61,13 +61,22 @@
                 href="{{ asset('front/vendors/revolution/css/settings.css')}}"
         />
 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fullcalendar/core@4.1.0/main.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@4.1.0/main.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fullcalendar/timegrid@4.1.0/main.min.css">
+
 </head>
 
 {% endblock %}
 
     {% block javascripts %}
         {#{{ encore_entry_script_tags('app') }}#}
+        <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/core@4.1.0/main.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/interaction@4.1.0/main.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@4.1.0/main.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/timegrid@4.1.0/main.min.js"></script>
         <script src="{{ asset('front/vendors/jquery/jquery-2.1.4.min.js')}}"></script>
+
         <!-- external scripts -->
         <script src="{{ asset('front/vendors/bootstrap/javascripts/bootstrap.min.js')}}"></script>
         <script src="{{ asset('front/vendors/jquery-placeholder/jquery.placeholder.min.js')}}"></script>
@@ -90,6 +99,7 @@
         <script src="{{ asset('front/vendors/bootstrap-datetimepicker-master/dist/js/bootstrap-datepicker.js')}}"></script>
         <!-- custom jquery script -->
         <script src="{{ asset('front/js/jquery.main.js')}}"></script>
+
     {% endblock %}
 </head>
 <body class="default-page">

@@ -2,18 +2,25 @@
 
 namespace App\Controller;
 
+use App\Entity\Reservation;
+use App\Form\ReservationGroupType;
 use App\Repository\ActiviteRepository;
 use App\Repository\HebergementRepository;
+use App\Repository\ReservationRepository;
 use App\Repository\VolRepository;
 use App\Repository\VoyageorganiseRepository;
 use http\Env\Request;
 use http\Env\Response;
 use mysql_xdevapi\Table;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Voyageorganise;
+use function PHPUnit\Framework\isEmpty;
+
 class CartController extends AbstractController
 {
     /**
@@ -26,23 +33,35 @@ class CartController extends AbstractController
         $vol[]=[];
         $heb[]=[];
         $act[]=[];
-$var=0;
           foreach ($panier as $id=>$value) {
-              $var+=1;
               $voyage[] = ['voyage' => $rep->find($id)];
               $vol[] = ['vol' => $repvol->find($id)];
               $heb[] = ['heb' => $reph->find($id)];
               $act[]=['act' => $repa->find($id)];
           }
-           $cookie=new Cookie('nombre',$var);
-        $res = new \Symfony\Component\HttpFoundation\Response();
-        $res->headers->setCookie( $cookie );
-        $res->send();
+        $options=true;
+        $reservation = new Reservation();
+        $form = $this->createFormBuilder( $reservation)
+            ->add('nbrPlace',NumberType::class)
+            ->add('submit',SubmitType::class,array(
+                    'label' => 'Submit',
+                    'disabled' => $options
+                )
+              )
+            ->getForm();
+        foreach ($vol as $i=>$value)
+        {
+            if(!empty($value["vol"]))
+            {
+                     dump($value["vol"]);
+            }
+
+        }
 
         // Disponible uniquement dans le protocole HTTP
 
         return $this->render('cart/index.html.twig', ['items'=>$voyage,'items1'=>$vol,'items3'=>$heb,'items4'=>$act
-        ,'size'=>$var
+        ,'form'=>$form->createView()
         ]);
     }
     /**
@@ -58,10 +77,16 @@ $var=0;
         } else {
             $panier[$id] = 1;
         }
-
+        $var=0;
+        foreach ($panier as $id=>$value) {
+            $var+=1;
+        }
         $session->set('panier', $panier);
+        $cookie=new Cookie('nombre',$var);
+        $res = new \Symfony\Component\HttpFoundation\Response();
 
-
+        $res->headers->setCookie( $cookie );
+        $res->send();
 
         return $this->redirectToRoute('cart_panier');
     }

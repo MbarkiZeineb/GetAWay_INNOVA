@@ -41,6 +41,14 @@ class ReservationController extends AbstractController
     }
 
     /**
+     * @Route("/calendar", name="booking_calendar", methods={"GET"})
+     */
+    public function calendar(): Response
+    {
+        return $this->render('reservation/calendar.html.twig');
+    }
+
+    /**
      * @Route("/AfficherClient", name="AfficherClient")
      */
     public function AfficherClient(EntityManagerInterface $entityManager): Response
@@ -124,6 +132,7 @@ class ReservationController extends AbstractController
                 $voyage->setNbrplace($voyage->getNbrplace() -  $reservation->getNbrPlace());
                 $entityManager->flush();
                 $entityManager->refresh($reservation);
+
                 return $this->redirectToRoute('app_paiement_newvo', array('id' => $reservation->getId(),'prix'=>$voyage->getPrix()));
             }
             else

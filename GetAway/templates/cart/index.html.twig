@@ -1,6 +1,6 @@
 {% extends 'base_front.html.twig ' %}
   {% block panier %}
-      <span class="text hidden-xs hidden-sm"> {{size}} </span>
+      <span class="text hidden-xs hidden-sm">  {{ app.request.cookies.get('nombre') }} </span>
   {% endblock %}
 
 {% block content %}
@@ -153,6 +153,19 @@
 
                 </tbody>
             </table>
+
+            <div class="cart-option">
+                    {{ form_start(form,{'attr': {'novalidate':'novalidate'}}) }}
+                    <div class="input-hold">
+                    {{ form_widget(form.nbrPlace, { 'attr': {'class': 'form-control'}} ) }}
+                        {{ form_widget(form.submit, { 'attr': {'class': 'btn btn-default'}} )}}
+                    </div>
+
+                    {{ form_end(form) }}
+
+                </div>
+
+
         </div>
     </main>
 
