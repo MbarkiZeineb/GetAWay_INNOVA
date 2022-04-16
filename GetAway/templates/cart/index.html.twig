@@ -153,7 +153,15 @@
 
                 </tbody>
             </table>
+            <div class="inner-main common-spacing container">
+                <div class="top-box" >
+                    {% for message in  app.flashes('warning')%}
 
+                    <div class="alert alert-danger" role="alert">{{ message }}</div>
+
+                </div>
+                <br>
+                {% endfor %}
             <div class="cart-option">
                     {{ form_start(form,{'attr': {'novalidate':'novalidate'}}) }}
                     <div class="input-hold">

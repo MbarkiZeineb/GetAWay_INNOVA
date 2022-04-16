@@ -23,7 +23,7 @@ class ReservationGroupType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Reservation::class,
+            'data_class' => Reservation::class,'validation_groups' => ['Default', 'cart']
         ]);
     }
 }

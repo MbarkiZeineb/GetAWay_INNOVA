@@ -13,6 +13,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Cookie;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Voyageorganise;
@@ -23,32 +24,47 @@ class CartController extends AbstractController
     /**
      * @Route("/panier", name="cart_panier")
      */
-    public function index(SessionInterface $s, VoyageorganiseRepository $rep, HebergementRepository $reph, VolRepository $repvol, ActiviteRepository $repa): \Symfony\Component\HttpFoundation\Response
-    {
-        $panier = $s->get('panier', []);
+    public function index(SessionInterface $s, VoyageorganiseRepository $rep,Request $requuest,HebergementRepository $reph, VolRepository $repvol, ActiviteRepository $repa): \Symfony\Component\HttpFoundation\Response
+    {   $panier = $s->get('panier', []);
         $voyage[] = [];
         $vol[] = [];
         $heb[] = [];
         $act[] = [];
+        $var[] = [];
         foreach ($panier as $id => $value) {
-            $voyage[] = ['voyage' => $rep->find($id)];
+            if($rep->find($id))
+            $voyage[] = ['voyage' =>$rep->find($id)];
+            if($repvol->find($id))
             $vol[] = ['vol' => $repvol->find($id)];
+            if($reph->find($id))
             $heb[] = ['heb' => $reph->find($id)];
+            if($repa->find($id))
             $act[] = ['act' => $repa->find($id)];
         }
-        $reservation = new Reservation();
-        $form = $this->createFormBuilder($reservation)
+        unset($voyage[0]);
+        unset($vol[0]);
+        unset($act[0]);
+
+
+
+        $form = $this->createFormBuilder($var)
             ->add('nbrPlace', NumberType::class)
             ->add('submit', SubmitType::class, array(
                     'label' => 'Submit',
-                    'disabled' => $this->check($s,$rep,$reph,$repvol, $repa)
+                    'disabled' => !$this->check($s,$rep,$reph,$repvol, $repa),
                 )
             )
             ->getForm();
 
+        if($form->get("submit")->isDisabled() && count($voyage)==1 && count($vol)==1 && count($act)==1)
+        {
+            $this->addFlash("warning","eeeeeeee");
+
+        }
+        $form->handleRequest($requuest);
         if($form->isSubmitted() && $form->isValid() ){
 
-            dump("eeeeeee");
+
 
 
         }
@@ -134,7 +150,11 @@ class CartController extends AbstractController
 
         ]);
     }
+  public function verifi1($voyage,$act,$vol)
+    {
+         dump($this->count($voyage));
 
+    }
 
     public function check(SessionInterface $s, VoyageorganiseRepository $rep, HebergementRepository $reph, VolRepository $repvol, ActiviteRepository $repa)
     {
