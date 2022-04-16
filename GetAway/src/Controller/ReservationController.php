@@ -367,4 +367,16 @@ class ReservationController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+
+    /**
+     * @Route("/group/{idvol}/{idact}/{idvoy}/{quantite}", name="reservation_group", methods={"GET", "POST"})
+     */
+    public function addGroup(Request $request, EntityManagerInterface $entityManager,$idvoy,$idvol,$idact,$quantite): Response
+    {
+
+         dd($idvoy,$idvol,$idact,$quantite);
+    }
+
+
+
 }

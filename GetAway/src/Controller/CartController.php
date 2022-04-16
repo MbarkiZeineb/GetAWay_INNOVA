@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\Reservation;
-use App\Form\ReservationGroupType;
 use App\Repository\ActiviteRepository;
 use App\Repository\HebergementRepository;
 use App\Repository\ReservationRepository;
@@ -41,9 +40,11 @@ class CartController extends AbstractController
             if($repa->find($id))
             $act[] = ['act' => $repa->find($id)];
         }
+        dump($panier);
         unset($voyage[0]);
         unset($vol[0]);
         unset($act[0]);
+        dump($voyage);
 
 
 
@@ -56,13 +57,16 @@ class CartController extends AbstractController
             )
             ->getForm();
 
-        if($form->get("submit")->isDisabled() && count($voyage)==1 && count($vol)==1 && count($act)==1)
+        if( ! $form->get("submit")->isDisabled() && count($voyage)==1 && count($vol)==1 && count($act)==1)
         {
-            $this->addFlash("warning","eeeeeeee");
+            $this->addFlash("warning","Vous avez selectionne 3 elements dans le meme jour  vous pouvez passer une commande ");
 
         }
         $form->handleRequest($requuest);
         if($form->isSubmitted() && $form->isValid() ){
+
+
+            return $this->redirectToRoute('reservation_group', array('idvol' => $vol[1]["vol"]->getIdVol(),'idact'=>$act[1]["act"]->getRefact(),'idvoy'=>$voyage[1]["voyage"]->getIdvoy(),'quantite'=>$form["nbrPlace"]->getData()));
 
 
 
@@ -86,10 +90,10 @@ class CartController extends AbstractController
         } else {
             $panier[$id] = 1;
         }
-        $var = 0;
-        foreach ($panier as $id => $value) {
-            $var += 1;
-        }
+        unset($panier[0]);
+        $var=count($panier);
+        dump($var);
+        dump($panier);
         $session->set('panier', $panier);
         $cookie = new Cookie('nombre', $var);
         $res = new \Symfony\Component\HttpFoundation\Response();
@@ -113,6 +117,7 @@ class CartController extends AbstractController
             unset($panier[$id]);
         }
         $session->set('panier', $panier);
+
 
         return $this->redirectToRoute('cart_panier');
     }
@@ -138,27 +143,11 @@ class CartController extends AbstractController
      * @Route("/panier/count", name="count")
      *
      */
-    public function count(SessionInterface $session)
-    {
-        $panier = $session->get('panier', []);
 
 
-        $size = count($panier);
-
-
-        return $this->render('base_front.twig', ['size' => $size
-
-        ]);
-    }
-  public function verifi1($voyage,$act,$vol)
-    {
-         dump($this->count($voyage));
-
-    }
 
     public function check(SessionInterface $s, VoyageorganiseRepository $rep, HebergementRepository $reph, VolRepository $repvol, ActiviteRepository $repa)
-    {
-        $panier = $s->get('panier', []);
+    {$panier = $s->get('panier', []);
         $voyage[] = [];
         $vol[] = [];
         $heb[] = [];
@@ -175,44 +164,39 @@ class CartController extends AbstractController
                 $startDays[] = $value["vol"]->getDateDepart()->format('Y-m-d');
             }
         }
-
         foreach ($act as $i => $value) {
             if (!empty($value["act"])) {
                 $startDays[] = (new \DateTime($value["act"]->getDate()))->format('Y-m-d');
             }
 
         }
-
         foreach ($voyage as $i => $value) {
             if (!empty($value["voyage"])) {
                 $startDays[] = $value["voyage"]->getDatedepart();
             }
-
         }
-        dump($startDays);
-        $uniqueArry = array();
-        foreach ($startDays as $val) { //Loop1
-
-            foreach ($uniqueArry as $uniqueValue) { //Loop2
-
-                if ($val == $uniqueValue) {
-                    continue 2; // Referring Outer loop (Loop 1)
-                }
+        $messagesFiltered = [];
+        $val=$startDays[1];
+        foreach ($startDays as $message) {
+            if ( $val != $message) {
+                $messagesFiltered[] = $message;
             }
-            $uniqueArry[] =$val;
         }
+        $startDays = $messagesFiltered;
+        dump($startDays);
+        unset($startDays[0]);
+        dump(empty($startDays));
 
-        dump($uniqueArry);
-        unset($uniqueArry[0]);
-       if(empty( $uniqueArry))
-       {
-           return true;
-       }
-       else
-       {
-            return false;
-       }
-       dump($uniqueArry);
+            if(empty($startDays)){
+
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
+
 
     }
 
