@@ -114,8 +114,20 @@
                         </div>
                 </div>
             </div>
+                <div class="row">
+                    <div class="col-sm-5">
+                        <div class="form-group row">
+                            <label for="exampleInputUsername2" class="col-sm-4 col-form-label"><h5><i>Image Uplaod</i></h5></label>
+                            <div class="col-sm-5">
+                                {{ form_widget(form.imageFile, {'attr': {'class': 'form-control' , 'placeholder' : 'ImageFile'}} ) }}
+                                <div>
+                                    <p class="card-description"> <code> {{ form_errors(form.imageFile) }}</code></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
      </div>
-
+            </div>
     </div>
 
         </form>

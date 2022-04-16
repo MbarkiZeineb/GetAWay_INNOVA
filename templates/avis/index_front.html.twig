@@ -8,7 +8,7 @@
     <table class="table table-striped table-hover data-table">
         <thead>
         <tr class="table-info">
-                <th>Refavis</th>
+
                 <th>Message</th>
                 <th>Date</th>
                 <th>Rating</th>
@@ -21,7 +21,7 @@
         <tbody>
         {% for avi in avis %}
             <tr>
-                <td>{{ avi.refavis }}</td>
+
                 <td>{{ avi.message }}</td>
                 <td>{{ avi.date ? avi.date|date('Y-m-d') : '' }}</td>
                 <td>{{ avi.rating }}</td>

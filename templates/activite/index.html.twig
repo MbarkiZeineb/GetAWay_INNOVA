@@ -18,6 +18,7 @@
                 <th>Type</th>
                 <th>Location</th>
                 <th>Prix</th>
+                <th>ImageFile</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -33,6 +34,7 @@
                 <td>{{ activite.type }}</td>
                 <td>{{ activite.location }}</td>
                 <td>{{ activite.prix }}</td>
+                <td> {{ activite.image}}</td>
                 <td>
                     <a class="btn btn-primary me-2"  href="{{ path('app_activite_show', {'refact': activite.refact}) }}">Afficher</a>
                     <a class="btn btn-primary me-2" href="{{ path('app_activite_edit', {'refact': activite.refact}) }}">Modifier </a>
