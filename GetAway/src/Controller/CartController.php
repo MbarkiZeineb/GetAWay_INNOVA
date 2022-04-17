@@ -40,6 +40,15 @@ class CartController extends AbstractController
             if($repa->find($id))
             $act[] = ['act' => $repa->find($id)];
         }
+        $res = new \Symfony\Component\HttpFoundation\Response();
+        $nb=count($panier);
+
+
+        $cookie = new Cookie("nombre",$nb);
+
+        $res->headers->setCookie($cookie);
+        $res->send();
+
         dump($panier);
         unset($voyage[0]);
         unset($vol[0]);
@@ -47,19 +56,19 @@ class CartController extends AbstractController
         dump($voyage);
 
 
-
+          dump($this->check2($s,$rep,$repvol));
         $form = $this->createFormBuilder($var)
             ->add('nbrPlace', NumberType::class)
             ->add('submit', SubmitType::class, array(
                     'label' => 'Submit',
-                    'disabled' => !$this->check($s,$rep,$reph,$repvol, $repa),
+                    'disabled' => ! ($this->check($s,$rep,$reph,$repvol, $repa) && $this->check2($s,$rep,$repvol)),
                 )
             )
             ->getForm();
 
         if( ! $form->get("submit")->isDisabled() && count($voyage)==1 && count($vol)==1 && count($act)==1)
         {
-            $this->addFlash("warning","Vous avez selectionne 3 elements dans le meme jour  vous pouvez passer une commande ");
+            $this->addFlash("warning","Vous avez selectionne 3 elements dans le meme jour  vous pouvez passer  ");
 
         }
         $form->handleRequest($requuest);
@@ -97,10 +106,8 @@ class CartController extends AbstractController
         $session->set('panier', $panier);
         $cookie = new Cookie('nombre', $var);
         $res = new \Symfony\Component\HttpFoundation\Response();
-
         $res->headers->setCookie($cookie);
         $res->send();
-
         return $this->redirectToRoute('cart_panier');
     }
 
@@ -148,10 +155,7 @@ class CartController extends AbstractController
 
     public function check(SessionInterface $s, VoyageorganiseRepository $rep, HebergementRepository $reph, VolRepository $repvol, ActiviteRepository $repa)
     {$panier = $s->get('panier', []);
-        $voyage[] = [];
-        $vol[] = [];
-        $heb[] = [];
-        $act[] = [];
+        $voyage[] = [];$vol[] = [];$heb[] = [];$act[] = [];
         foreach ($panier as $id => $value) {
             $voyage[] = ['voyage' => $rep->find($id)];
             $vol[] = ['vol' => $repvol->find($id)];
@@ -195,6 +199,55 @@ class CartController extends AbstractController
             {
                 return false;
             }
+
+
+
+    }
+
+    public function check2(SessionInterface $s, VoyageorganiseRepository $rep, VolRepository $repvol)
+    {$panier = $s->get('panier', []);
+        $voyage[] = [];
+        $vol[] = [];
+        $heb[] = [];
+        $act[] = [];
+        foreach ($panier as $id => $value) {
+            $voyage[] = ['voyage' => $rep->find($id)];
+            $vol[] = ['vol' => $repvol->find($id)];
+        }
+        $startDays[] = [];
+        foreach ($vol as $i => $value) {
+            if (!empty($value["vol"])) {
+                $startDays[] = $value["vol"]->getDateArrivee()->format('Y-m-d');
+            }
+        }
+
+        foreach ($voyage as $i => $value) {
+            if (!empty($value["voyage"])) {
+                $startDays[] = $value["voyage"]->getDatearrive();
+            }
+        }
+        $messagesFiltered = [];
+        $val=$startDays[1];
+        foreach ($startDays as $message) {
+            if ( $val != $message) {
+                $messagesFiltered[] = $message;
+            }
+        }
+        $startDays = $messagesFiltered;
+        dump("zouba");
+        dump($startDays);
+        unset($startDays[0]);
+        dump("zouba");
+        dump(empty($startDays));
+
+        if(empty($startDays)){
+
+            return true;
+        }
+        else
+        {
+            return false;
+        }
 
 
 

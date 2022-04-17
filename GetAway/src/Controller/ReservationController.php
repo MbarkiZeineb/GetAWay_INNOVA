@@ -371,10 +371,27 @@ class ReservationController extends AbstractController
     /**
      * @Route("/group/{idvol}/{idact}/{idvoy}/{quantite}", name="reservation_group", methods={"GET", "POST"})
      */
-    public function addGroup(Request $request, EntityManagerInterface $entityManager,$idvoy,$idvol,$idact,$quantite): Response
+    public function addGroup(Request $request, EntityManagerInterface $entityManager,$idvoy,$idvol,$idact,$quantite,VolRepository $repvol,VoyageorganiseRepository $rep,ActiviteRepository $repa): Response
     {
+                 $voyage=$rep->find($idvoy);
+                 $vol=$repvol->find($idvol);
+                 $act=$repa->find($idact);
+                $reservation = new Reservation();
+        $reservation->setDateDebut($vol->getDateDepart());
+        $reservation->setDateFin($vol->getDateArrivee());
+        $reservation->setType("Activite/voyage/vol");
+        $reservation->setEtat("Approuve");
+        $date = new \DateTime('@'.strtotime('now'));
+        $reservation->setDateReservation($date);
+        $reservation->setIdVol($vol);
+        $reservation->setIdVoyage($voyage);
+        $reservation->setIdActivite($act);
+        $reservation->setNbrPlace($quantite);
+        $prixT=$voyage->getPrix()+$vol->getPrix()+$act->getPrix();
+        dd($reservation);
 
-         dd($idvoy,$idvol,$idact,$quantite);
+
+
     }
 
 
