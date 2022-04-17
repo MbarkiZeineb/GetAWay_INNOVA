@@ -3,12 +3,14 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 /**
  * Reclamation
  *
  * @ORM\Table(name="reclamation", indexes={@ORM\Index(name="idClient", columns={"idClient"})})
- * @ORM\Entity
+ *@ORM\Entity(repositoryClass="App\Repository\ReclamationRepository")
  */
 class Reclamation
 {
@@ -25,6 +27,7 @@ class Reclamation
      * @var string
      *
      * @ORM\Column(name="objet", type="string", length=100, nullable=false)
+     *  @Assert\NotBlank(message="vous devez remplir ce champ")
      */
     private $objet;
 
@@ -32,6 +35,7 @@ class Reclamation
      * @var string
      *
      * @ORM\Column(name="description", type="string", length=200, nullable=false)
+     *  @Assert\NotBlank(message="vous devez remplir ce champ")
      */
     private $description;
 
@@ -40,12 +44,12 @@ class Reclamation
      *
      * @ORM\Column(name="etat", type="string", length=50, nullable=false)
      */
-    private $etat;
+    private $etat = '0';
 
     /**
      * @var \User
      *
-     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\ManyToOne(targetEntity="User",inversedBy="reclamation")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="idClient", referencedColumnName="id")
      * })
