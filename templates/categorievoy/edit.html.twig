@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+
+<title>Edit Categorievoy</title>
+
+{% block content %}
+    <h1>Edit Categorievoy</h1>
+
+    {{ include('categorievoy/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_categorievoy_index') }}">back to list</a>
+
+    {{ include('categorievoy/_delete_form.html.twig') }}
+{% endblock %}

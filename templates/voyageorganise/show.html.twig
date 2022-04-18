@@ -1,0 +1,57 @@
+{% extends 'base_back.html.twig' %}
+
+
+
+{% block content %}
+
+    {% block title %}Voyageorganise numero: {{ voyageorganise.idvoy }}{% endblock %}
+<br>
+    <br>
+    <br>
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Idvoy</th>
+                <td>{{ voyageorganise.idvoy }}</td>
+            </tr>
+            <tr>
+                <th>Villedepart</th>
+                <td>{{ voyageorganise.villedepart }}</td>
+            </tr>
+            <tr>
+                <th>Villedest</th>
+                <td>{{ voyageorganise.villedest }}</td>
+            </tr>
+            <tr>
+                <th>Datedepart</th>
+                <td>{{ voyageorganise.datedepart|date('d-m-y H:i') }}</td>
+            </tr>
+            <tr>
+                <th>Datearrive</th>
+                <td>{{ voyageorganise.datearrive|date('d-m-y H:i') }}</td>
+            </tr>
+            <tr>
+                <th>Nbrplace</th>
+                <td>{{ voyageorganise.nbrplace }}</td>
+            </tr>
+            <tr>
+                <th>Idcat</th>
+                <td>{{ voyageorganise.idcat }}</td>
+            </tr>
+            <tr>
+                <th>Prix</th>
+                <td>{{ voyageorganise.prix }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ voyageorganise.description }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_voyageorganise_index') }}">back to list</a>
+
+    <a href="{{ path('app_voyageorganise_edit', {'idvoy': voyageorganise.idvoy}) }}">edit</a>
+
+    {{ include('voyageorganise/_delete_form.html.twig') }}
+{% endblock %}

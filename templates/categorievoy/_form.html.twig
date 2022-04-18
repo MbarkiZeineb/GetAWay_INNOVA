@@ -1,0 +1,50 @@
+{% extends 'base_back.html.twig' %}
+
+{% block content %}
+    {{ form_start(form, {'attr': {'novalidate':'novalidate'}} ) }}
+    <div class="card-body">
+
+        <form>
+
+            <div class="form-group">
+                <label class="form-label" for="exampleInputEmail2">nom categorie</label>
+                {{ form_widget(form.nomcat , {'attr': {'class': 'form-control form-control-user' }} ) }}
+                <div>
+                    <p class="card-description"> <code> {{ form_errors(form.nomcat) }}</code></p>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="form-label" for="exampleInputEmail2">capacite voyageur</label>
+                {{ form_widget(form.capacitevoy , {'attr': {'class': 'form-control form-control-user' }} ) }}
+                <div>
+                    <p class="card-description"> <code> {{ form_errors(form.capacitevoy) }}</code></p>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="exampleInputPassword2">exigence</label>
+                {{ form_widget(form.exigence , {'attr': {'class': 'form-control form-control-user' }} ) }}
+                <div>
+                    <p class="card-description"> <code>  {{ form_errors(form.exigence) }}</code></p>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="form-label" for="exampleInputPassword2">reduction</label>
+                {{ form_widget(form.reduction , {'attr': {'class': 'form-control form-control-user' }} ) }}
+                <div>
+                    <p class="card-description"> <code> {{ form_errors(form.reduction) }}</code></p>
+                </div>
+            </div>
+
+
+
+            <div class="form-group mb-0">
+                <div class="checkbox checkbox-secondary">
+                    {{ form_widget(form) }}
+                    <button type="SubmitType" class="btn btn-primary ">{{ button_label|default('Save') }}</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    {{ form_end(form) }}
+{% endblock %}

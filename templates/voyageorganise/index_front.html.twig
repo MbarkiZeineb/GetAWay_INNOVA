@@ -1,0 +1,49 @@
+{% extends 'base_front.html.twig' %}
+
+
+
+{% block content %}
+    <main id="main">
+        {% block title %}Voyageorganise {% endblock %}
+
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Idvoy</th>
+                <th>Villedepart</th>
+                <th>Villedest</th>
+                <th>Datedepart</th>
+                <th>Datearrive</th>
+                <th>Nbrplace</th>
+                <th>Idcat</th>
+                <th>Prix</th>
+                <th>Description</th>
+
+            </tr>
+            </thead>
+            <tbody>
+            {% for voyageorganise in voyageorganises %}
+                <tr>
+                    <td>{{ voyageorganise.idvoy }}</td>
+                    <td>{{ voyageorganise.villedepart }}</td>
+                    <td>{{ voyageorganise.villedest }}</td>
+                    <td>{{ voyageorganise.datedepart ? voyageorganise.datedepart|date('Y-m-d H:i:s') : '' }}</td>
+                    <td>{{ voyageorganise.datearrive ? voyageorganise.datearrive|date('Y-m-d H:i:s') : ''}}</td>
+                    <td>{{ voyageorganise.nbrplace }}</td>
+                    <td>{{ voyageorganise.idcat }}</td>
+                    <td>{{ voyageorganise.prix }}</td>
+                    <td>{{ voyageorganise.description }}</td>
+
+
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="10">no records found</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        <a href="{{ path('app_voyageorganise_new') }}">Create new</a>
+    </main>
+{% endblock %}

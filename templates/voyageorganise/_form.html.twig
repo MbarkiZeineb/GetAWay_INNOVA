@@ -1,0 +1,80 @@
+{% extends 'base_back.html.twig' %}
+
+{% block content %}
+{{ form_start(form, {'attr': {'novalidate':'novalidate'}} ) }}
+<div class="card-body">
+
+    <form>
+
+        <div class="form-group">
+            <label class="form-label" for="exampleInputEmail2">Ville depart</label>
+            {{ form_widget(form.villedepart , {'attr': {'class': 'form-control form-control-user' }} ) }}
+            <div>
+                <p class="card-description"> <code> {{ form_errors(form.villedepart) }}</code></p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-label" for="exampleInputEmail2">Ville destination</label>
+            {{ form_widget(form.villedest , {'attr': {'class': 'form-control form-control-user' }} ) }}
+            <div>
+                <p class="card-description"> <code> {{ form_errors(form.villedest) }}</code></p>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label" for="exampleInputname">Date depart</label>
+            {{ form_widget(form.datedepart , {'attr': {'class': 'input-group date' , 'placeholder' : 'jj/mm/aaaa'}} ) }}
+
+            <div>
+                <p class="card-description"> <code> {{ form_errors(form.datedepart) }}</code></p>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label" for="exampleInputname">Date arrivee</label>
+            {{ form_widget(form.datearrive , {'attr': {'class': 'input-group date' , 'placeholder' : 'jj/mm/aaaa'}} ) }}
+
+            <div>
+                <p class="card-description"> <code> {{ form_errors(form.datearrive) }}</code></p>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label" for="exampleInputPassword2">nbr Place</label>
+            {{ form_widget(form.nbrplace , {'attr': {'class': 'form-control form-control-user' }} ) }}
+            <div>
+                <p class="card-description"> <code>  {{ form_errors(form.nbrplace) }}</code></p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-label" for="exampleInputPassword2">id categorie</label>
+            {{ form_widget(form.idcat , {'attr': {'class': 'form-control form-control-user' }} ) }}
+            <div>
+                <p class="card-description"> <code> {{ form_errors(form.idcat) }}</code></p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-label" for="exampleInputPassword2">prix</label>
+            {{ form_widget(form.prix , {'attr': {'class': 'form-control form-control-user' }} ) }}
+            <div>
+                <p class="card-description"> <code> {{ form_errors(form.prix) }}</code></p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-label" for="exampleInputPassword2">description</label>
+            {{ form_widget(form.description , {'attr': {'class': 'form-control form-control-user'}} ) }}
+            <div>
+                <p class="card-description"> <code> {{ form_errors(form.description) }}</code></p>
+            </div>
+        </div>
+
+        <div class="form-group mb-0">
+            <div class="checkbox checkbox-secondary">
+                {{ form_widget(form) }}
+                <button type="SubmitType" class="btn btn-primary ">{{ button_label|default('Save') }}</button>
+            </div>
+        </div>
+    </form>
+</div>
+{{ form_end(form) }}
+{% endblock %}

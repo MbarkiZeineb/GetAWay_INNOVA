@@ -1,0 +1,11 @@
+
+
+<title>New Categorievoy</title>
+
+{% block content %}
+    <h1>Create new Categorievoy</h1>
+
+    {{ include('categorievoy/_form.html.twig') }}
+
+    <a href="{{ path('app_categorievoy_index') }}">back to list</a>
+{% endblock %}
