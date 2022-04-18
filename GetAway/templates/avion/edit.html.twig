@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+
+<title>Edit Avion</title>
+
+{% block body %}
+    <h1>Edit Avion</h1>
+
+    {{ include('avion/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_avion_index') }}">back to list</a>
+
+    {{ include('avion/_delete_form.html.twig') }}
+{% endblock %}

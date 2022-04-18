@@ -1,0 +1,183 @@
+{% extends 'base_front.html.twig ' %}
+  {% block panier %}
+      <span class="text hidden-xs hidden-sm">  {{ app.request.cookies.get('nombre') }} </span>
+  {% endblock %}
+
+{% block content %}
+    <main id="main">
+    <!-- top information area -->
+    <div class="inner-top">
+        <div class="container">
+            <h1 class="inner-main-heading">Panier</h1>
+            <nav class="breadcrumbs">
+
+            </nav>
+        </div>
+    </div>
+        <div class="demo-wrapper inner-main common-spacing container">
+            <table class="table table-striped table-hover data-table">
+                <thead>
+                <tr>
+                    <th class="date-text">    </th>
+                    <th class="date-text">Type   </th>
+                    <th class="date-text">Date depart </th>
+                    <th class="date-text"> Date fin </th>
+                    <th class="date-text"> Destination / Nom </th>
+                    <th class="date-text"> Nombre de place </th>
+                    <th class="date-text">  Reserver  </th>
+                </tr>
+                </thead>
+                <tbody>
+
+                <tr>
+                    {% if items | length > 0  %}
+                    {% for voyageorganise in items  %}
+                    {%  if  voyageorganise is empty  %}
+                    {% else %}
+                    {%  if  voyageorganise.voyage is empty  %}
+                    {% else %}
+                    <td>
+                        <div class="cell" >
+                            <div class="middle">
+                                <a class="delete" href="{{ path('delete_itemstab',{'id':voyageorganise.voyage.idVoy}) }}"><span class="icon-trash"></span></a>
+                            </div>
+                        </div>
+
+                    </td>
+                                <td> <span class="icon-beach"> </span>  Voyage Organise </td>
+                                <td >{{ voyageorganise.voyage.datedepart}}</td>
+                                <td>{{ voyageorganise.voyage.datearrive}}</td>
+                                <td >{{ voyageorganise.voyage.villedest}}</td>
+                                <td >{{ voyageorganise.voyage.nbrplace}}</td>
+                                <td >   <button type="button"  class="btn btn-default"><a href="{{ path('add_vo',{'id':voyageorganise.voyage.idVoy}) }}"> Reserver  </a></button> </td>
+
+                </tr>
+                {% endif %}
+                {% endif %}
+                {% endfor %}
+
+                {% endif %}
+                <tr>
+
+                    {% if items1 | length > 0  %}
+                        {% for vol in items1  %}
+                            {%  if  vol is empty  %}
+                            {% else %}
+                    {%  if  vol.vol is empty  %}
+                    {% else %}
+                    <td>
+
+                        <div class="cell" >
+                            <div class="middle">
+                                <a class="delete" href="{{ path('delete_itemstab',{'id':vol.vol.idVol }) }}"><span class="icon-trash"></span></a>
+                            </div>
+                        </div>
+                    </td>
+
+                                <td >   <i class="material-icons">airplanemode_active</i> Vol  </td>
+                                <td >{{ vol.vol.dateDepart | date('d-m-Y H:i:s')}}</td>
+                                <td>{{ vol.vol.dateArrivee  | date('d-m-Y H:i:s') }}</td>
+                                <td >{{ vol.vol.villeArrivee}}</td>
+                                <td >{{ vol.vol.nbrPlacedispo}}</td>
+                                <td >
+                                    <button type="button"  class="btn btn-default"><a href="{{ path('add_vol',{'id':vol.vol.idVol}) }}"> Reserver vol </a></button>
+                                </td>
+
+                </tr>
+                    {% endif %}
+                    {% endif %}
+                    {% endfor %}
+
+                {% endif %}
+                {% if items3 | length > 0  %}
+                {% for heb in items3 %}
+                {%  if  heb is empty  %}
+                {% else %}
+                    {%  if  heb.heb is empty  %}
+                    {% else %}
+                <tr>
+                    <td>
+                        <div class="cell" >
+                            <div class="middle">
+                                <a class="delete" href="{{ path('delete_itemstab',{'id':heb.heb.referance}) }}"><span class="icon-trash"></span></a>
+                            </div>
+                        </div>
+                    </td>
+                                <td > <span class="icon-home"> </span> Hebergement</td>
+                    <td >{{ heb.heb.dateStart | date('d-m-Y H:i:s')}} </td>
+<td>{{ heb.heb.dateEnd  | date('d-m-Y H:i:s') }}</td>
+<td >{{ heb.heb.adress}}</td>
+<td >--------</td>
+<td >
+<button type="button"  class="btn btn-default"><a href="{{ path('add_H',{'id':heb.heb.referance}) }}"> Reserver</a></button>
+</td>
+
+
+                </tr>
+                    {% endif %}
+                {% endif %}
+                {% endfor %}
+
+                {% endif %}
+
+                {% if items4 | length > 0  %}
+                    {% for act in items4 %}
+                        {%  if  act is empty  %}
+                        {% else %}
+                            {%  if  act.act is empty  %}
+                            {% else %}
+                                <tr>
+                                    <td>
+                                        <div class="cell" >
+                                            <div class="middle">
+                                                <a class="delete" href="{{ path('delete_itemstab',{'id': act.act.refact }) }}"><span class="icon-trash"></span></a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td > <span class="icon-hiking"> </span> Activite </td>
+                                    <td >{{ act.act.date}}</td>
+                                    <td>{{ act.act.date  }}</td>
+                                    <td >{{ act.act.nom}}</td>
+                                    <td >{{  act.act.nbrplace}}</td>
+                                    <td >
+                                        <button type="button"  class="btn btn-default"><a href="{{ path('add_Act',{'id': act.act.refact}) }}"> Reserver</a></button>
+                                    </td>
+
+                                </tr>
+                            {% endif %}
+                        {% endif %}
+                    {% endfor %}
+
+                {% endif %}
+
+
+                </tbody>
+            </table>
+            <div class="inner-main common-spacing container">
+                <div class="top-box" >
+                    {% for message in  app.flashes('warning')%}
+
+                    <div class="alert alert-info" role="alert">{{ message }}</div>
+
+                </div>
+            </div>
+                <br>
+                {% endfor %}
+            <div class="cart-option">
+                    {{ form_start(form,{'attr': {'novalidate':'novalidate'}}) }}
+                    <div class="input-hold">
+                    {{ form_widget(form.nbrPlace, { 'attr': {'class': 'form-control'}} ) }}
+                        {{ form_widget(form.submit, { 'attr': {'class': 'btn btn-default'}} )}}
+                    </div>
+
+                    {{ form_end(form) }}
+
+                </div>
+
+
+        </div>
+    </main>
+
+
+
+{% endblock %}
