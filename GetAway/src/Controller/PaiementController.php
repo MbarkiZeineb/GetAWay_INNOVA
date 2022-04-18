@@ -222,4 +222,41 @@ public function newact(Request $request, EntityManagerInterface $entityManager,$
         'form' => $form->createView(),
     ]);
 }
+
+
+
+
+
+
+
+
+
+    /**
+     * @Route("/newGroup/{id}/{prix}", name="app_paiement_newgroup", methods={"GET", "POST"})
+     */
+    public function newgroup(Request $request, EntityManagerInterface $entityManager,$prix,$id,ReservationRepository $repR): Response
+    {
+        $paiement = new Paiement();
+        $reservation=$repR->find($id);
+        $paiement->setMontant( $prix);
+        $paiement->setIdReservation($reservation);
+        $date1 = new \DateTime('@'.strtotime('now'));
+        $paiement->setDate($date1);
+        $form = $this->createForm(PaiementType::class, $paiement);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->persist($paiement);
+            $entityManager->flush();
+            return $this->redirectToRoute('delete_items_Group',array('idvol'=>$reservation->getIdVol()->getIdVol(),'ida'=>$reservation->getIdActivite()->getRefact(),'idv'=>$reservation->getIdVoyage()->getIdvoy()));
+        }
+
+        return $this->render('paiement/new.html.twig', [
+            'paiement' => $paiement,
+            'form' => $form->createView(),
+        ]);
+    }
+
+
 }

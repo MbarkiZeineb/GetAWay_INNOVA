@@ -96,6 +96,7 @@ class ReservationController extends AbstractController
                 $reservation->setIdClient($user);
                 $entityManager->persist($reservation);
                 $voyage->setNbrplace($voyage->getNbrplace() -  $reservation->getNbrPlace());
+
                 $entityManager->flush();
                 $entityManager->refresh($reservation);
 
@@ -364,27 +365,43 @@ class ReservationController extends AbstractController
     /**
      * @Route("/group/{idvol}/{idact}/{idvoy}/{quantite}", name="reservation_group", methods={"GET", "POST"})
      */
-    public function addGroup(Request $request, EntityManagerInterface $entityManager,$idvoy,$idvol,$idact,$quantite,VolRepository $repvol,VoyageorganiseRepository $rep,ActiviteRepository $repa): Response
+    public function addGroup(Request $request, UserRepository $repU,EntityManagerInterface $entityManager,$idvoy,$idvol,$idact,$quantite,VolRepository $repvol,VoyageorganiseRepository $rep,ActiviteRepository $repa): Response
     {
                  $voyage=$rep->find($idvoy);
                  $vol=$repvol->find($idvol);
                  $act=$repa->find($idact);
                 $reservation = new Reservation();
-                if($voyage->setNbrplace()> $quantite && $vol->getNbrPlacedispo()> $quantite && $act->getNbrplace() > $quantite)
-                {$reservation->setDateDebut($vol->getDateDepart());
-        $reservation->setDateFin($vol->getDateArrivee());
-        $reservation->setType("Activite/voyage/vol");
-        $reservation->setEtat("Approuve");
-        $date = new \DateTime('@'.strtotime('now'));
-        $reservation->setDateReservation($date);
-        $reservation->setIdVol($vol);
-        $reservation->setIdVoyage($voyage);
-        $reservation->setIdActivite($act);
-        $reservation->setNbrPlace($quantite);
-        $prixT=$voyage->getPrix()+$vol->getPrix()+$act->getPrix();
-        dd($reservation); }
+        if($this->getUser()!=null) {
+            $user =$repU->find($this->getUser()->getUsername());
+            $reservation->setIdClient($user);
+            if ($voyage->getNbrplace() > $quantite && $vol->getNbrPlacedispo() > $quantite && $act->getNbrplace() > $quantite) {
+                $reservation->setDateDebut($vol->getDateDepart());
+                $reservation->setDateFin($vol->getDateArrivee());
+                $reservation->setType("Activite/voyage/vol");
+                $reservation->setEtat("Approuve");
+                $date = new \DateTime('@' . strtotime('now'));
+                $reservation->setDateReservation($date);
+                $reservation->setIdVol($vol);
+                $reservation->setIdVoyage($voyage);
+                $reservation->setIdActivite($act);
+                $reservation->setNbrPlace($quantite);
+                $prixT = $voyage->getPrix() + $vol->getPrix() + $act->getPrix();
+                $entityManager->persist($reservation);
+                $act->setNbrplace($act->getNbrplace() -  $reservation->getNbrPlace());
+                $voyage->setNbrplace($voyage->getNbrplace() -  $reservation->getNbrPlace());
+                $vol->setNbrPlacedispo($vol->getNbrPlacedispo() -  $reservation->getNbrPlace());
+                $entityManager->flush();
+                $entityManager->refresh($reservation);
+                return $this->redirectToRoute('app_paiement_newgroup', array('id' => $reservation->getId(),'prix'=>$prixT));
 
+            }
+            else
+            {
 
+                return $this->redirectToRoute('cart_panier');
+            }
+
+        }
 
 
     }

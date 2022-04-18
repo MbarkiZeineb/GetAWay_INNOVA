@@ -41,24 +41,31 @@ class CartController extends AbstractController
             if($repa->find($id))
             $act[] = ['act' => $repa->find($id)];
         }
+        unset($vol[0]);
+        unset($voyage[0]);
+        unset($heb[0]);
+        unset($act[0]);
         $res = new \Symfony\Component\HttpFoundation\Response();
         $nb=count($panier);
-            dump($voyage);
-
         $cookie = new Cookie("nombre",$nb);
 
+           $check3=  count($voyage)==1 && count($vol)==1 && count($act)==1;
+           dump($voyage,$vol,$act);
+           dump($this->check($s,$rep,$reph,$repvol, $repa));
+           dump($this->check2($s,$rep,$repvol));
+           dump($check3);
         $res->headers->setCookie($cookie);
         $res->send();
         $form = $this->createFormBuilder($var)
             ->add('nbrPlace', NumberType::class)
             ->add('submit', SubmitType::class, array(
                     'label' => 'Submit',
-                    'disabled' => ! ($this->check($s,$rep,$reph,$repvol, $repa) && $this->check2($s,$rep,$repvol)),
+                    'disabled' => ! ($this->check($s,$rep,$reph,$repvol, $repa) && $this->check2($s,$rep,$repvol)&&$check3),
                 )
             )
             ->getForm();
 
-        if( ! $form->get("submit")->isDisabled() && count($voyage)==1 && count($vol)==1 && count($act)==1)
+        if( ! $form->get("submit")->isDisabled())
         {
             $this->addFlash("warning","Vous avez selectionne 3 elements dans le meme jour  vous pouvez passer  ");
 
@@ -119,7 +126,24 @@ class CartController extends AbstractController
 
         return $this->redirectToRoute('cart_panier');
     }
+    /**
+     * @Route("/panier/deleteGroup/{idvol}/{ida}/{idv}", name="delete_items_Group")
+     *
+     */
+    public function deleteGroup($idvol,$ida,$idv, SessionInterface $session, VoyageorganiseRepository $repv)
+    {
+        $panier = $session->get('panier', []);
 
+        if (!empty($panier[$ida])||!empty($panier[$idv])||!empty($panier[$idvol]) ) {
+            unset($panier[$idvol]);
+            unset($panier[$idv]);
+            unset($panier[$ida]);
+        }
+        $session->set('panier', $panier);
+
+
+        return $this->redirectToRoute('cart_panier');
+    }
 
     /**
      * @Route("/panier/deletetab/{id}", name="delete_itemstab")
@@ -174,8 +198,12 @@ class CartController extends AbstractController
             }
         }
         $messagesFiltered = [];
-        $val=$startDays[1];
-        foreach ($startDays as $message) {
+            unset($startDays[0]);
+        if($startDays!=null)
+        {
+
+            $val=$startDays[1];
+            foreach ($startDays as $message) {
             if ( $val != $message) {
                 $messagesFiltered[] = $message;
             }
@@ -192,7 +220,7 @@ class CartController extends AbstractController
             else
             {
                 return false;
-            }}
+            }}}
         return false;
 
 
@@ -203,9 +231,7 @@ class CartController extends AbstractController
     {$panier = $s->get('panier', []);
         $voyage[] = [];
         $vol[] = [];
-        $heb[] = [];
-        $act[] = [];
-
+        dump($panier);
         if(empty($panier)==false)
         {
             foreach ($panier as $id => $value) {
@@ -225,8 +251,9 @@ class CartController extends AbstractController
                 }
             }
             $messagesFiltered = [];
-
-            if(!empty($startDays )) {
+          unset($startDays[0]);
+            dump($startDays);
+            if($startDays!=null) {
                 $val = $startDays[1];
                 foreach ($startDays as $message) {
                     if ($val != $message) {
