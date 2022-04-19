@@ -20,10 +20,11 @@
                                 <table class="table table-striped table-bordered">
                                     <thead>
                                     <tr>
-
+                                        <th>Nombre de jour Restant</th>
                                         <th>DateReservation</th>
                                         <th>NbrPlace</th>
                                         <th>DateDebut</th>
+
                                         <th>DateFin</th>
                                         <th>Etat</th>
                                         <th> type</th>
@@ -33,8 +34,8 @@
                                     <tbody>
                                     {% for reservation in reservations %}
                                         <tr>
-
-                                        <td>{{ reservation.dateReservation ? reservation.dateReservation|date('Y-m-d') : '' }}</td>
+                                        <td class="alert-info">{{time_diff(reservation.dateDebut ? reservation.dateDebut|date('Y-m-d') : '') }}</td>
+                                        <td>{{ reservation.dateReservation ? reservation.dateReservation|date('Y-m-d') : '' | ago }}</td>
                                         <td>{{ reservation.nbrPlace }}</td>
                                         <td>{{ reservation.dateDebut ? reservation.dateDebut|date('Y-m-d') : '' }}</td>
                                         <td>{{ reservation.dateFin ? reservation.dateFin|date('Y-m-d') : '' }}</td>

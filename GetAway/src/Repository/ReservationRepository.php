@@ -150,6 +150,18 @@ class ReservationRepository extends ServiceEntityRepository
 
     }
 
+    public function NombredeJourRestant($id)
+    {
+        return $this->createQueryBuilder('r')
+            ->join('r.idClient','u')
+            ->where('u.id=:id')
+            ->select('r.dateDebut - C')
+            ->setParameter('id',$id)
+
+            ->getQuery()->getResult();
+
+    }
+
     // /**
     //  * @return Reservation[] Returns an array of Reservation objects
     //  */
