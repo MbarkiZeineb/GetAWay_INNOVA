@@ -3,6 +3,7 @@
 {% block title %}Edit Avis{% endblock %}
 
 {% block content %}
+
     {{ form_start(form, {attr:{novalidate:'novalidate'}}) }}
 
     {{ include('avis/_form.html.twig', {'button_label': 'Update'}) }}

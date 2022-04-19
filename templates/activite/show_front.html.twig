@@ -163,6 +163,12 @@
                                 </div>
                             </fieldset>
                         </form>
+                <br>
+                {% for mesg in app.flashes('info') %}
+                    <div class="alert alert-success">
+                        {{ mesg }}
+                    </div>
+                {% endfor %}
                 <!-- comments -->
                 <div class="comments">
                     <div class="comment-slot">

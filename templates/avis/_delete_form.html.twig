@@ -1,4 +1,4 @@
-<form method="post" action="{{ path('app_avis_delete', {'refavis': avi.refavis}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
+<form method="post" action="{{ path('app_avis_delete', {'refavis': avi.refavis}) }}">
     <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ avi.refavis) }}">
     <button class="btn btn-md btn-default">Delete</button>
 

@@ -91,6 +91,9 @@
     "laminas/laminas-code": {
         "version": "4.5.1"
     },
+    "mercuryseries/flashy-bundle": {
+        "version": "v3.0.0"
+    },
     "monolog/monolog": {
         "version": "1.27.0"
     },
@@ -590,6 +593,9 @@
     },
     "twig/twig": {
         "version": "v3.3.10"
+    },
+    "twilio/sdk": {
+        "version": "6.36.1"
     },
     "vich/uploader-bundle": {
         "version": "1.19",

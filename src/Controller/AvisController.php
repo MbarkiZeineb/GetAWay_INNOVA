@@ -8,6 +8,7 @@ use App\Repository\ActiviteRepository;
 use App\Entity\Avis;
 use App\Form\AvisType;
 use Doctrine\ORM\EntityManagerInterface;
+use MercurySeries\FlashyBundle\FlashyNotifier;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,6 +19,12 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class AvisController extends AbstractController
 {
+
+    public function __construct(FlashyNotifier $flashy)
+    {
+        $this->flashy = $flashy;
+    }
+
     /**
      * @Route("/", name="app_avis_index", methods={"GET"})
      */
@@ -75,6 +82,12 @@ class AvisController extends AbstractController
      */
     public function show(Avis $avi): Response
     {
+
+        $this->addFlash(
+            'info',
+            'Details de votre avis'
+        );
+
         return $this->render('avis/show.html.twig', [
             'avi' => $avi,
         ]);
@@ -90,8 +103,12 @@ class AvisController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
-
+            $this->addFlash(
+                'info',
+                'Modification effectuée'
+            );
             return $this->redirectToRoute('app_avis_indexfront', [], Response::HTTP_SEE_OTHER);
+
         }
 
         return $this->render('avis/edit.html.twig', [
@@ -108,8 +125,12 @@ class AvisController extends AbstractController
         if ($this->isCsrfTokenValid('delete'.$avi->getRefavis(), $request->request->get('_token'))) {
             $entityManager->remove($avi);
             $entityManager->flush();
-        }
 
+        }
+        $this->addFlash(
+            'info',
+            'Suppresion effectuée'
+        );
         return $this->redirectToRoute('app_avis_indexfront', [], Response::HTTP_SEE_OTHER);
     }
 
@@ -130,7 +151,10 @@ class AvisController extends AbstractController
 
             $entityManager->persist($avis);
             $entityManager->flush();
-
+            $this->addFlash(
+                'info',
+                'Avis Ajouter'
+            );
         }
 
         return $this->render('activite/show_front.html.twig', [

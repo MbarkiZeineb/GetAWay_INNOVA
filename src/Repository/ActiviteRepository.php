@@ -73,4 +73,12 @@ class ActiviteRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    /*
+     * @return Activite[]
+     */
+    public function findSearch(\App\Data\SearchData $data)
+    {
+        return $this->findAll();
+    }
 }

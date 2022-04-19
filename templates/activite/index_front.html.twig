@@ -18,36 +18,36 @@
             <div class="content-holder">
                 <div class="row db-3-col">
                     {% for activite in activites %}
-                    <article class="col-sm-6 col-md-4 article has-hover-s3">
-                        <div class="img-wrap">
-                            <a href="#">
-                                <img src={{ vich_uploader_asset(activite,'imageFile')}} height="215" width="370" alt="image description">
-                            </a>
-                            <div class="img-caption text-uppercase">
-                               {{ activite.nom }}
-                            </div>
-                            <div class="hover-article">
-                                <div class="star-rating">
-                                    <span><span class="icon-star"></span></span>
-                                    <span><span class="icon-star"></span></span>
-                                    <span><span class="icon-star"></span></span>
-                                    <span><span class="icon-star"></span></span>
-                                    <span class="disable"><span class="icon-star"></span></span>
+                        <article class="col-sm-6 col-md-4 article has-hover-s3">
+                            <div class="img-wrap">
+                                <a href="#">
+                                    <img src={{ vich_uploader_asset(activite,'imageFile')}} height="215" width="370" alt="image description">
+                                </a>
+                                <div class="img-caption text-uppercase">
+                                    {{ activite.nom }}
                                 </div>
+                                <div class="hover-article">
+                                    <div class="star-rating">
+                                        <span><span class="icon-star"></span></span>
+                                        <span><span class="icon-star"></span></span>
+                                        <span><span class="icon-star"></span></span>
+                                        <span><span class="icon-star"></span></span>
+                                        <span class="disable"><span class="icon-star"></span></span>
+                                    </div>
 
-                                <div class="info-footer">
-                                    <span class="price">from <span>${{ activite.prix }}</span></span>
-                                    <a href="{{ path('app_avis_act',{'RefAct': activite.refact})}}" class="link-more">Détails</a>
+                                    <div class="info-footer">
+                                        <span class="price">from <span>${{ activite.prix }}</span></span>
+                                        <a href="{{ path('app_avis_act',{'RefAct': activite.refact})}}" class="link-more">Détails</a>
 
+                                    </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <h3><a href="#">{{ activite.nom }}</a></h3>
-                        <p>
-                            {{ activite.descrip }}
-                        </p>
-                    </article>
+                            <h3><a href="#">{{ activite.nom }}</a></h3>
+                            <p>
+                                {{ activite.descrip }}
+                            </p>
+                        </article>
                     {% endfor %}
                 </div>
             </div>

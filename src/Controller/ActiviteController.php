@@ -1,10 +1,14 @@
 <?php
 
 namespace App\Controller;
+use App\Data\SearchData;
 use App\Entity\Avis;
 use App\Entity\Activite;
 use App\Form\ActiviteType;
+use App\Form\SearchForm;
+use App\Repository\ActiviteRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use MercurySeries\FlashyBundle\FlashyNotifier;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,19 +19,29 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class ActiviteController extends AbstractController
 {
+
+    public function __construct(FlashyNotifier $flashy)
+    {
+        $this->flashy = $flashy;
+    }
+
     /**
      * @Route("/", name="app_activite_index", methods={"GET"})
      */
     public function index(EntityManagerInterface $entityManager): Response
     {
+
         $activites = $entityManager
             ->getRepository(Activite::class)
             ->findAll();
-
         return $this->render('activite/index.html.twig', [
             'activites' => $activites,
         ]);
+
     }
+
+
+
 
     /**
      * @Route("/f", name="app_activite_indexfront", methods={"GET"})
@@ -37,10 +51,10 @@ class ActiviteController extends AbstractController
         $activites = $entityManager
             ->getRepository(Activite::class)
             ->findAll();
-
         return $this->render('activite/index_front.html.twig', [
             'activites' => $activites,
         ]);
+
     }
 
     /**
@@ -55,10 +69,10 @@ class ActiviteController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($activite);
             $entityManager->flush();
-
+            $this->flashy->success('Activite ajouter');
             return $this->redirectToRoute('app_activite_index', [], Response::HTTP_SEE_OTHER);
         }
-
+        $this->flashy->error("L'Ajout de l'activite à echouée");
         return $this->render('activite/new.html.twig', [
             'activite' => $activite,
             'form' => $form->createView(),
@@ -70,7 +84,7 @@ class ActiviteController extends AbstractController
      */
     public function show(Activite $activite): Response
     {
-
+        $this->flashy->info("Détails de l'activité");
         return $this->render('activite/show.html.twig', [
             'activite' => $activite,
         ]);
@@ -98,10 +112,10 @@ class ActiviteController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
-
+            $this->flashy->success("Modification avec succées");
             return $this->redirectToRoute('app_activite_index', [], Response::HTTP_SEE_OTHER);
         }
-
+        $this->flashy->error("Modification echoué");
         return $this->render('activite/edit.html.twig', [
             'activite' => $activite,
             'form' => $form->createView(),
@@ -117,7 +131,13 @@ class ActiviteController extends AbstractController
             $entityManager->remove($activite);
             $entityManager->flush();
         }
-
+        $this->flashy->success("Suppression avec succées");
         return $this->redirectToRoute('app_activite_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+
+    public function __toString()
+    {
+        return $this->nom;
     }
 }

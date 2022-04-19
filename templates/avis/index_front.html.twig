@@ -7,6 +7,11 @@
 <div class="demo-wrapper inner-main common-spacing container">
     <table class="table table-striped table-hover data-table">
         <thead>
+        {% for mesg in app.flashes('info') %}
+        <div class="alert alert-success">
+            {{ mesg }}
+        </div>
+        {% endfor %}
         <tr class="table-info">
 
                 <th>Message</th>

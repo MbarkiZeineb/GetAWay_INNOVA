@@ -3,10 +3,16 @@
 {% block title %}Avis{% endblock %}
 
 {% block content %}
+
     <h1>Avis</h1>
     <br>
     <br>
     <br>
+    {% for messages in app.flashes('info') %}
+        <div class="alert alert-warning">
+            {{ messages }}
+        </div>
+    {% endfor %}
     <table class="table table-striped table-hover data-table">
         <thead>
         <tr>
