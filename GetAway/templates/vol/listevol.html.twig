@@ -1,0 +1,35 @@
+
+{% block body %}
+
+    <h1 align="center">liste des vols</h1><hr>
+
+
+        <body>
+
+        {% for vol in vol %}
+            <h3>Numéro du vol :</h3>
+            <p>{{ vol.numVol }}</p>
+            <br>
+            <h3>Date depart :</h3>
+            <p>{{ vol.dateDepart ? vol.dateDepart|date('Y-m-d H:i') : '' }}</p>
+            <br>
+            <h3>Date arrivée :</h3>
+            <p>{{ vol.dateArrivee ? vol.dateArrivee|date('Y-m-d H:i') : '' }}</p>
+            <br>
+            <h3>Ville depart :</h3>
+            <p>{{ vol.villeDepart }}</p>
+            <br>
+            <h3>Ville arrivée :</h3>
+            <p>{{ vol.villeDepart }}</p>
+            <br>
+            <h3>Nombre de place dispo :</h3>
+            <p>{{ vol.nbrPlacedispo }}</p>
+            <br>
+            <h3>Prix :</h3>
+            <p>{{ vol.prix }}</p>
+            <br>
+            <h1 align="center"></h1><hr>
+
+        {% endfor %}
+        </body>
+    {% endblock %}

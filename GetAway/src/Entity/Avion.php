@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Entity;
-
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Constraints\NotBlank;
@@ -10,7 +9,7 @@ use Symfony\Component\Validator\Constraints\NotBlank;
  * Avion
  *
  * @ORM\Table(name="avion", indexes={@ORM\Index(name="id_agence", columns={"id_agence"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\AvionRepository")
  */
 class Avion
 {

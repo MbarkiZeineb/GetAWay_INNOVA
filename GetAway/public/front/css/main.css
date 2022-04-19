@@ -538,7 +538,7 @@ blockquote.normal {
 .coffee_cup {
 	width: 40px;
 	height: 50px;
-	border: 2px #6b6957 solid;
+	border: 2px #ffc400 solid;
 	border-radius: 0 0 5px 5px;
 	position: relative;
 	margin: 36px auto;
@@ -553,7 +553,7 @@ blockquote.normal {
 .coffee_cup:after {
 	width: 10px;
 	height: 20px;
-	border: 2px #6b6957 solid;
+	border: 2px #ffc400 solid;
 	border-left: none;
 	border-radius: 0 20px 20px 0;
 	left: 40px;
@@ -563,12 +563,12 @@ blockquote.normal {
 .coffee_cup:before {
 	width: 3px;
 	height: 10px;
-	background-color: #6b6957;
+	background-color: #ffc400;
 	top: -16px;
 	left: 12px;
-	box-shadow: 5px 0 0 0 #6b6957,
-	5px -5px 0 0 #6b6957,
-	10px 0 0 0 #6b6957;
+	box-shadow: 5px 0 0 0 #ffc400,
+	5px -5px 0 0 #ffc400,
+	10px 0 0 0 #ffc400;
 	-webkit-animation: steam 700ms linear infinite alternate;
 	animation: steam 700ms linear infinite alternate;
 }
@@ -1085,7 +1085,7 @@ blockquote.normal {
 /* boxed layout styles */
 
 .boxed-layout {
-	background: #6b6957;
+	background: #ffc400;
 }
 
 .boxed-layout.bg-pattern {
@@ -1145,7 +1145,7 @@ blockquote.normal {
 	font-family: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 	font-size: 26px;
 	line-height: 30px;
-	color: #b0a377;
+	color: #ffc400;
 	padding-right: 10px;
 }
 
@@ -1158,15 +1158,15 @@ blockquote.normal {
 }
 
 .rev_slider_wrapper .rev-btn .btn-banner {
-	border-color: #6b6957;
+	border-color: #4400ff;
 	background: none;
-	color: #b0a377;
+	color: #ffffff;
 	border-radius: 25px;
 }
 
 .rev_slider_wrapper .rev-btn .btn-banner:hover {
-	border-color: #6b6957;
-	background: #6b6957;
+	border-color: #ffc400;
+	background: #ffc400;
 	color: #fff;
 }
 
@@ -1558,7 +1558,7 @@ blockquote.normal {
 }
 
 .navbar-default .navbar-nav > li > a {
-	color: #fff;
+	color: #ffc400;
 	padding: 20px 30px;
 	text-transform: uppercase;
 	-webkit-transition: all .2s linear;
@@ -2067,7 +2067,7 @@ blockquote.normal {
 /* feature block global styles */
 
 .feature-block {
-	background: #252525;
+	background: #ffc400;
 	z-index: 99;
 	padding: 10px 0;
 	text-transform: uppercase;
@@ -2133,11 +2133,11 @@ blockquote.normal {
 .feature-block li a {
 	display: block;
 	height: 100%;
-	color: #9d9d9d;
+	color: #4400ff;
 }
 
 .feature-block li a:hover {
-	color: #b0a377;
+	color: #ffffff;
 }
 
 .feature-block li a:hover .ico {
@@ -2661,7 +2661,7 @@ a.thumbnail img {
 	font-size: 16px;
 	line-height: 20px;
 	border-color: #e2e2e2;
-	background: #6b6957;
+	background: #ffc400;
 }
 
 .btn.btn-default:before {
@@ -2689,8 +2689,8 @@ a.thumbnail img {
 }
 
 .btn.btn-info-sub {
-	background: #6b6957;
-	border-color: #6b6957;
+	background: #ffc400;
+	border-color: #ffc400;
 	color: #fff;
 	font-weight: 700;
 }
@@ -2747,12 +2747,12 @@ a.thumbnail img {
 	color: #b0a377;
 	background-color: transparent;
 	padding: 7px 45px;
-	border: 1px solid #6b6957;
+	border: 1px solid #ffc400;
 	text-transform: uppercase;
 }
 
 .btn-banner:hover {
-	background: #6b6957;
+	background: #ffc400;
 	color: #fff;
 }
 
@@ -3066,7 +3066,7 @@ a.thumbnail img {
 }
 
 .count-block .block-1 {
-	background: #6b6957;
+	background: #ffc400;
 }
 
 .count-block .block-2 {
@@ -3733,7 +3733,7 @@ a.thumbnail img {
 	margin: -50px 40px 0;
 	position: relative;
 	z-index: 4;
-	background: #6b6957;
+	background: #ffc400;
 	padding: 20px 10px;
 	color: #fff;
 	text-align: center;
@@ -3747,7 +3747,7 @@ a.thumbnail img {
 }
 
 .img-article .text-block {
-	background: #6b6957;
+	background: #ffc400;
 	padding: 30px 15px 15px;
 	color: #fff;
 	-webkit-transition: background .2s linear;
@@ -6380,7 +6380,7 @@ table.table > tbody > tr .middle {
 	max-width: 1170px;
 	margin: 0 auto;
 	box-shadow: none;
-	background: #6b6957;
+	background: #ffc400;
 	border: 10px solid #414141;
 	padding: 20px 10px;
 	margin-top: 5%;
@@ -7124,7 +7124,7 @@ body > .jcf-select-drop.jcf-drop-flipped {
 }
 
 .error-holder {
-	background-color: #6b6957;
+	background-color: #ffc400;
 	color: #fff;
 	text-align: center;
 	padding: 30px 0 45px;
@@ -7595,7 +7595,7 @@ body > .jcf-select-drop.jcf-drop-flipped {
 	line-height: 22px;
 	font-weight: 400;
 	letter-spacing: 3px;
-	color: #6b6957;
+	color: #ffc400;
 	padding: 0 0 6px;
 	height: auto;
 	box-shadow: none;
@@ -7603,38 +7603,38 @@ body > .jcf-select-drop.jcf-drop-flipped {
 }
 
 .newsletter-form .form-control::-webkit-input-placeholder {
-	color: #6b6957;
+	color: #ffc400;
 }
 
 .newsletter-form .form-control:-moz-placeholder {
-	color: #6b6957;
+	color: #ffc400;
 }
 
 .newsletter-form .form-control::-moz-placeholder {
-	color: #6b6957;
+	color: #ffc400;
 }
 
 .newsletter-form .form-control:-ms-input-placeholder {
-	color: #6b6957;
+	color: #ffc400;
 }
 
 .newsletter-form .input-holder {
 	position: relative;
 	padding-right: 90px;
 	margin-bottom: 6px;
-	border-bottom: 2px solid #6b6957;
+	border-bottom: 2px solid #ffc400;
 }
 
 .newsletter-form [type='submit'] {
 	border-width: 0 0 5px;
 	border-style: solid;
-	border-color: transparent transparent #6b6957;
+	border-color: transparent transparent #ffc400;
 	background: transparent;
 	font-size: 18px;
 	font-family: 'Montserrat', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 	line-height: 28px;
 	font-weight: 400;
-	color: #6b6957;
+	color: #ffc400;
 	position: absolute;
 	right: 0;
 	bottom: 0;
@@ -7656,7 +7656,7 @@ body > .jcf-select-drop.jcf-drop-flipped {
 
 .footer-nav h3 {
 	font-weight: 700;
-	color: #6b6957;
+	color: #ffc400;
 	text-transform: capitalize;
 	cursor: default;
 	position: relative;
@@ -7741,7 +7741,7 @@ body > .jcf-select-drop.jcf-drop-flipped {
 	display: inline-block;
 	position: relative;
 	vertical-align: top;
-	color: #6b6957;
+	color: #ffc400;
 }
 
 .social-wrap li a:hover {
@@ -7775,20 +7775,20 @@ body > .jcf-select-drop.jcf-drop-flipped {
 }
 
 .footer-bottom {
-	background: #252525;
+	background: #ffc400;
 	padding: 10px 0;
 	font-size: 1em;
 	text-align: center;
-	color: #9d9d9d;
+	color: #fff;
 	position: relative;
 }
 
 .footer-bottom a {
-	color: #9d9d9d;
+	color: #fff;
 }
 
 .footer-bottom a:hover {
-	color: #e2e2e2;
+	color: #fff;
 }
 
 .copyright {
@@ -8475,7 +8475,7 @@ body > .jcf-select-drop.jcf-drop-flipped {
 	transition: all linear .3s;
 	opacity: 0;
 	visibility: hidden;
-	background: #6b6957;
+	background: #ffc400;
 }
 
 .demo-wrapper .owl-theme .owl-controls .owl-buttons .owl-next:hover,
@@ -8530,7 +8530,7 @@ body > .jcf-select-drop.jcf-drop-flipped {
 }
 
 .btn.btn-trip-v2 {
-	background: #6b6957;
+	background: #ffc400;
 	color: #fff;
 	padding: 0 40px;
 	height: 52px;
@@ -8852,7 +8852,7 @@ h4,
 }
 
 #set-1 {
-	background: #6b6957;
+	background: #ffc400;
 }
 
 #set-2 {
@@ -8864,7 +8864,7 @@ h4,
 }
 
 #set-4 {
-	background: #6b6957;
+	background: #ffc400;
 }
 
 #set-5 {

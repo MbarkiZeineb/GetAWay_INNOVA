@@ -19,6 +19,9 @@
                     <li class="breadcrumb-item"><a href="index1.html.twig"><i class="fe   fe-box mr-1"></i>Voyager en toute sécurité </a></li>
                 </ol>
             </div>
+            <div class="pull-right">
+                <a href=" {{ path('sortedVol',{'id':1} ) }}" class="btn btn-info" > trier par prix</a>
+            </div>
             <div class="row">
                 <div class="col-md-12 col-lg-12">
                     <div class="card">
@@ -26,6 +29,7 @@
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table class="table table-bordered dataTable" id="tableac" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
+
 
 
 
@@ -41,12 +45,11 @@
                                                             <article class="col-sm-6 article has-hover-s1">
                                                                 <div class="thumbnail">
 
-
                                                                 <h4 class="plan-title">
                                                         <div class="img-wrap">
                                                             <img src="{{ asset('front/img/listing/pays.jpg')}}" height="228" width="350" alt="image description">
                                                         </div>
-                                                                    <h2 class="main-heading">Vol num°: {{ vol.idVol }}</h2>
+                                                                    <h2 class="main-heading">Vol num°: {{ vol.numVol }}</h2>
                                                     </h4>
                                                                     <h5> <div class="plan-cost"><span class="plan-price">${{ vol.prix }} </span><span class="plan-type"></span></div></h5>
                                                                     <ul class="info">
@@ -73,12 +76,20 @@
 
                                         </div>
                                         </body>
+
                                     {% endfor %}
                                 </table>
 
                     </div>
+
                 </div>
                     </div>
+
+                    <div class="owl-pagination">
+                        <a class="navigation" >{{ knp_pagination_render(vols) }}</a>
+
+                    </div>
+
                 </div>
             </div>
         </div>

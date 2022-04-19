@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Avis
  *
- * @ORM\Table(name="avis", indexes={@ORM\Index(name="frk_act", columns={"RefActivite"}), @ORM\Index(name="fk_idavis", columns={"Id"})})
+ * @ORM\Table(name="avis", indexes={@ORM\Index(name="fk_idavis", columns={"Id"}), @ORM\Index(name="frk_act", columns={"RefActivite"})})
  * @ORM\Entity
  */
 class Avis
@@ -43,16 +43,6 @@ class Avis
     private $rating;
 
     /**
-     * @var \Activite
-     *
-     * @ORM\ManyToOne(targetEntity="Activite")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="RefActivite", referencedColumnName="RefAct")
-     * })
-     */
-    private $refactivite;
-
-    /**
      * @var \User
      *
      * @ORM\ManyToOne(targetEntity="User")
@@ -61,6 +51,16 @@ class Avis
      * })
      */
     private $id;
+
+    /**
+     * @var \Activite
+     *
+     * @ORM\ManyToOne(targetEntity="Activite")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="RefActivite", referencedColumnName="RefAct")
+     * })
+     */
+    private $refactivite;
 
     public function getRefavis(): ?int
     {
@@ -103,18 +103,6 @@ class Avis
         return $this;
     }
 
-    public function getRefactivite(): ?Activite
-    {
-        return $this->refactivite;
-    }
-
-    public function setRefactivite(?Activite $refactivite): self
-    {
-        $this->refactivite = $refactivite;
-
-        return $this;
-    }
-
     public function getId(): ?User
     {
         return $this->id;
@@ -123,6 +111,18 @@ class Avis
     public function setId(?User $id): self
     {
         $this->id = $id;
+
+        return $this;
+    }
+
+    public function getRefactivite(): ?Activite
+    {
+        return $this->refactivite;
+    }
+
+    public function setRefactivite(?Activite $refactivite): self
+    {
+        $this->refactivite = $refactivite;
 
         return $this;
     }

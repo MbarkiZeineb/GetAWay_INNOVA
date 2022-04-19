@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Avion;
 use App\Form\AvionType;
+use App\Repository\AvionRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -41,6 +42,7 @@ class AvionController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($avion);
             $entityManager->flush();
+            $this->addFlash('info', 'Avion ajouté avec succès');
 
             return $this->redirectToRoute('app_avion_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -71,7 +73,7 @@ class AvionController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
-
+            $this->addFlash('info', 'Avion modifié avec succès');
             return $this->redirectToRoute('app_avion_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -89,8 +91,23 @@ class AvionController extends AbstractController
         if ($this->isCsrfTokenValid('delete'.$avion->getIdAvion(), $request->request->get('_token'))) {
             $entityManager->remove($avion);
             $entityManager->flush();
+            $this->addFlash('info', 'Avion supprimé avec succès');
         }
 
         return $this->redirectToRoute('app_avion_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    /**
+     *@Route("/trieravion/{id}", name="sortedAvion")
+     */
+    public function TriA(AvionRepository $rep,$id)
+    {
+
+             $avion=$rep->TriA();
+
+        return $this->render('avion/index.html.twig', [
+        'avions' => $avion
+        ]);
+
     }
 }

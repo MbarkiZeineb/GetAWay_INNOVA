@@ -4,6 +4,13 @@
 
 <form>
     <div class="form-group">
+        <label class="form-label" for="exampleInputname">num vol</label>
+        {{ form_widget(form.numVol , {'attr': {'class': 'form-control form-control-user' , 'placeholder' : 'numVol'}} ) }}
+        <div>
+            <p class="card-description"> <code> {{ form_errors(form.numVol) }}</code></p>
+        </div>
+    </div>
+    <div class="form-group">
         <label class="form-label" for="exampleInputname">Date depart</label>
         {{ form_widget(form.dateDepart , {'attr': {'class': 'form-control input-inline datetimepicker' }} ) }}
         <div>

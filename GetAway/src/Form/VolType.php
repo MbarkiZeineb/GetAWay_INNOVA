@@ -15,28 +15,29 @@ class VolType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
+            ->add('numVol')
             ->add('dateDepart',DateTimeType::class, array(
-        'widget' => 'single_text',
+                'widget' => 'single_text',
                 'html5' => true,
-        'required' => true,
-        'attr' => array('class' => 'form-control input-inline datetimepicker',
-            'data-provide' => 'datetimepicker',
-            'data-format' => 'dd-mm-yyyy HH:ii:ss',
-        ), ))
+                'required' => true,
+                'attr' => array('class' => 'form-control input-inline datetimepicker',
+                    'data-provide' => 'datetimepicker',
+                    'data-format' => 'dd-mm-yyyy HH:ii',
+                ), ))
             ->add('dateArrivee',DateTimeType::class, array(
                 'widget' => 'single_text',
                 'html5' => true,
                 'required' => true,
                 'attr' => array('class' => 'form-control input-inline datetimepicker',
                     'data-provide' => 'datetimepicker',
-                    'data-format' => 'dd-mm-yyyy HH:ii:ss',
+                    'data-format' => 'dd-mm-yyyy HH:ii',
                 ), ))
             ->add('villeDepart')
             ->add('villeArrivee')
             ->add('nbrPlacedispo')
             ->add('idAvion',EntityType::class,[
                 'class'=> Avion::class,
-                'choice_label'=>'nomAvion'])
+                'choice_label'=>'nomavion'])
             ->add('prix')
         ;
     }

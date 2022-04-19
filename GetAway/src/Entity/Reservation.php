@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Reservation
  *
- * @ORM\Table(name="reservation", indexes={@ORM\Index(name="fk_heb", columns={"id_hebergement"}), @ORM\Index(name="fk_voyage", columns={"id_voyage"}), @ORM\Index(name="fk_act", columns={"id_activite"}), @ORM\Index(name="id_vol", columns={"id_vol"}), @ORM\Index(name="fk_client", columns={"id_client"})})
+ * @ORM\Table(name="reservation", indexes={@ORM\Index(name="fk_act", columns={"id_activite"}), @ORM\Index(name="id_vol", columns={"id_vol"}), @ORM\Index(name="fk_client", columns={"id_client"}), @ORM\Index(name="fk_heb", columns={"id_hebergement"}), @ORM\Index(name="fk_voyage", columns={"id_voyage"})})
  * @ORM\Entity
  */
 class Reservation
@@ -64,26 +64,6 @@ class Reservation
     private $type;
 
     /**
-     * @var \Vol
-     *
-     * @ORM\ManyToOne(targetEntity="Vol")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_vol", referencedColumnName="id_vol")
-     * })
-     */
-    private $idVol;
-
-    /**
-     * @var \User
-     *
-     * @ORM\ManyToOne(targetEntity="User")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_client", referencedColumnName="id")
-     * })
-     */
-    private $idClient;
-
-    /**
      * @var \Voyageorganise
      *
      * @ORM\ManyToOne(targetEntity="Voyageorganise")
@@ -112,6 +92,26 @@ class Reservation
      * })
      */
     private $idHebergement;
+
+    /**
+     * @var \Vol
+     *
+     * @ORM\ManyToOne(targetEntity="Vol")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_vol", referencedColumnName="id_vol")
+     * })
+     */
+    private $idVol;
+
+    /**
+     * @var \User
+     *
+     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_client", referencedColumnName="id")
+     * })
+     */
+    private $idClient;
 
     public function getId(): ?int
     {
@@ -190,30 +190,6 @@ class Reservation
         return $this;
     }
 
-    public function getIdVol(): ?Vol
-    {
-        return $this->idVol;
-    }
-
-    public function setIdVol(?Vol $idVol): self
-    {
-        $this->idVol = $idVol;
-
-        return $this;
-    }
-
-    public function getIdClient(): ?User
-    {
-        return $this->idClient;
-    }
-
-    public function setIdClient(?User $idClient): self
-    {
-        $this->idClient = $idClient;
-
-        return $this;
-    }
-
     public function getIdVoyage(): ?Voyageorganise
     {
         return $this->idVoyage;
@@ -246,6 +222,30 @@ class Reservation
     public function setIdHebergement(?Hebergement $idHebergement): self
     {
         $this->idHebergement = $idHebergement;
+
+        return $this;
+    }
+
+    public function getIdVol(): ?Vol
+    {
+        return $this->idVol;
+    }
+
+    public function setIdVol(?Vol $idVol): self
+    {
+        $this->idVol = $idVol;
+
+        return $this;
+    }
+
+    public function getIdClient(): ?User
+    {
+        return $this->idClient;
+    }
+
+    public function setIdClient(?User $idClient): self
+    {
+        $this->idClient = $idClient;
 
         return $this;
     }

@@ -9,7 +9,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * Vol
  *
  * @ORM\Table(name="vol", indexes={@ORM\Index(name="id_avion", columns={"id_avion"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\VolRepository")
  */
 class Vol
 {
@@ -21,6 +21,15 @@ class Vol
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $idVol;
+
+    /**
+     * @var int|null
+     *@Assert\NotBlank
+     * @Assert\NotNull
+     * @Assert\Positive
+     * @ORM\Column(name="num_vol", type="integer", nullable=true)
+     */
+    private $numVol;
 
     /**
      * @var \DateTime
@@ -93,6 +102,12 @@ class Vol
      * @ORM\Column(name="prix", type="float", precision=10, scale=0, nullable=false)
      * @Assert\NotBlank
      * @Assert\Positive
+     * *  @Assert\Length(
+     *      min = 2,
+     *      max = 8,
+     *      minMessage = "Your price must be at least {{ limit }} characters long",
+     *      maxMessage = "Your price cannot be longer than {{ limit }} characters"
+     * )
      */
     private $prix;
 
@@ -191,6 +206,18 @@ class Vol
     public function setIdAvion(?Avion $idAvion): self
     {
         $this->idAvion = $idAvion;
+
+        return $this;
+    }
+
+    public function getNumVol(): ?int
+    {
+        return $this->numVol;
+    }
+
+    public function setNumVol(?int $numVol): self
+    {
+        $this->numVol = $numVol;
 
         return $this;
     }
