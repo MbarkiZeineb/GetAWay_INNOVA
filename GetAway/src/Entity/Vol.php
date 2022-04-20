@@ -27,7 +27,13 @@ class Vol
      *@Assert\NotBlank
      * @Assert\NotNull
      * @Assert\Positive
+     *
      * @ORM\Column(name="num_vol", type="integer", nullable=true)
+     * * @Assert\Range(
+     *      min = 1,
+     *      max = 5000,
+     *      notInRangeMessage = " Le nombre de place doit etre entre {{ min }} et {{ max }}")
+     *
      */
     private $numVol;
 
@@ -60,10 +66,7 @@ class Vol
      * @var string
      *
      * @ORM\Column(name="ville_depart", type="string", length=60, nullable=false)
-     *   @Assert\Regex(
-     *     pattern     = "/^[a-z]+$/i",
-     *     htmlPattern = "[a-zA-Z]+"
-     * )
+     *
      * @Assert\NotBlank
      */
     private $villeDepart;
@@ -72,10 +75,7 @@ class Vol
      * @var string
      *
      * @ORM\Column(name="ville_arrivee", type="string", length=50, nullable=false)
-     *   @Assert\Regex(
-     *     pattern     = "/^[a-z]+$/i",
-     *     htmlPattern = "[a-zA-Z]+"
-     * )
+     *
      * @Assert\NotBlank
      *
      */
@@ -87,12 +87,11 @@ class Vol
      * @ORM\Column(name="nbr_placedispo", type="integer", nullable=false)
      * @Assert\NotBlank
      * @Assert\Positive
-     * @Assert\Length(
-     *      min = 2,
-     *      max = 3,
-     *      minMessage = "Your NUMBER must be at least {{ limit }} characters long",
-     *      maxMessage = "Your NUMBER cannot be longer than {{ limit }} characters"
-     * )
+     * @Assert\Range(
+     *      min = 1,
+     *      max = 500,
+     *      notInRangeMessage = " Le nombre de place doit etre entre {{ min }} et {{ max }}")
+     *
      */
     private $nbrPlacedispo;
 
@@ -102,12 +101,11 @@ class Vol
      * @ORM\Column(name="prix", type="float", precision=10, scale=0, nullable=false)
      * @Assert\NotBlank
      * @Assert\Positive
-     * *  @Assert\Length(
-     *      min = 2,
-     *      max = 8,
-     *      minMessage = "Your price must be at least {{ limit }} characters long",
-     *      maxMessage = "Your price cannot be longer than {{ limit }} characters"
-     * )
+     * @Assert\Range(
+     *      min = 1,
+     *      max = 1000,
+     *      notInRangeMessage = " Le prix doit etre entre {{ min }} et {{ max }}")
+     *
      */
     private $prix;
 
@@ -126,6 +124,12 @@ class Vol
         return $this->idVol;
     }
 
+    public function setIdVol(?Vol $idVol): self
+    {
+        $this->idVol = $idVol;
+
+        return $this;
+    }
     public function getDateDepart(): ?\DateTimeInterface
     {
         return $this->dateDepart;
@@ -221,6 +225,13 @@ class Vol
 
         return $this;
     }
+
+    public function getDuration(){
+        /** @noinspection PhpUndefinedMethodInspection */
+        $diff = $this->dateArrivee->diff($this->dateDepart);
+        return $diff->days;
+    }
+
 
 
 }

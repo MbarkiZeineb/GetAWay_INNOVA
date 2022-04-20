@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Avion;
 use App\Form\AvionType;
 use App\Repository\AvionRepository;
+use App\Repository\VolRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -86,12 +87,12 @@ class AvionController extends AbstractController
     /**
      * @Route("/{idAvion}", name="app_avion_delete", methods={"POST"})
      */
-    public function delete(Request $request, Avion $avion, EntityManagerInterface $entityManager): Response
+    public function delete(Request $request, Avion $avion,VolRepository $volRepository,EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$avion->getIdAvion(), $request->request->get('_token'))) {
             $entityManager->remove($avion);
             $entityManager->flush();
-            $this->addFlash('info', 'Avion supprimé avec succès');
+            $this->addFlash('info', 'Avion et ses listes des vols sont supprimés avec succès');
         }
 
         return $this->redirectToRoute('app_avion_index', [], Response::HTTP_SEE_OTHER);

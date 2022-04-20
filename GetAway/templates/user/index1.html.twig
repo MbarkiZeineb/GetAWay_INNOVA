@@ -1,0 +1,31 @@
+{% extends 'base_front.html.twig' %}
+
+{% block content %}
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <div><h1>Profil de {{ app.user.nom }} {{ app.user.prenom }} :</h1>  </div>
+    <div class="col-xs4">
+        <div><h2>Nom :</h2> </div>
+        <div> <h3>{{ app.user.nom }}</h3></div>
+        <div><h2>Prénom :</h2></div>
+        <div><h3>{{ app.user.prenom }}</h3></div>
+        <div><h2>Adresse Email :</h2></div>
+        <div> <h3>{{ app.user.email }}</h3></div>
+        <div><h2>Adresse :</h2></div>
+        <div><h3>{{ app.user.adresse }}</h3> </div>
+        <div><h2>Numéro de téléphone :</h2></div>
+        <div> <h3>{{ app.user.numtel }}</h3></div>
+        <div class="col-xs4"></div>
+    </div>
+    <a class="btn btn-default" href="{{ path('app_user_editfront', {'id': app.user.id}) }}" >Modifier</a>
+
+
+
+
+
+
+
+{% endblock %}

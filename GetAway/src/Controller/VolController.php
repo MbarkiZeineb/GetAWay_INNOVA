@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Knp\Component\Pager\PaginatorInterface;
 use Dompdf\Dompdf;
 use Dompdf\Options;
+use CMEN\GoogleChartsBundle\GoogleCharts\Charts\PieChart;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -75,17 +76,26 @@ class VolController extends AbstractController
     /**
      * @Route("/new", name="app_vol_new", methods={"GET", "POST"})
      */
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, EntityManagerInterface $entityManager,VolRepository $volRepository): Response
     {
         $vol = new Vol();
         $form = $this->createForm(VolType::class, $vol);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($vol);
-            $entityManager->flush();
-            $this->addFlash('info', 'Vol ajouté avec succès');
-            return $this->redirectToRoute('app_vol_index', [], Response::HTTP_SEE_OTHER);
+            if (($vol->getDuration())>=1){
+                $entityManager->flush();
+                $this->addFlash(
+                    'warning',
+                    "Impossible de créer un vol qui dure plus que 24h."
+                );
+            }else {
+                $entityManager->persist($vol);
+                $entityManager->flush();
+                $this->addFlash('info', 'Vol ajouté avec succès');
+                return $this->redirectToRoute('app_vol_index', [], Response::HTTP_SEE_OTHER);
+
+            }
         }
 
         return $this->render('vol/new.html.twig', [
@@ -114,10 +124,17 @@ class VolController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            if (($vol->getDuration())>=1){
+                $entityManager->flush();
+                $this->addFlash(
+                    'warning',
+                    "Impossible de créer un vol qui dure plus que 24h."
+                );
+            }else {
             $entityManager->flush();
             $this->addFlash('info', 'Vol modifié avec succès');
             return $this->redirectToRoute('app_vol_index', [], Response::HTTP_SEE_OTHER);
-        }
+        }}
 
         return $this->render('vol/edit.html.twig', [
             'vol' => $vol,
@@ -147,15 +164,15 @@ class VolController extends AbstractController
     public function statistiques(VolRepository $volRepository,$id)
     {
         $forum = $volRepository->countByDate();
-        $ville = [];
+        $date = [];
         $annoncesCount = [];
         foreach($forum as $foru){
 
-            $dates [] = $foru['ville'];
+            $date [] = $foru['date'];
             $annoncesCount[] = $foru['count'];
         }
         return $this->render('vol/stat.html.twig', [
-            'dates' => $dates,
+            'date' => $date,
             'annoncesCount' => $annoncesCount
         ]);
     }
@@ -194,4 +211,6 @@ class VolController extends AbstractController
 
 
     }
+
+
 }

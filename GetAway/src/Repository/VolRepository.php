@@ -24,11 +24,14 @@ class VolRepository extends ServiceEntityRepository
 
     public function countByDate(){
         $query = $this->createQueryBuilder('a')
-            ->select('SUBSTRING(a.dateDepart,1,10) as ville, COUNT(a) as count')
-            ->groupBy('ville');
+            ->select('SUBSTRING(a.dateDepart, 1, 10) as date, COUNT(a) as count')
+            ->groupBy('date');
         return $query->getQuery()->getResult();
 
     }
+
+
+
     /**
      * @throws ORMException
      * @throws OptimisticLockException

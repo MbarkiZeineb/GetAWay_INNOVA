@@ -1,31 +1,36 @@
 
 {% block body %}
+    <h2 class="page-header">
 
-    <h1 align="center">liste des vols</h1><hr>
+        <center>   <img style="position: center" src=" " alt="" width="200"></center>
+
+        <small class="pull-right"></small>
+    </h2>
+    <h1 align="center" style="color: #0000FF">liste des vols</h1><hr>
 
 
         <body>
 
         {% for vol in vol %}
-            <h3>Numéro du vol :</h3>
-            <p>{{ vol.numVol }}</p>
+            <h3 style="color: #0000FF">Numéro du vol :</h3>
+            <p >{{ vol.numVol }}</p>
             <br>
-            <h3>Date depart :</h3>
+            <h3 style="color: #0000FF">Date depart :</h3>
             <p>{{ vol.dateDepart ? vol.dateDepart|date('Y-m-d H:i') : '' }}</p>
             <br>
-            <h3>Date arrivée :</h3>
+            <h3 style="color: #0000FF">Date arrivée :</h3>
             <p>{{ vol.dateArrivee ? vol.dateArrivee|date('Y-m-d H:i') : '' }}</p>
             <br>
-            <h3>Ville depart :</h3>
+            <h3 style="color: #0000FF">Ville depart :</h3>
             <p>{{ vol.villeDepart }}</p>
             <br>
-            <h3>Ville arrivée :</h3>
+            <h3 style="color: #0000FF">Ville arrivée :</h3>
             <p>{{ vol.villeDepart }}</p>
             <br>
-            <h3>Nombre de place dispo :</h3>
+            <h3 style="color: #0000FF">Nombre de place dispo :</h3>
             <p>{{ vol.nbrPlacedispo }}</p>
             <br>
-            <h3>Prix :</h3>
+            <h3 style="color: #0000FF">Prix :</h3>
             <p>{{ vol.prix }}</p>
             <br>
             <h1 align="center"></h1><hr>

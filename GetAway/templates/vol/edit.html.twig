@@ -11,7 +11,11 @@
                 <div class="card m-b-20">
                     <div class="card-header">
                         <h3 class="card-title">Modifier Vol</h3>
-
+                        {% for message in app.flashes('warning') %}
+                            <div class="alert alert-danger">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
                     </div>
 
 

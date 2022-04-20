@@ -1,0 +1,14 @@
+{% extends 'base_back.html.twig' %}
+
+
+{% block content %}
+
+
+    <div >
+
+        {{ include('user/_formback.html.twig', {'button_label': 'Modifier'}) }}
+
+        <a href="{{ path('app_user_index') }}">Retour à la liste</a>
+
+    </div>
+{% endblock %}

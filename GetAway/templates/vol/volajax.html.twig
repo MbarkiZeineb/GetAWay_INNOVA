@@ -1,0 +1,13 @@
+{% for vol in vol %}
+    <div class="col-md-4 crossfit-col">
+        <div class="crossfit-item">
+           <h3>{{ vol.numVol }}</h3>
+            <p style="color: #FFFFFF">{{ vol.dateDepart ? vol.dateDepart|date('Y-m-d H:i') : ''}}</p>
+            <p style="color: #FFFFFF">{{  vol.dateArrivee ? vol.dateArrivee|date('Y-m-d H:i') : ''}}</p>
+            <p style="color: #FFFFFF">{{ vol.villeDepart}}</p>
+            <p style="color: #FFFFFF">{{ vol.villeArrivee}}</p>
+            <p style="color: #FFFFFF">{{ vol.prix}}</p>
+
+        </div>
+    </div>
+{% endfor %}

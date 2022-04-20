@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Entity;
+
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Constraints\NotBlank;
@@ -29,12 +30,11 @@ class Avion
      * @ORM\Column(name="nbr_place", type="integer", nullable=false)
      * @Assert\NotBlank
      * @Assert\Positive
-     *  @Assert\Length(
-     *      min = 2,
-     *      max = 3,
-     *      minMessage = "Your NUMBER must be at least {{ limit }} characters long",
-     *      maxMessage = "Your NUMBER cannot be longer than {{ limit }} characters"
-     * )
+     * @Assert\Range(
+     *      min = 1,
+     *      max = 500,
+     *      notInRangeMessage = " Le nombre de place doit etre entre {{ min }} et {{ max }}")
+     *
      */
     private $nbrPlace;
 
@@ -59,6 +59,11 @@ class Avion
      * })
      */
     private $idAgence;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Vol", mappedBy="idAvion", orphanRemoval=true)
+     */
+    private $vols;
 
     public function getIdAvion(): ?int
     {
@@ -100,6 +105,8 @@ class Avion
 
         return $this;
     }
+
+
 
 
 }

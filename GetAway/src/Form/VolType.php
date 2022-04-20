@@ -10,6 +10,8 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+
 class VolType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
@@ -32,8 +34,22 @@ class VolType extends AbstractType
                     'data-provide' => 'datetimepicker',
                     'data-format' => 'dd-mm-yyyy HH:ii',
                 ), ))
-            ->add('villeDepart')
-            ->add('villeArrivee')
+            ->add('villeDepart', ChoiceType::class,array(
+                'choices' => array(''=>'',
+                    'Tunis-Carthage' => 'Tunis-Carthage',
+                    'Tozeur-Nafta' => 'Tozeur-Nafta',
+                    'Monastir'   => 'Monastir',
+                    'Enfidha-Hammamet'   => 'Enfidha-Hammamet'
+                )))
+            ->add('villeArrivee',ChoiceType::class,array(
+                'choices' => array(''=>'',
+                    'Paris-CharlesGaulle' => 'Paris-CharlesGaulle',
+                    'Pierre-Elliott-Trudeau-Montréal' => 'Pierre-Elliott-Trudeau-Montréal',
+                    'Hambourg-Allemagne'   => 'Hambourg-Allemagne',
+                    'Doha-International'   => 'Doha-International',
+                    'NgurahRai-Indonisie'   => 'NgurahRai-Indonisie',
+                    'Dubai-International'   => 'Dubai-International',
+                )))
             ->add('nbrPlacedispo')
             ->add('idAvion',EntityType::class,[
                 'class'=> Avion::class,
