@@ -110,6 +110,7 @@ class Activite
     private $imageFile;
 
     /**
+     * @var int
      * @ORM\OneToMany(targetEntity="App\Entity\Activitelike", mappedBy="act")
      */
     private $likes;

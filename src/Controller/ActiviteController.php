@@ -1,14 +1,13 @@
 <?php
 
 namespace App\Controller;
-use App\Data\SearchData;
 use App\Entity\Activitelike;
 use App\Entity\Avis;
 use App\Entity\Activite;
 use App\Form\ActiviteType;
-use App\Form\SearchForm;
 use App\Repository\ActivitelikeRepository;
 use App\Repository\ActiviteRepository;
+
 use Doctrine\ORM\EntityManagerInterface;
 use MercurySeries\FlashyBundle\FlashyNotifier;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -41,8 +40,6 @@ class ActiviteController extends AbstractController
         ]);
 
     }
-
-
 
 
     /**
@@ -129,7 +126,7 @@ class ActiviteController extends AbstractController
      */
     public function delete(Request $request, Activite $activite, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$activite->getRefact(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $activite->getRefact(), $request->request->get('_token'))) {
             $entityManager->remove($activite);
             $entityManager->flush();
         }
@@ -144,27 +141,30 @@ class ActiviteController extends AbstractController
     }
 
     /**
-     *
+
      * Ajout/supp d'un like
-     *
-     * @Route ("/activite/{id}/like", name="activite_like")
+     * @Route ("/{id}/like", name="activite_like")
      *
      * @param Activite $activite
      * @param EntityManagerInterface $manager
      * @param ActivitelikeRepository $likerepo
      * @return Response
      */
-    public function like(Activite $activite, EntityManagerInterface $manager, ActivitelikeRepository $likerepo) :
-    Response
+    public function like(Activite $activite, EntityManagerInterface $manager, ActivitelikeRepository $likeRepo)
     {
         $user = $this->getUser();
+
+        if (!$user) {
+            return $this->json(['code' => 403, 'error' => 'Vous devez être connecté !'], 403);
+        }
+
         if ($activite->isLikedByUser($user)) {
-            $like = $likerepo->findOneBy(['act' => $activite, 'user' => $user]);
+            $like = $likeRepo->findOneBy(['act' => $activite, 'user' => $user]);
 
             $manager->remove($like);
             $manager->flush();
 
-            return $this->json(['code' => 200, 'message'=>'like bien supprimé', 'likes' => $likerepo->count(['act'=>$activite]) ], 200);
+            return $this->json(['code' => 200, 'likes' => $likeRepo->getCountForPost($activite)], 200);
         }
 
         $like = new Activitelike();
@@ -174,7 +174,6 @@ class ActiviteController extends AbstractController
         $manager->persist($like);
         $manager->flush();
 
-        return $this->json(['code' => 200, 'message'=>'like bien ajouter', 'likes' => $likerepo->count(['act'=>$activite]) ], 200);
+        return $this->json(['code' => 200, 'likes' => $likeRepo->getCountForPost($activite)], 200);
     }
-
 }

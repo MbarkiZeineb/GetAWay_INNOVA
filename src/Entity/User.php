@@ -21,10 +21,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  */
 class User implements UserInterface
 {
-    /**
-     * @ORM\OneToMany(targetEntity=Reclamation::class, mappedBy="idclient", orphanRemoval=true)
-     */
-    private $reclamation;
+
 
 
 
@@ -137,10 +134,13 @@ class User implements UserInterface
      */
     private $solde;
 
-    public function __construct()
-    {
-        $this->reclamation = new ArrayCollection();
-    }
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Activitelike", mappedBy="user")
+     */
+    private $likes;
+
+
 
     public function getId(): ?int
     {
@@ -307,13 +307,6 @@ class User implements UserInterface
         // TODO: Implement getUsername() method.
     }
 
-    /**
-     * @return Collection<int, Reclamation>
-     */
-    public function getReclamation(): Collection
-    {
-        return $this->reclamation;
-    }
 
 
 
@@ -333,27 +326,6 @@ class User implements UserInterface
         return $this;
     }
 
-    public function addReclamation(Reclamation $reclamation): self
-    {
-        if (!$this->reclamation->contains($reclamation)) {
-            $this->reclamation[] = $reclamation;
-            $reclamation->setIdclient($this);
-        }
-
-        return $this;
-    }
-
-    public function removeReclamation(Reclamation $reclamation): self
-    {
-        if ($this->reclamation->removeElement($reclamation)) {
-            // set the owning side to null (unless already changed)
-            if ($reclamation->getIdclient() === $this) {
-                $reclamation->setIdclient(null);
-            }
-        }
-
-        return $this;
-    }
 
 
 
