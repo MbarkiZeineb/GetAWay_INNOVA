@@ -64,26 +64,6 @@ class Reservation
     private $type;
 
     /**
-     * @var \Voyageorganise
-     *
-     * @ORM\ManyToOne(targetEntity="Voyageorganise")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_voyage", referencedColumnName="idVoy")
-     * })
-     */
-    private $idVoyage;
-
-    /**
-     * @var \Activite
-     *
-     * @ORM\ManyToOne(targetEntity="Activite")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_activite", referencedColumnName="RefAct")
-     * })
-     */
-    private $idActivite;
-
-    /**
      * @var \Hebergement
      *
      * @ORM\ManyToOne(targetEntity="Hebergement")
@@ -112,6 +92,26 @@ class Reservation
      * })
      */
     private $idClient;
+
+    /**
+     * @var \Voyageorganise
+     *
+     * @ORM\ManyToOne(targetEntity="Voyageorganise")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_voyage", referencedColumnName="idVoy")
+     * })
+     */
+    private $idVoyage;
+
+    /**
+     * @var \Activite
+     *
+     * @ORM\ManyToOne(targetEntity="Activite")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_activite", referencedColumnName="RefAct")
+     * })
+     */
+    private $idActivite;
 
     public function getId(): ?int
     {
@@ -190,30 +190,6 @@ class Reservation
         return $this;
     }
 
-    public function getIdVoyage(): ?Voyageorganise
-    {
-        return $this->idVoyage;
-    }
-
-    public function setIdVoyage(?Voyageorganise $idVoyage): self
-    {
-        $this->idVoyage = $idVoyage;
-
-        return $this;
-    }
-
-    public function getIdActivite(): ?Activite
-    {
-        return $this->idActivite;
-    }
-
-    public function setIdActivite(?Activite $idActivite): self
-    {
-        $this->idActivite = $idActivite;
-
-        return $this;
-    }
-
     public function getIdHebergement(): ?Hebergement
     {
         return $this->idHebergement;
@@ -246,6 +222,30 @@ class Reservation
     public function setIdClient(?User $idClient): self
     {
         $this->idClient = $idClient;
+
+        return $this;
+    }
+
+    public function getIdVoyage(): ?Voyageorganise
+    {
+        return $this->idVoyage;
+    }
+
+    public function setIdVoyage(?Voyageorganise $idVoyage): self
+    {
+        $this->idVoyage = $idVoyage;
+
+        return $this;
+    }
+
+    public function getIdActivite(): ?Activite
+    {
+        return $this->idActivite;
+    }
+
+    public function setIdActivite(?Activite $idActivite): self
+    {
+        $this->idActivite = $idActivite;
 
         return $this;
     }

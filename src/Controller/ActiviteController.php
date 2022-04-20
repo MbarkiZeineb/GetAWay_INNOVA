@@ -34,7 +34,7 @@ class ActiviteController extends AbstractController
         $activites = $entityManager
             ->getRepository(Activite::class)
             ->findAll();
-        return $this->render('activite/index.html.twig', [
+        return $this->render('activite/login.html.twig', [
             'activites' => $activites,
         ]);
 

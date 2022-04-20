@@ -3,9 +3,12 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use phpDocumentor\Reflection\Types\Integer;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 
 /**
  * Activite
@@ -105,6 +108,11 @@ class Activite
      * @var File
      */
     private $imageFile;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Activitelike", mappedBy="act")
+     */
+    private $likes;
 
     public function getRefact(): ?int
     {
@@ -236,4 +244,30 @@ class Activite
     {
         return $this->imageFile;
     }
+
+
+    /**
+     * @return Collection|Activitelike[]
+     */
+    public function getLikes(): Collection
+    {
+        return $this->likes;
+    }
+
+    /**
+     *
+     * @return boolean
+     */
+    public function isLikedByUser(User $user): bool
+    {
+
+        foreach ($this->likes as $like) {
+            if ($like->getUser() === $user) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
 }

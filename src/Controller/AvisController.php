@@ -34,7 +34,7 @@ class AvisController extends AbstractController
             ->getRepository(Avis::class)
             ->findAll();
 
-        return $this->render('avis/index.html.twig', [
+        return $this->render('avis/login.html.twig', [
             'avis' => $avis,
         ]);
     }

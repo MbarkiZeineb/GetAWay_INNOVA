@@ -10,10 +10,13 @@
             <header class="content-heading">
                 <br>
                 <br>
+
                 <h2 class="main-heading">Nos Activitès</h2>
                 <span class="main-subtitle">Nous avons une façon unique de répondre à vos attentes aventureuses!</span>
                 <div class="seperator"></div>
             </header>
+
+
 
             <div class="content-holder">
                 <div class="row db-3-col">
@@ -34,7 +37,16 @@
                                         <span><span class="icon-star"></span></span>
                                         <span class="disable"><span class="icon-star"></span></span>
                                     </div>
+                                    <div class="icons">
+                                    {% if app.user and activite.likedByUser(app.user) %}
+                                        <a href="#"><i class="fa-solid fa-heart"></i></a>
+                                    {% else %}
+                                        <a href="#"><i class="fa-regular fa-heart"></i>
+                                    {% endif %}
 
+
+                                        <span class="js-likes">{{ activite.likes | length}}</span>
+                                    </div>
                                     <div class="info-footer">
                                         <span class="price">from <span>${{ activite.prix }}</span></span>
                                         <a href="{{ path('app_avis_act',{'RefAct': activite.refact})}}" class="link-more">Détails</a>
