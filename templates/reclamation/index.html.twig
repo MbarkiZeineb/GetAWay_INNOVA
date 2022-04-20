@@ -28,7 +28,7 @@
                 <td>{{ reclamation.etat }}</td>
                 <td>
                     <a class="btn btn-primary me-2" href="{{ path('traiter', {'idr': reclamation.idr}) }}">Traiter</a>
-
+                    <a class="btn btn-primary me-2" href="{{ path('app_email', {'idr': reclamation.idr}) }}">Envoyer Mail</a>
                 </td>
             </tr>
         {% else %}

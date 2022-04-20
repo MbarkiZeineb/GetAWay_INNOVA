@@ -11,7 +11,9 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Mime\Email;
 
 /**
  * @Route("/reclamation")
@@ -134,7 +136,27 @@ class ReclamationController extends AbstractController
        return $this->redirectToRoute('app_reclamation_index');
 
     }
+    /**
+     * @Route("/email/{idr}", name="app_email")
+     */
+    public function sendEmail(MailerInterface $mailer,$idr): Response
+    {
+        $entityManager=$this->getDoctrine()->getManager();
+        $rec=$entityManager->getRepository(Reclamation::class)->find($idr);
+        $user=$rec->getIdclient();
+        $emaildest=$user->getEmail();
+        $email = (new Email())
+            ->from('omayma.djebali@esprit.tn')
+            ->to($emaildest)
+            ->subject('Votre reclamation est traitéé avec succés!')
+            ->text('Sending emails is fun again!')
+            ->html('<p>Bonjour Mme/Mr nous avons bien recu votre reclamation et nous allons la prendre en consideration!</p>');
 
+        $mailer->send($email);
+        return $this->redirectToRoute('app_reclamation_index');
+
+
+    }
 
 
 

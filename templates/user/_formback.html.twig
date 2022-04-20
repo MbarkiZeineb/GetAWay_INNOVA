@@ -18,7 +18,18 @@
 
 {{ form_label(form.role) }}{{ form_widget(form.role) }}
 {{ form_label(form.nomagence) }}{{ form_widget(form.nomagence) }}
-{{ form_label(form.etat) }}{{ form_widget(form.etat) }}
+    <a href="{{ path('activer',{'id':user.id}) }}"
+    >Activer</a
+    >
+
+    <a href="{{ path('bloquer',{'id':user.id}) }}"
+    >Bloquer</a
+    >
+<div><a href="{{ path('app_user_index') }}">Retour à la liste</a></div>
+
+<br>
+<br>
+<br>
 <div class="btn-hold">
     <button type="submit" class="btn btn-primary me-2">
         Modifier

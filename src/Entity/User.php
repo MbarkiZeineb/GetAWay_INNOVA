@@ -60,7 +60,7 @@ class User implements UserInterface
      *  @Assert\NotBlank(message="vous devez remplir ce champ")
      * @Assert\Length(
      *      min = 4,
-     *      max = 50,
+     *      max = 255,
      *      minMessage = "votre mdp doit contenir au moins {{ limit }} caracteres",
      *      maxMessage = "votre mdp doit contenir au plus {{ limit }} caracteres"
      * )
@@ -104,6 +104,12 @@ class User implements UserInterface
      *
      * @ORM\Column(name="numtel", type="integer", nullable=true)
      *  @Assert\NotBlank(message="vous devez remplir ce champ")
+     *   * @Assert\Length(
+     *      min = 8,
+     *      max = 8,
+     *      minMessage = "votre mdp ne doit pas depasser {{ limit }} chiffres",
+     *      maxMessage = "votre mdp ne doit pas depasser {{ limit }} chiffres"
+     * )
      */
     private $numtel;
 

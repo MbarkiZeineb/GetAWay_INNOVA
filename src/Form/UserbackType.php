@@ -40,7 +40,7 @@ class UserbackType extends AbstractType
                     'Offreur' => 'Offreur'
                 ],
             ])
-            ->add('etat')
+
             ->add('solde')
         ;
     }

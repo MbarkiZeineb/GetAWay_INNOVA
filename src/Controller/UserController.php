@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Reclamation;
 use App\Entity\User;
+use App\Form\ContactType;
 use App\Form\ReclamationType;
 use App\Form\UserbackType;
 use App\Form\UserType;
@@ -232,7 +233,65 @@ dump($user);
             'reclamations' => $reclamation,
         ]);
     }
+    /**
+     * @Route("/activer/{id}", name="activer", methods={"GET"})
+     */
+public function activer( EntityManagerInterface $entityManager,$id)
+{
+ $user=$entityManager->getRepository(User::class)->find($id);
+ $user->setEtat(1);
+    $entityManager->flush();
+    return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
 
+}
+
+
+    /**
+     * @Route("/bloquer/{id}", name="bloquer", methods={"GET"})
+     */
+    public function bloquer( EntityManagerInterface $entityManager,$id)
+    {
+        $user=$entityManager->getRepository(User::class)->find($id);
+        $user->setEtat(0);
+        $entityManager->flush();
+        return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
+
+    }
+
+
+    /**
+     * @Route("/contact/{id}", name="contact")
+     */
+    public function contacter(Request $request, \Swift_Mailer $mailer, $id,EntityManagerInterface $entityManager ): Response
+    {
+        $form=$this->createForm(ContactType::class);
+        $form->handleRequest($request);
+        $users = $entityManager
+            ->getRepository(User::class)
+            ->find($id);
+        $email=$users->getEmail();
+        if($form->isSubmitted() && $form->isValid()){
+            $contact=$form->getData();
+            $message = (new \Swift_Message('Nouveau contact'))
+                ->setFrom('omayma.djebali@esprit.tn')
+                ->setTo($email)
+                ->setBody(
+                    $this->renderView(
+                        'email/contact.html.twig',compact('contact')
+                    ),
+                    'text/html'
+                )
+            ;
+            $mailer->send($message);
+            $this->addFlash('message','votre mail est envoyé avec succes ');
+            return $this->redirectToRoute('app_user_index');
+        }
+
+
+        return $this->render('contact/index.html.twig', [
+            'contactForm' => $form->createView()
+        ]);
+    }
 
 
 
