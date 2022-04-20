@@ -24,6 +24,10 @@ class Voyageorganise
     /**
      * @var string
      *@Assert\NotBlank(message="le champ est vide")
+     * @Assert\Regex(
+     *     pattern     = "/^[a-z]+$/i",
+     *     htmlPattern = "[a-zA-Z]+"
+     * )
      * @ORM\Column(name="villeDepart", type="string", length=30, nullable=false)
      */
     private $villedepart;
@@ -31,6 +35,10 @@ class Voyageorganise
     /**
      * @var string
      *@Assert\NotBlank(message="le champ est vide")
+     * @Assert\Regex(
+     *     pattern     = "/^[a-z]+$/i",
+     *     htmlPattern = "[a-zA-Z]+"
+     * )
      * @ORM\Column(name="villeDest", type="string", length=30, nullable=false)
      */
     private $villedest;
@@ -57,7 +65,7 @@ class Voyageorganise
     /**
      * @var int
      *@Assert\NotBlank(message="le champ est vide")
-     * @Assert\GreaterThan(0,message="Nombre de place doix être >0")
+     * @Assert\GreaterThan(5,message="nombre de place doit etre superieur a 5")
      * @ORM\Column(name="nbrPlace", type="integer", nullable=false)
      */
     private $nbrplace;

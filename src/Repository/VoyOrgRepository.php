@@ -26,11 +26,24 @@ class VoyOrgRepository extends ServiceEntityRepository
         return $this->getEntityManager()->createQuery(
                    'SELECT c
                     FROM App\Entity\Voyageorganise c
-                    WHERE c.villedest LIKE :villedest'
+                    WHERE c.villeDest LIKE :villeDest'
             )
-            ->setParameter('villedest', '%'.$villedest.'%')
+            ->setParameter('villeDest', '%'.$villedest.'%')
             ->getResult();
     }
+
+    public function findByidvoy($idvoy)
+    {
+        return $this->createQueryBuilder('p')
+            ->join('p.voyageorganise', 'r')
+            ->addSelect('r')
+            ->where('r.idvoy LIKE :idvoy')
+            ->setParameter('idvoy', $idvoy)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
 
 
 }

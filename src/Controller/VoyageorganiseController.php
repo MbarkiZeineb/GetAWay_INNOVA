@@ -10,7 +10,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-
+use Dompdf\Dompdf;
+use Dompdf\Options;
 
 /**
  * @Route("/voyageorganise")
@@ -36,6 +37,7 @@ class VoyageorganiseController extends AbstractController
      */
     public function indexFront(EntityManagerInterface $entityManager): Response
     {
+
         $voyageorganises = $entityManager
             ->getRepository(Voyageorganise::class)
             ->findAll();
@@ -45,6 +47,77 @@ class VoyageorganiseController extends AbstractController
         ]);
     }
 
+    /**
+     * @Route("/stats", name="stats")
+     */
+    public function statistiques(){
+        // On va chercher toutes les voyages
+        $rep=$this->getDoctrine()->getRepository(Voyageorganise::class);
+        $Voyageorganise = $rep->findAll();
+
+
+        $categNom = [];
+        $categColor = [];
+        $categCount = [];
+
+        foreach ($Voyageorganise  as $voyorg ){
+
+
+            $categNom[] = $voyorg->getNomCategorie();
+            $categColor[] = $voyorg->getColor();
+            $categCount[] = count($voyorg->getOffres());
+
+        }
+        return $this->render('voyageorganise/stat.html.twig', [
+
+
+
+
+            'categNom' => json_encode($categNom),
+            'categColor' => json_encode($categColor),
+            'categCount' => json_encode($categCount)
+
+        ]);
+    }
+
+
+    /**
+     * @Route("/pdf/{idvoy}", name="pdf")
+     */
+    public function pdf($idvoy): Response
+    {
+        // Configure Dompdf according to your needs
+        $pdfOptions = new Options();
+        $pdfOptions->set('defaultFont', 'Arial');
+        $pdfOptions->set('isRemoteEnabled', true);
+
+        $rep=$this->getDoctrine()->getRepository(Voyageorganise::class);
+
+        $voyageorganise =$rep-> findByidvoy($idvoy);
+        // Instantiate Dompdf with our options
+        $dompdf = new Dompdf($pdfOptions);
+
+        // Retrieve the HTML generated in our twig file
+        $html = $this->renderView('voyageorganise/pdf.html.twig', [
+            'voyageorganises' => $voyageorganise
+        ]);
+
+        $options = new Options();
+
+        // Load HTML to Dompdf
+        $dompdf->loadHtml($html);
+
+        // (Optional) Setup the paper size and orientation 'portrait' or 'portrait'
+        $dompdf->setPaper('A4', 'portrait');
+
+        // Render the HTML as PDF
+        $dompdf->render();
+
+        // Output the generated PDF to Browser (force download)
+        $dompdf->stream("mypdf.pdf", [
+            "Attachment" => true
+        ]);
+    }
 
     /**
      * @Route("/search", name="ajax_search")
@@ -52,8 +125,8 @@ class VoyageorganiseController extends AbstractController
     public function searchAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $Voyageorganise = $request->get('q');
-        $Voyageorganise=$em->getRepository(Voyageorganise::class)->findByvilledest($Voyageorganise);
+        $Voyage = $request->get('q');
+        $Voyageorganise=$em->getRepository(Voyageorganise::class)->findByvilledest($Voyage);
         if(!$Voyageorganise ) {
             $result['Voyageorganise ']['error'] = "voyage introuvable :( ";
         } else {
@@ -61,10 +134,10 @@ class VoyageorganiseController extends AbstractController
         }
         return new Response(json_encode($result));
     }
-    
+
     public function getRealEntities($Voyageorganise ){
         foreach ($Voyageorganise  as $voyorg ){
-            $realEntities[$voyorg ->getIdvoy] = [$voyorg->getVilledepart(),$voyorg->getVilledest(),$voyorg->getDatedepart(), $voyorg->getDatearrive(), $voyorg->getNbrplace(), $voyorg->getIdcat(), $voyorg->getDescription()];
+            $realEntities[$voyorg ->getIdvoy()] = [$voyorg->getVilledepart(),$voyorg->getVilledest(),$voyorg->getDatedepart(), $voyorg->getDatearrive(), $voyorg->getNbrplace(), $voyorg->getIdcat(), $voyorg->getDescription()];
         }
         return $realEntities;
     }

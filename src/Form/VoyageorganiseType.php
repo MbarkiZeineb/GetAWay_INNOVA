@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use App\Entity\Categorievoy;
 use App\Entity\Voyageorganise;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -32,7 +33,9 @@ class VoyageorganiseType extends AbstractType
                     'data-format' => 'dd-mm-yyyy HH:ii',
                 ), ))
             ->add('nbrplace')
-            ->add('idcat')
+            ->add('idcat',EntityType::class,[
+                'class'=> Categorievoy::class,
+                'choice_label'=>'nomcat'])
             ->add('prix')
             ->add('description')
         ;

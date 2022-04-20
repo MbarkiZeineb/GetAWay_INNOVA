@@ -23,7 +23,7 @@ class Categorievoy
 
     /**
      * @var string
-     *
+     *@Assert\NotBlank(message="le champ est vide")
      * @ORM\Column(name="nomcat", type="string", length=30, nullable=false)
      */
     private $nomcat;
@@ -31,13 +31,14 @@ class Categorievoy
     /**
      * @var int
      *@Assert\LessThan(value=100,message="capacite ne depasse pas 100")
+     * @Assert\NotBlank(message="le champ est vide")
      * @ORM\Column(name="capacitevoy", type="integer", nullable=false)
      */
     private $capacitevoy;
 
     /**
      * @var string
-     *
+     *@Assert\NotBlank(message="le champ est vide")
      * @ORM\Column(name="exigence", type="string", length=100, nullable=false)
      */
     private $exigence;

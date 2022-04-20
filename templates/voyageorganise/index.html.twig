@@ -102,6 +102,7 @@
                     <a href="{{ path('app_voyageorganise_show', {'idvoy': voyageorganise.idvoy}) }}">show</a>
                     <a href="{{ path('app_voyageorganise_edit', {'idvoy': voyageorganise.idvoy}) }}">edit</a>
                     <a href="{{ path('app_voyageorganise_delete', {'idvoy': voyageorganise.idvoy}) }}">delete</a>
+                    <a href="{{ path('pdf', {'idvoy': voyageorganise.idvoy}) }}">printDoctrine\DBAL\Driver\Mysqli\Initializer\Options</a>
                 </td>
             </tr>
         {% else %}
@@ -113,5 +114,7 @@
     </table>
 
     <a href="{{ path('app_voyageorganise_new') }}">Create new</a>
+        <br>
+    <a href="{{ path('stats', {'id': 1}) }}" >statistiques</a>
 </main>
 {% endblock %}
