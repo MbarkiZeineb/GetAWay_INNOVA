@@ -507,7 +507,9 @@
         Connexion
     </a>
 </li>
- {% else %}
+ {% elseif app.user.role == "Client" or app.user.role== "Offreur" %}
+
+
      <li class="dropdown">
          <a href="#" class="dropdown-toggle" data-toggle="dropdown"
          >Espace Réclamation <b class="icon-angle-down"></b
@@ -543,7 +545,14 @@
              <span class="icon icon-user"></span>
          </a>
      </li>
+ {% elseif app.user.role == "Admin" or app.user.role== "Agent-Aerien" %}
+     <li class="nav-item">
+         <a href="{{ path('app_user_index',{'id':app.user.id}) }}" class="nav-link">
+             Esapce Administarteur
+         </a>
+     </li>
  {% endif %}
+
 
 
 

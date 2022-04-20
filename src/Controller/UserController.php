@@ -117,9 +117,7 @@ return $this->redirectToRoute('security_login');
      */
     public function login()
     {
-
 return $this->render('user/login.html.twig');
-
     }
 
     /**
