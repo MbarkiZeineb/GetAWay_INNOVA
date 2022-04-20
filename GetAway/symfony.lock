@@ -94,6 +94,9 @@
     "laminas/laminas-code": {
         "version": "4.5.1"
     },
+    "miracode/stripe-bundle": {
+        "version": "v1.0.9"
+    },
     "monolog/monolog": {
         "version": "1.27.0"
     },
@@ -230,6 +233,9 @@
         "files": [
             "./config/packages/sensio_framework_extra.yaml"
         ]
+    },
+    "stripe/stripe-php": {
+        "version": "v7.124.0"
     },
     "symfony/asset": {
         "version": "v4.4.40"

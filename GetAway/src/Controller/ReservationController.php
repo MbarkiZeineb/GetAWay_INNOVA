@@ -54,8 +54,9 @@ class ReservationController extends AbstractController
      */
     public function AfficherClient(EntityManagerInterface $entityManager, $id,ReservationRepository $rep): Response
     {
+        dump($id);
         $reservations=$rep->listReservationByidc($id);
-
+                dump("aaaaaaaaaaaaaaaaaaa");
         return $this->render('reservation/AfficherFront.html.twig', [
             'reservations' => $reservations,
         ]);

@@ -34,7 +34,7 @@
                                 <td>{{ paiement.idReservation.type}}</td>
                             </tr>
                             <tr>
-                                <td>   <a href="{{ path('AfficherClient') }}" class="btn btn-default">Retour a la liste </a></td>
+                                <td>   <a href="{{ path('AfficherClient',{'id': app.user.id }) }}" class="btn btn-default">Retour a la liste </a></td>
                                 <td>  {{ form_widget(form.Modifier, { 'attr': {'class': 'btn btn-default'}} )}}</td>
                             </tr>
                             </tbody>

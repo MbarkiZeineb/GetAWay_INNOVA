@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0cd33377c787758a489642e4fb870f80",
+    "content-hash": "6b8b0ae1557c5016bcb815ee09ecf1df",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -1128,16 +1128,16 @@
         },
         {
             "name": "doctrine/orm",
-            "version": "2.11.2",
+            "version": "2.12.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/orm.git",
-                "reference": "9c351e044478135aec1755e2c0c0493a4b6309db"
+                "reference": "d5503644314ed825fe4b276a588458a033fa3e7c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/orm/zipball/9c351e044478135aec1755e2c0c0493a4b6309db",
-                "reference": "9c351e044478135aec1755e2c0c0493a4b6309db",
+                "url": "https://api.github.com/repos/doctrine/orm/zipball/d5503644314ed825fe4b276a588458a033fa3e7c",
+                "reference": "d5503644314ed825fe4b276a588458a033fa3e7c",
                 "shasum": ""
             },
             "require": {
@@ -1150,14 +1150,14 @@
                 "doctrine/event-manager": "^1.1",
                 "doctrine/inflector": "^1.4 || ^2.0",
                 "doctrine/instantiator": "^1.3",
-                "doctrine/lexer": "^1.0",
-                "doctrine/persistence": "^2.2",
+                "doctrine/lexer": "^1.2.3",
+                "doctrine/persistence": "^2.4 || ^3",
                 "ext-ctype": "*",
                 "php": "^7.1 || ^8.0",
                 "psr/cache": "^1 || ^2 || ^3",
                 "symfony/console": "^3.0 || ^4.0 || ^5.0 || ^6.0",
                 "symfony/polyfill-php72": "^1.23",
-                "symfony/polyfill-php80": "^1.15"
+                "symfony/polyfill-php80": "^1.16"
             },
             "conflict": {
                 "doctrine/annotations": "<1.13 || >= 2.0"
@@ -1166,8 +1166,9 @@
                 "doctrine/annotations": "^1.13",
                 "doctrine/coding-standard": "^9.0",
                 "phpbench/phpbench": "^0.16.10 || ^1.0",
-                "phpstan/phpstan": "1.4.6",
+                "phpstan/phpstan": "~1.4.10 || 1.5.0",
                 "phpunit/phpunit": "^7.5 || ^8.5 || ^9.4",
+                "psr/log": "^1 || ^2 || ^3",
                 "squizlabs/php_codesniffer": "3.6.2",
                 "symfony/cache": "^4.4 || ^5.4 || ^6.0",
                 "symfony/yaml": "^3.4 || ^4.0 || ^5.0 || ^6.0",
@@ -1220,9 +1221,9 @@
             ],
             "support": {
                 "issues": "https://github.com/doctrine/orm/issues",
-                "source": "https://github.com/doctrine/orm/tree/2.11.2"
+                "source": "https://github.com/doctrine/orm/tree/2.12.0"
             },
-            "time": "2022-03-09T15:23:58+00:00"
+            "time": "2022-04-19T18:34:28+00:00"
         },
         {
             "name": "doctrine/persistence",
@@ -1719,6 +1720,74 @@
                 }
             ],
             "time": "2021-12-19T18:06:55+00:00"
+        },
+        {
+            "name": "miracode/stripe-bundle",
+            "version": "v1.0.9",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mirovskyi/stripe-bundle.git",
+                "reference": "6031571633d3f3deece4d3199c98f2c67a5b980f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mirovskyi/stripe-bundle/zipball/6031571633d3f3deece4d3199c98f2c67a5b980f",
+                "reference": "6031571633d3f3deece4d3199c98f2c67a5b980f",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/common": ">=2.2",
+                "php": ">=5.4.0",
+                "stripe/stripe-php": ">=3.0",
+                "symfony/config": ">=2.3",
+                "symfony/framework-bundle": ">=2.4"
+            },
+            "require-dev": {
+                "doctrine/orm": ">=2.2",
+                "phpunit/phpunit": "~4.8|~5.0",
+                "symfony/yaml": "^2.8 || ^3.0 || ^4.0"
+            },
+            "suggest": {
+                "doctrine/orm": "If you want to save stripe data in database"
+            },
+            "type": "symfony-bundle",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Miracode\\StripeBundle\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Aleksey Mirovskyi",
+                    "email": "mirovskyi@gmail.com"
+                }
+            ],
+            "description": "Symfony bundle to integrate Stripe PHP SDK. Ability to save Stripe objects in database using Doctrine.",
+            "keywords": [
+                "bundle",
+                "payment",
+                "php",
+                "stripe",
+                "symfony",
+                "webpayment"
+            ],
+            "support": {
+                "issues": "https://github.com/mirovskyi/stripe-bundle/issues",
+                "source": "https://github.com/mirovskyi/stripe-bundle/tree/1.0"
+            },
+            "time": "2018-02-19T16:55:56+00:00"
         },
         {
             "name": "monolog/monolog",
@@ -2400,6 +2469,66 @@
                 "source": "https://github.com/sensiolabs/SensioFrameworkExtraBundle/tree/v5.6.1"
             },
             "time": "2020-08-25T19:10:18+00:00"
+        },
+        {
+            "name": "stripe/stripe-php",
+            "version": "v7.124.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/stripe/stripe-php.git",
+                "reference": "548e8ef08a86c6c621446082393dc6a1af51076c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/548e8ef08a86c6c621446082393dc6a1af51076c",
+                "reference": "548e8ef08a86c6c621446082393dc6a1af51076c",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "ext-json": "*",
+                "ext-mbstring": "*",
+                "php": ">=5.6.0"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "3.5.0",
+                "phpstan/phpstan": "^1.2",
+                "phpunit/phpunit": "^5.7 || ^9.0",
+                "squizlabs/php_codesniffer": "^3.3"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Stripe\\": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Stripe and contributors",
+                    "homepage": "https://github.com/stripe/stripe-php/contributors"
+                }
+            ],
+            "description": "Stripe PHP Library",
+            "homepage": "https://stripe.com/",
+            "keywords": [
+                "api",
+                "payment processing",
+                "stripe"
+            ],
+            "support": {
+                "issues": "https://github.com/stripe/stripe-php/issues",
+                "source": "https://github.com/stripe/stripe-php/tree/v7.124.0"
+            },
+            "time": "2022-04-18T23:07:08+00:00"
         },
         {
             "name": "symfony/asset",

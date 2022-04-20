@@ -23,11 +23,10 @@ class PaiementType extends AbstractType
         $builder
             ->add('modalitePaiement',ChoiceType::class,array(
                 'choices' => array(''=>'',
-                    'Carte bleue' => 'CARTE BLEUE',
+                    'Carte' => 'CARTE',
                     'Chèque' => 'CHEQUE',
                     'Virement'   => 'VIREMENT',
-                    'Caisse'   => 'CAISSE',
-                    'Paypal' => 'Paypal'
+                    'Caisse'   => 'CAISSE'
                 )
             ))
             ->add('montant',NumberType::class,array('disabled'=>true) )

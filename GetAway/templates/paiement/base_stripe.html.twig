@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>{% block title %}Skillhunt - Free Bootstrap 4 Template by Colorlib {% endblock %}</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    {% block css %}
+        <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700&display=swap" rel="stylesheet">
+
+        <link rel="stylesheet" href="{{asset('front/css/open-iconic-bootstrap.min.css')}}">
+        <link rel="stylesheet" href="{{asset('front/css/animate.css')}}">
+        <link rel="stylesheet" href="{{asset('front/css/owl.carousel.min.css') }}">
+        <link rel="stylesheet" href="{{asset('front/css/owl.theme.default.min.css')}}">
+        <link rel="stylesheet" href="{{asset('front/css/magnific-popup.css')}}">
+
+        <link rel="stylesheet" href="{{asset('front/css/aos.css')}}">
+
+        <link rel="stylesheet" href="{{asset('front/css/ionicons.min.css' )}}">
+
+        <link rel="stylesheet" href="{{asset('front/css/bootstrap-datepicker.css') }}">
+        <link rel="stylesheet" href="{{asset('front/css/jquery.timepicker.css') }}">
+
+
+        <link rel="stylesheet" href="{{asset('front/css/flaticon.css') }}">
+        <link rel="stylesheet" href="{{asset('front/css/icomoon.css') }}">
+        <link rel="stylesheet" href="{{asset('front/css/style.css') }}">
+    {% endblock %}
+</head>
+<body>
+{# Role TestTaker #}
+{% block nav %}
+    <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
+        <div class="container-fluid px-md-4	">
+            <a class="navbar-brand" href=><img src="{{ asset ('front/images/273611990_485088496513727_7369103203946488337_n.png') }}" style=height:60px;  alt="Example"/></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="oi oi-menu"></span> Menu
+            </button>
+
+            <div class="collapse navbar-collapse" id="ftco-nav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item active"><a href="" class="nav-link">Mon Profil</a></li>
+                    <li class="nav-item "><a  href="" class="nav-link">Consulter les offress</a></li>
+                    <li class="nav-item "><a  href=""class="nav-link">Les Condidatures</a></li>
+
+                    <li class="nav-item "><a  href=""class="nav-link">Consulter les evenements</a></li>
+                    <li class="nav-item "><a  href=""class="nav-link">Consulter les abonnements</a></li>
+                    <li class="nav-item cta cta-colored"><a class="nav-link" >Se déconnecter</a></li>
+
+                </ul>
+            </div>
+        </div>
+    </nav>
+{% endblock %}
+
+{# Role testMaker #}
+{#
+{% block nav %}
+<nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
+    <div class="container-fluid px-md-4	">
+        <a class="navbar-brand"><img src="{{ asset ('front/images/273611990_485088496513727_7369103203946488337_n.png') }}" style=height:90px;  alt="Example"/></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="oi oi-menu"></span> Menu
+        </button>
+        <div class="collapse navbar-collapse" id="ftco-nav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item active"><a href="{{ path('front_entreprise_profil')}}" class="nav-link">Mon Profil</a></li>
+                <li class="nav-item"><a href="{{ path('front_testmaker_test')}}" class="nav-link">creer test</a></li>
+                <li class="nav-item"><a href="{{ path('front_testmaker_mestests')}}" class="nav-link">mes tests</a></li>
+                <li class="nav-item"><a href="{{ path('front_testmaker_bibliotheque')}}" class="nav-link">Bibliotheque</a></li>
+                <li class="nav-item"><a href="{{ path('front_testmaker_candidature_accp')}}" class="nav-link">Candidatures</a></li>
+                <li class="nav-item cta cta-colored"><a class="nav-link" >Se déconnecter</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+{% endblock %}
+#}
+{# Role accueil #}
+{#
+{% block nav %}
+<nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
+    <div class="container-fluid px-md-4	">
+        <a class="navbar-brand"><img src="{{ asset ('front/images/273611990_485088496513727_7369103203946488337_n.png') }}" style=height:60px;  alt="Example"/></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="oi oi-menu"></span> Menu
+        </button>
+        <div class="collapse navbar-collapse" id="ftco-nav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item active"><a href="{{ path('front_entreprise_profil')}}" class="nav-link">Accueil</a></li>
+                <li class="nav-item cta mr-md-1"><a class="nav-link">S'inscrire</a></li>
+                <li class="nav-item cta cta-colored"><a class="nav-link" >Se connecter</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+{% endblock %}
+#}
+{# Role Entreprise #}
+{#
+{% block nav %}
+<nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
+    <div class="container-fluid px-md-4	">
+        <a class="navbar-brand"><img src="{{ asset ('front/images/273611990_485088496513727_7369103203946488337_n.png') }}" style=height:90px;  alt="Example"/></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="oi oi-menu"></span> Menu
+        </button>
+        <div class="collapse navbar-collapse" id="ftco-nav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item active"><a href="{{ path('front_entreprise_profil')}}" class="nav-link">Mon Profil</a></li>
+                <li class="nav-item"><a  href="{{ path('front_entreprise_creroffre')}}" class="nav-link">Creer offre</a></li>
+                <li class="nav-item"><a href="{{ path('front_entreprise_mesoffres')}}" class="nav-link">Mes Offres</a></li>
+                <li class="nav-item"><a  href="{{ path('front_entreprise_candidature')}}" class="nav-link">Les candidatures</a></li>
+                <li class="nav-item"><a  href="{{ path('front_entreprise_creerevenement')}}"class="nav-link">creer evenement</a></li>
+                <li class="nav-item"><a  href="{{ path('front_entreprise_mesevenements')}}"class="nav-link">Mes evenements</a></li>
+                <li class="nav-item cta cta-colored"><a class="nav-link" >Se déconnecter</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+{% endblock %}
+#}
+<!-- END nav -->
+{% block r1 %}
+    <div class="hero-wrap img" style="background-image:url('{{ asset('../templates/front/images/pg_1.jpg')}}')">
+        {% block r2 %}
+            <div class="overlay"></div>
+            <div class="container">
+                <div class="row d-md-flex no-gutters slider-text align-items-center justify-content-center">
+
+                    <div class="col-md-10 d-flex align-items-center ftco-animate">
+                        <div class="text text-center pt-5 mt-md-5">
+                            <p class="mb-4">Trouvez des opportunités d'emploi, d'emploi et de carrière</p>
+                            <h1 class="mb-5">Le moyen le plus simple d'obtenir votre nouvel emploi</h1>
+                            <div class="ftco-counter ftco-no-pt ftco-no-pb">
+                                <div class="row">
+                                    <div class="col-md-4 d-flex justify-content-center counter-wrap ftco-animate">
+                                        <div class="block-18">
+                                            <div class="text d-flex">
+                                                <div class="icon mr-2">
+                                                    <span class="flaticon-worldwide"></span>
+                                                </div>
+                                                <div class="desc text-left">
+                                                    <strong class="number" data-number="46">0</strong>
+                                                    <span> pays</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4 d-flex justify-content-center counter-wrap ftco-animate">
+                                        <div class="block-18 text-center">
+                                            <div class="text d-flex">
+                                                <div class="icon mr-2">
+                                                    <span class="flaticon-visitor"></span>
+                                                </div>
+                                                <div class="desc text-left">
+                                                    <strong class="number" data-number="450">0</strong>
+                                                    <span>Entreprises</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 d-flex justify-content-center counter-wrap ftco-animate">
+                                        <div class="block-18 text-center">
+                                            <div class="text d-flex">
+                                                <div class="icon mr-2">
+                                                    <span class="flaticon-resume"></span>
+                                                </div>
+                                                <div class="desc text-left">
+                                                    <strong class="number" data-number="80000">0</strong>
+                                                    <span>Employés actifs</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endblock %}
+    </div>
+{% endblock %}
+
+{% block body %}
+
+    <section class="ftco-section ftco-no-pt ftco-no-pb">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="category-wrap">
+                        <div class="row no-gutters">
+                            <div class="col-md-2">
+                                <div class="top-category text-center no-border-left">
+                                    <h3><a href="#">Siteweb &amp; Logiciel</a></h3>
+                                    <span class="icon flaticon-contact"></span>
+                                    <p><span class="number">143</span> <span>Postes ouverts</span></p>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="top-category text-center active">
+                                    <h3><a href="#">Education &amp; Formation</a></h3>
+                                    <span class="icon flaticon-mortarboard"></span>
+                                    <p><span class="number">143</span> <span>Postes ouverts</span></p>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="top-category text-center">
+                                    <h3><a href="#">Graphic &amp; UI/UX Design</a></h3>
+                                    <span class="icon flaticon-idea"></span>
+                                    <p><span class="number">143</span> <span>Postes ouverts</span></p>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="top-category text-center">
+                                    <h3><a href="#">Comptabilité &amp; Finance</a></h3>
+                                    <span class="icon flaticon-accounting"></span>
+                                    <p><span class="number">143</span> <span>Postes ouverts</span></p>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="top-category text-center">
+                                    <h3><a href="#">Restaurant &amp; Nourriture</a></h3>
+                                    <span class="icon flaticon-dish"></span>
+                                    <p><span class="number">143</span> <span>Postes ouverts</span></p>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="top-category text-center">
+                                    <h3><a href="#">Santé &amp; <br> Hôpital</a></h3>
+                                    <span class="icon flaticon-stethoscope"></span>
+                                    <p><span class="number">143</span> <span>Postes ouverts</span></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="ftco-section">
+        <div class="container">
+            <div class="row justify-content-center mb-5">
+                <div class="col-md-7 heading-section text-center ftco-animate">
+                    <span class="subheading">Categories des Emplois</span>
+                    <h2 class="mb-0">Nos Meilleurs Categories</h2>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3 ftco-animate">
+                    <ul class="category text-center">
+                        <li><a href="#">Developpement <br><span class="number">354</span> <span>Postes ouverts</span><i class="ion-ios-arrow-forward"></i></a></li>
+                        <li><a href="#">Graphic Designer <br><span class="number">143</span> <span>Postes ouverts</span><i class="ion-ios-arrow-forward"></i></a></li>
+                        <li><a href="#">Multimedia <br><span class="number">100</span> <span>Postes ouverts</span><i class="ion-ios-arrow-forward"></i></a></li>
+                        <li><a href="#">Advertising <br><span class="number">90</span> <span>Postes ouverts</span><i class="ion-ios-arrow-forward"></i></a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3 ftco-animate">
+                    <ul class="category text-center">
+                        <li><a href="#">Education &amp; Formations <br><span class="number">100</span> <span>Postes ouverts</span><i class="ion-ios-arrow-forward"></i></a></li>
+                        <li><a href="#">Anglais <br><span class="number">200</span> <span>Postes ouverts</span><i class="ion-ios-arrow-forward"></i></a></li>
+                        <li><a href="#">Media Sociale <br><span class="number">300</span> <span>Postes ouverts</span><i class="ion-ios-arrow-forward"></i></a></li>
+                        <li><a href="#">Rédaction <br><span class="number">150</span> <span>Postes ouverts</span><i class="ion-ios-arrow-forward"></i></a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3 ftco-animate">
+                    <ul class="category text-center">
+                        <li><a href="#">Programtion PHP <br><span class="number">400</span> <span>Postes ouverts</span><i class="ion-ios-arrow-forward"></i></a></li>
+                        <li><a href="#">Gestion de projet <br><span class="number">100</span> <span>Postes ouverts</span><i class="ion-ios-arrow-forward"></i></a></li>
+                        <li><a href="#">Finance Management <br><span class="number">222</span> <span>Postes ouverts</span><i class="ion-ios-arrow-forward"></i></a></li>
+                        <li><a href="#">Office &amp; Admin <br><span class="number">123</span> <span>Postes ouverts</span><i class="ion-ios-arrow-forward"></i></a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3 ftco-animate">
+                    <ul class="category text-center">
+                        <li><a href="#">Web Designer <br><span class="number">324</span> <span>Postes ouverts</span></span><i class="ion-ios-arrow-forward"></i></a></li>
+                        <li><a href="#">Service Clients <br><span class="number">564</span> <span>Postes ouverts</span><i class="ion-ios-arrow-forward"></i></a></li>
+                        <li><a href="#">Marketing &amp; Ventes <br><span class="number">234</span> <span>Postes ouverts</span><i class="ion-ios-arrow-forward"></i></a></li>
+                        <li><a href="#">Logiciels <br><span class="number">425</span> <span>Postes ouverts</span><i class="ion-ios-arrow-forward"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="ftco-section services-section">
+        <div class="container">
+            <div class="row d-flex">
+                <div class="col-md-3 d-flex align-self-stretch ftco-animate">
+                    <div class="media block-6 services d-block">
+                        <div class="icon"><span class="flaticon-resume"></span></div>
+                        <div class="media-body">
+                            <h3 class="heading mb-3">Rechercher des millions d'emplois</h3>
+                            <p> des opportunites seront disponibles pour tout le monde 	 </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 d-flex align-self-stretch ftco-animate">
+                    <div class="media block-6 services d-block">
+                        <div class="icon"><span class="flaticon-team"></span></div>
+                        <div class="media-body">
+                            <h3 class="heading mb-3">Emplois faciles à gérer</h3>
+                            <p>des emplois facilitent l'integration l'equipe</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 d-flex align-self-stretch ftco-animate">
+                    <div class="media block-6 services d-block">
+                        <div class="icon"><span class="flaticon-career"></span></div>
+                        <div class="media-body">
+                            <h3 class="heading mb-3">Meilleures carrières</h3>
+                            <p>Votre carrieres commencent par là</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 d-flex align-self-stretch ftco-animate">
+                    <div class="media block-6 services d-block">
+                        <div class="icon"><span class="flaticon-employees"></span></div>
+                        <div class="media-body">
+                            <h3 class="heading mb-3">Rechercher des candidats experts</h3>
+                            <p> le mecanisme de recherche filtre les plus qualifies employees dans leurs postes </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+
+
+<!-- loader -->
+{% block loader %}
+    <div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00"/></svg></div>
+
+{% endblock %}
+{% block js %}
+
+    <script src="{{asset('front/js/jquery.min.js')}}"></script>
+    <script src="{{asset('front/js/jquery-migrate-3.0.1.min.js')}}"></script>
+    <script src="{{asset('front/js/popper.min.js')}}"></script>
+    <script src="{{asset('front/js/bootstrap.min.js')}}"></script>
+    <script src="{{asset('front/js/jquery.easing.1.3.js')}}"></script>
+    <script src="{{asset('front/js/jquery.waypoints.min.js')}}"></script>
+    <script src="{{asset('front/js/jquery.stellar.min.js')}}"></script>
+    <script src="{{asset('front/js/owl.carousel.min.js')}}"></script>
+    <script src="{{asset('front/js/jquery.magnific-popup.min.js')}}"></script>
+    <script src="{{asset('front/js/aos.js')}}"></script>
+    <script src="{{asset('front/js/jquery.animateNumber.min.js')}}"></script>
+    <script src="{{asset('front/js/scrollax.min.js')}}"></script>
+    <script src="{{asset('https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false')}}"></script>
+    <script src="{{asset('front/js/google-map.js')}}"></script>
+    <script src="{{asset('front/js/main.js')}}"></script>
+{% endblock %}
+</body>
+</html>

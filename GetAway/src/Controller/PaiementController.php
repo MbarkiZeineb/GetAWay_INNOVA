@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Controller;
-
 use App\Entity\Paiement;
 use App\Form\ModifierPType;
 use App\Form\PaiementType;
@@ -13,12 +12,17 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Stripe\Stripe;
+use Stripe\Checkout\Session;
+
 
 /**
  * @Route("/paiement")
  */
 class PaiementController extends AbstractController
 {
+
     /**
      * @Route("/", name="app_paiement_index", methods={"GET"})
      */
@@ -92,12 +96,12 @@ class PaiementController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="app_paiement_show", methods={"GET"})
+     * @Route("/", name="app_paiement_show", methods={"GET"})
      */
-    public function show(Paiement $paiement): Response
+    public function show(): Response
     {
-        return $this->render('paiement/show.html.twig', [
-            'paiement' => $paiement,
+        return $this->render('paiement/index.html.twig', [
+            'controller_name' => 'PaiementController'
         ]);
     }
     /**
@@ -119,6 +123,30 @@ class PaiementController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($paiement);
             $entityManager->flush();
+            if($paiement->getModalitePaiement()=="CARTE")
+            {
+                Stripe::setApiKey($_ENV['STRIPE_SK']);
+                $session =Session::create([
+                    'payment_method_types'=>['card'],
+                    'line_items'=>[[
+                        'price_data'=>[
+                            'currency'=>'usd',
+                            'product_data'=>[
+                                'name'=>'Abonnement',
+                            ],
+                            'unit_amount'=>$paiement->getMontant(),
+                        ],
+                        'quantity'=>$reservation->getNbrPlace(),
+                    ]],
+                    'mode'=>'payment',
+                    'success_url'=>$this->generateUrl('success_url', [], UrlGeneratorInterface::ABSOLUTE_URL),
+                    'cancel_url'=>$this->generateUrl('cancel_url', [], UrlGeneratorInterface::ABSOLUTE_URL),
+                ]);
+                dump($session->id);
+                return $this->redirect($session->url, 303);
+
+
+            }
             return $this->redirectToRoute('delete_items',array('id'=>$reservation->getIdVol()->getIdVol()));
         }
 
@@ -127,6 +155,15 @@ class PaiementController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+
+    /**
+     * @Route("/cancel_url", name="cancel_url")
+     */
+    public function cancelurl(): Response
+    {
+        return $this->redirectToRoute('cart_panier');
+    }
+
     /**
      * @Route("/DetailsR/{id}", name="detailsR", methods={"GET"})
      */
@@ -154,6 +191,9 @@ class PaiementController extends AbstractController
             dump("aaaa");
             dump($paiement);
             return $this->redirectToRoute('AfficherClient');
+
+
+
         }
         return $this->render('paiement/PaiementFront.html.twig', [
             'paiement' => $paiement,'form'=>$form->createView()
@@ -222,15 +262,6 @@ public function newact(Request $request, EntityManagerInterface $entityManager,$
         'form' => $form->createView(),
     ]);
 }
-
-
-
-
-
-
-
-
-
     /**
      * @Route("/newGroup/{id}/{prix}", name="app_paiement_newgroup", methods={"GET", "POST"})
      */
@@ -258,5 +289,11 @@ public function newact(Request $request, EntityManagerInterface $entityManager,$
         ]);
     }
 
-
+    /**
+     * @Route("/success_url", name="success_url")
+     */
+    public function succesurl(): Response
+    {   dump("test");
+        return $this->redirectToRoute('AfficherClient',array('id'=>$this->getUser()->getUsername()));
+    }
 }
