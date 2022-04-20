@@ -31,15 +31,27 @@ class CartController extends AbstractController
         $heb[] = [];
         $act[] = [];
         $var[] = [];
+        $Montant=0;
         foreach ($panier as $id => $value) {
             if($rep->find($id))
-            $voyage[] = ['voyage' =>$rep->find($id)];
+            {$voyage[] = ['voyage' =>$rep->find($id)];
+            $Montant+=$rep->find($id)->getPrix();}
             if($repvol->find($id))
-            $vol[] = ['vol' => $repvol->find($id)];
+            { $vol[] = ['vol' => $repvol->find($id)];
+                $Montant+=$repvol->find($id)->getPrix();
+            }
             if($reph->find($id))
-            $heb[] = ['heb' => $reph->find($id)];
+            {
+                $heb[] = ['heb' => $reph->find($id)];
+                $Montant+=$reph->find($id)->getPrix();
+            }
+
             if($repa->find($id))
-            $act[] = ['act' => $repa->find($id)];
+            {
+                $act[] = ['act' => $repa->find($id)];
+                $Montant+=$repa->find($id)->getPrix();
+            }
+
         }
         unset($vol[0]);
         unset($voyage[0]);
@@ -74,14 +86,14 @@ class CartController extends AbstractController
         if($form->isSubmitted() && $form->isValid() ){
 
 
-            return $this->redirectToRoute('reservation_group', array('idvol' => $vol[1]["vol"]->getIdVol(),'idact'=>$act[1]["act"]->getRefact(),'idvoy'=>$voyage[1]["voyage"]->getIdvoy(),'quantite'=>$form["nbrPlace"]->getData()));
+            return $this->redirectToRoute('reservation_all', array('idvol' => $vol[1]["vol"]->getIdVol(),'idact'=>$act[1]["act"]->getRefact(),'idvoy'=>$voyage[1]["voyage"]->getIdvoy(),'quantite'=>$form["nbrPlace"]->getData()));
 
 
 
 
         }
         return $this->render('cart/index.html.twig', ['items' => $voyage, 'items1' => $vol, 'items3' => $heb, 'items4' => $act
-            , 'form' => $form->createView()
+            , 'form' => $form->createView(),'Montant'=>$Montant,
         ]);
     }
 

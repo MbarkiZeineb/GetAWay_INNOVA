@@ -27,8 +27,6 @@ class CalendarSubscriber   extends AbstractController implements EventSubscriber
             CalendarEvents::SET_DATA => 'onCalendarSetData',
         ];
     }
-
-
     public function onCalendarSetData(CalendarEvent $calendar)
     {
         $start = $calendar->getStart();
@@ -37,7 +35,7 @@ class CalendarSubscriber   extends AbstractController implements EventSubscriber
 
         // Modify the query to fit to your entity and needs
         // Change booking.beginAt by your start date property
-
+            dump($this->getUser()->getUsername());
         $bookings = $this->bookingRepository
             ->createQueryBuilder('r')
             ->join('r.idClient','c')

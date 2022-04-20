@@ -161,6 +161,18 @@ class ReservationRepository extends ServiceEntityRepository
             ->getQuery()->getResult();
 
     }
+    public function stat()
+    {
+
+        $query = $this->createQueryBuilder('r')
+            ->select(' r.type as type, COUNT(r) as count')
+            ->where('r.etat like  :var ')
+            ->setParameter('var','%Approuve%')
+            ->groupBy('r.type');
+
+        return $query->getQuery()->getResult();
+    }
+
 
     // /**
     //  * @return Reservation[] Returns an array of Reservation objects

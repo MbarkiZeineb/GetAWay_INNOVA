@@ -27,9 +27,6 @@ use Dompdf\Options;
  */
 class ReservationController extends AbstractController
 {
-    /**
-     * @Route("/", name="app_reservation_index")
-     */
     public function index(EntityManagerInterface $entityManager): Response
     {
         $reservations = $entityManager
@@ -42,10 +39,11 @@ class ReservationController extends AbstractController
     }
 
     /**
-     * @Route("/calendar", name="booking_calendar", methods={"GET"})
+     * @Route("/calendar", name="booking_calendar",methods={"GET", "POST"})
      */
     public function calendar(): Response
     {
+        dump("hello");
         return $this->render('reservation/calendar.html.twig');
     }
 
@@ -197,6 +195,7 @@ class ReservationController extends AbstractController
         $check3=$repv->check3($id,$reservation->getDateDebut(),$reservation->getDateFin());
         $check4=$repv->check4($id,$reservation->getDateDebut(),$reservation->getDateFin());
         $check5=$repv->check4($id,$reservation->getDateDebut(),$reservation->getDateFin());
+        dump($this->getUser());
         if($this->getUser()!=null)
         {          $user =$repU->find($this->getUser()->getUsername());
             $reservation->setIdClient($user);
@@ -221,14 +220,13 @@ class ReservationController extends AbstractController
                 ]);
 
             }}
+
+        }
         else
         {
             return $this->render('user/login.html.twig');
         }
 
-
-
-        }
         return $this->render('reservation/AddHebergement.html.twig',['form'=>$form->createView()]);
     }
     /**
@@ -277,7 +275,7 @@ class ReservationController extends AbstractController
                }
 
 
-               return $this->redirectToRoute('AfficherClient');
+               return $this->redirectToRoute('AfficherClient',array('id'=>$reservation->getIdClient()->getId()));
 
            }
 
@@ -364,7 +362,7 @@ class ReservationController extends AbstractController
     }
 
     /**
-     * @Route("/group/{idvol}/{idact}/{idvoy}/{quantite}", name="reservation_group", methods={"GET", "POST"})
+     * @Route("/group/{idvol}/{idact}/{idvoy}/{quantite}", name="reservation_all", methods={"GET", "POST"})
      */
     public function addGroup(Request $request, UserRepository $repU,EntityManagerInterface $entityManager,$idvoy,$idvol,$idact,$quantite,VolRepository $repvol,VoyageorganiseRepository $rep,ActiviteRepository $repa): Response
     {
@@ -398,13 +396,43 @@ class ReservationController extends AbstractController
             }
             else
             {
-
+                $this->addFlash('warning',"nombre de place non disponible ");
                 return $this->redirectToRoute('cart_panier');
             }
 
         }
+        return $this->redirectToRoute('cart_panier');
+
+    }
 
 
+    /**
+     * @Route ("/statistiqueP/", name="app_reservation_show", methods={"GET", "POST"})
+     */
+    public function statP()
+    {
+
+        return $this->render('reservation/statistique.html.twig');
+    }
+
+    /**
+     * @Route ("/statistiqueP22/", name="app_vv", methods={"GET", "POST"})
+     */
+    public function statmmm(ReservationRepository  $rep)
+    {
+        $reservation = $rep->stat();
+        $type = [];
+        $nbre= [];
+        foreach($reservation as $re){
+
+            $type [] = $re['type'];
+            $nbre[] = $re['count'];
+        }
+        dump( $type);
+        dump( $nbre);
+        return $this->render('reservation/statistique.html.twig',[
+            'type'=> json_encode($type),'nbre'=>json_encode($nbre),
+        ]);
     }
 
 

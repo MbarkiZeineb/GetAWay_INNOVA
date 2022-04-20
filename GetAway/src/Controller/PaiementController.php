@@ -296,4 +296,6 @@ public function newact(Request $request, EntityManagerInterface $entityManager,$
     {   dump("test");
         return $this->redirectToRoute('AfficherClient',array('id'=>$this->getUser()->getUsername()));
     }
+
+
 }

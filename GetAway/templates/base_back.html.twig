@@ -256,7 +256,7 @@
     <!-- page-body-wrapper ends -->
 </div>
 <!-- container-scroller -->
-
+{% block javascripts %}
 <!-- plugins:js -->
 <script src="{{ asset('back/vendors/js/vendor.bundle.base.js') }}"></script>
 
@@ -275,7 +275,7 @@
 <script src="{{ asset('back/js/jquery.cookie.js') }}" type="text/javascript"></script>
 <script src="{{ asset('back/s/dashboard.js') }}"></script>
 <script src="{{ asset('back/js/Chart.roundedBarCharts.js') }}"></script>
-
+{% endblock %}
 
 </body>
 
