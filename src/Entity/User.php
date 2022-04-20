@@ -333,6 +333,28 @@ class User implements UserInterface
         return $this;
     }
 
+    public function addReclamation(Reclamation $reclamation): self
+    {
+        if (!$this->reclamation->contains($reclamation)) {
+            $this->reclamation[] = $reclamation;
+            $reclamation->setIdclient($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReclamation(Reclamation $reclamation): self
+    {
+        if ($this->reclamation->removeElement($reclamation)) {
+            // set the owning side to null (unless already changed)
+            if ($reclamation->getIdclient() === $this) {
+                $reclamation->setIdclient(null);
+            }
+        }
+
+        return $this;
+    }
+
 
 
 

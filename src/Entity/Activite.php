@@ -114,6 +114,11 @@ class Activite
      */
     private $likes;
 
+    public function __construct()
+    {
+        $this->likes = new ArrayCollection();
+    }
+
     public function getRefact(): ?int
     {
         return $this->refact;
@@ -268,6 +273,28 @@ class Activite
         }
 
         return false;
+    }
+
+    public function addLike(Activitelike $like): self
+    {
+        if (!$this->likes->contains($like)) {
+            $this->likes[] = $like;
+            $like->setAct($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLike(Activitelike $like): self
+    {
+        if ($this->likes->removeElement($like)) {
+            // set the owning side to null (unless already changed)
+            if ($like->getAct() === $this) {
+                $like->setAct(null);
+            }
+        }
+
+        return $this;
     }
 
 }

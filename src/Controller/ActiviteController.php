@@ -2,10 +2,12 @@
 
 namespace App\Controller;
 use App\Data\SearchData;
+use App\Entity\Activitelike;
 use App\Entity\Avis;
 use App\Entity\Activite;
 use App\Form\ActiviteType;
 use App\Form\SearchForm;
+use App\Repository\ActivitelikeRepository;
 use App\Repository\ActiviteRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use MercurySeries\FlashyBundle\FlashyNotifier;
@@ -140,4 +142,39 @@ class ActiviteController extends AbstractController
     {
         return $this->nom;
     }
+
+    /**
+     *
+     * Ajout/supp d'un like
+     *
+     * @Route ("/activite/{id}/like", name="activite_like")
+     *
+     * @param Activite $activite
+     * @param EntityManagerInterface $manager
+     * @param ActivitelikeRepository $likerepo
+     * @return Response
+     */
+    public function like(Activite $activite, EntityManagerInterface $manager, ActivitelikeRepository $likerepo) :
+    Response
+    {
+        $user = $this->getUser();
+        if ($activite->isLikedByUser($user)) {
+            $like = $likerepo->findOneBy(['act' => $activite, 'user' => $user]);
+
+            $manager->remove($like);
+            $manager->flush();
+
+            return $this->json(['code' => 200, 'message'=>'like bien supprimé', 'likes' => $likerepo->count(['act'=>$activite]) ], 200);
+        }
+
+        $like = new Activitelike();
+        $like->setAct($activite)
+            ->setUser($user);
+
+        $manager->persist($like);
+        $manager->flush();
+
+        return $this->json(['code' => 200, 'message'=>'like bien ajouter', 'likes' => $likerepo->count(['act'=>$activite]) ], 200);
+    }
+
 }

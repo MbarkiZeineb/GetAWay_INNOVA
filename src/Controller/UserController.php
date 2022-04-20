@@ -37,7 +37,7 @@ class UserController extends AbstractController
     }
 
 
-    /**
+/**
      * @Route("/pro", name="app_user_profil", methods={"GET"})
      */
     public function profil(EntityManagerInterface $entityManager): Response

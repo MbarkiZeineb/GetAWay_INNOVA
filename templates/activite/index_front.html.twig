@@ -38,12 +38,13 @@
                                         <span class="disable"><span class="icon-star"></span></span>
                                     </div>
                                     <div class="icons">
+                                        <a href="#" class="btn btn-link js-like">
                                     {% if app.user and activite.likedByUser(app.user) %}
-                                        <a href="#"><i class="fa-solid fa-heart"></i></a>
+                                        <i class="fa-solid fa-heart"></i>
                                     {% else %}
-                                        <a href="#"><i class="fa-regular fa-heart"></i>
+                                       <i class="fa-regular fa-heart"></i>
                                     {% endif %}
-
+                                        </a>
 
                                         <span class="js-likes">{{ activite.likes | length}}</span>
                                     </div>
