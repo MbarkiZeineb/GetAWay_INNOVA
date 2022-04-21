@@ -6,6 +6,7 @@ use App\Entity\Reclamation;
 use App\Entity\User;
 use App\Form\ContactType;
 use App\Form\ReclamationType;
+use App\Form\ResetPassType;
 use App\Form\UserbackType;
 use App\Form\UserType;
 use App\Repository\ReclamationRepository;
@@ -14,9 +15,13 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
+use Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface;
 
 /**
  * @Route("/user")
@@ -43,8 +48,18 @@ class UserController extends AbstractController
      */
     public function profil(EntityManagerInterface $entityManager): Response
     {
-        return $this->render('user/index1.html.twig');
+        dump($this->getUser()->eraseCredentials());
+       if($this->getUser()->eraseCredentials()==0)
+           return $this->redirectToRoute('security_login');
+        else if($this->getUser()->getSalt()=="Client" || $this->getUser()->getSalt()=="Offreur" )
+
+            return $this->render('user/index1.html.twig');
+        else
+
+          return $this->redirectToRoute('app_user_index');
+
     }
+
 
 
 
@@ -153,15 +168,6 @@ return $this->redirectToRoute('app_user_index');
         ]);
     }
 
-    /**
-     * @Route("/{id}", name="app_user_show", methods={"GET"})
-     */
-    public function show(User $user): Response
-    {
-        return $this->render('user/show.html.twig', [
-            'user' => $user,
-        ]);
-    }
 
     /**
      * @Route("/{id}/edit", name="app_user_edit", methods={"GET", "POST"})
@@ -206,18 +212,7 @@ dump($user);
         ]);
     }
 
-    /**
-     * @Route("/{id}", name="app_user_delete", methods={"POST"})
-     */
-    public function delete(Request $request, User $user, EntityManagerInterface $entityManager): Response
-    {
-        if ($this->isCsrfTokenValid('delete'.$user->getId(), $request->request->get('_token'))) {
-            $entityManager->remove($user);
-            $entityManager->flush();
-        }
 
-        return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
-    }
 
     /**
      * @Route("/affichrecfront/{idc}", name="app_reclamationfront", methods={"GET"})
@@ -291,8 +286,114 @@ public function activer( EntityManagerInterface $entityManager,$id)
         ]);
     }
 
+    /**
+     * @Route("/mdpoub", name="mdpoub")
+     */
+    public function mdpoub(Request $request, UserRepository $users, MailerInterface $mailer, TokenGeneratorInterface $tokenGenerator
+    ): Response
+    {
+        // On initialise le formulaire
+        $form = $this->createForm(ResetPassType::class);
 
+        // On traite le formulaire
+        $form->handleRequest($request);
 
+        // Si le formulaire est valide
+        if ($form->isSubmitted() && $form->isValid()) {
+            // On récupère les données
+            $donnees = $form->getData();
+
+            // On cherche un utilisateur ayant cet e-mail
+            $user = $users->findOneByEmail($donnees['email']);
+
+            // Si l'utilisateur n'existe pas
+            if ($user === null) {
+                // On envoie une alerte disant que l'adresse e-mail est inconnue
+                $this->addFlash('danger', 'Cette adresse e-mail est inconnue');
+
+                // On retourne sur la page de connexion
+                return $this->redirectToRoute('security_login');
+            }
+
+            // On génère un token
+            $token = $tokenGenerator->generateToken();
+
+            // On essaie d'écrire le token en base de données
+            try{
+                $user->setResetToken($token);
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->persist($user);
+                $entityManager->flush();
+            } catch (\Exception $e) {
+                $this->addFlash('warning', $e->getMessage());
+                return $this->redirectToRoute('security_login');
+            }
+
+            // On génère l'URL de réinitialisation de mot de passe
+            $url = $this->generateUrl('app_reset_password', array('token' => $token), UrlGeneratorInterface::ABSOLUTE_URL);
+
+            // On génère l'e-mail
+            $message = (new Email())
+                ->from('omayma.djebali@esprit.tn')
+                ->to($user->getEmail())
+                ->subject('Demande de reinitialisation de mot de passe !')
+                ->text('Sending emails is fun again!')
+                ->html("Bonjour,<br><br>Une demande de réinitialisation de mot de passe a été effectuée pour le site GetAway. Veuillez cliquer sur le lien suivant : . $url" );
+            ;
+
+            // On envoie l'e-mail
+            $mailer->send($message);
+
+            // On crée le message flash de confirmation
+            $this->addFlash('message', 'E-mail de réinitialisation du mot de passe envoyé !');
+
+            // On redirige vers la page de login
+            return $this->redirectToRoute('security_login');
+        }
+
+        // On envoie le formulaire à la vue
+        return $this->render('user/forgotten_password.html.twig',['emailForm' => $form->createView()]);
+    }
+
+    /**
+     * @Route("/reset_pass/{token}", name="app_reset_password")
+     */
+    public function resetPassword(Request $request, string $token, UserPasswordEncoderInterface $passwordEncoder)
+    {
+        // On cherche un utilisateur avec le token donné
+        $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(['resetToken'=> $token]);
+
+        // Si l'utilisateur n'existe pas
+        if ($user === null) {
+            // On affiche une erreur
+            $this->addFlash('danger', 'Token Inconnu');
+            return $this->redirectToRoute('security_login');
+        }
+
+        // Si le formulaire est envoyé en méthode post
+        if ($request->isMethod('POST')) {
+            // On supprime le token
+            $user->setResetToken(null);
+
+            // On chiffre le mot de passe
+            $user->setPassword($passwordEncoder->encodePassword($user, $request->request->get('password')));
+
+            // On stocke
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($user);
+            $entityManager->flush();
+
+            // On crée le message flash
+            $this->addFlash('message', 'Mot de passe mis à jour');
+
+            // On redirige vers la page de connexion
+            return $this->redirectToRoute('security_login');
+        }else {
+            // Si on n'a pas reçu les données, on affiche le formulaire
+            return $this->render('user/reset_password.html.twig', ['token' => $token]);
+        }
+
+    }
 
 
 

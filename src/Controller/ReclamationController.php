@@ -20,10 +20,10 @@ use Symfony\Component\Mime\Email;
  */
 class ReclamationController extends AbstractController
 {
-    /**
+/**
      * @Route("/d/{idr}", name="deleterec", methods={"GET"})
      */
-    public function delete1(EntityManagerInterface $entityManager,UserRepository $userrep,$idr): Response
+public function delete1(EntityManagerInterface $entityManager,UserRepository $userrep,$idr): Response
     {
         $rec = $entityManager
             ->getRepository(Reclamation::class)
@@ -71,7 +71,6 @@ class ReclamationController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
-
 
 
 
