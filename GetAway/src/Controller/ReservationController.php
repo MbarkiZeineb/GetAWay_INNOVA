@@ -16,7 +16,9 @@ use App\Repository\VolRepository;
 use App\Repository\VoyageorganiseRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Query\AST\Functions\CurrentDateFunction;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -54,7 +56,7 @@ class ReservationController extends AbstractController
     {
         dump($id);
         $reservations=$rep->listReservationByidc($id);
-                dump("aaaaaaaaaaaaaaaaaaa");
+        dump("aaaaaaaaaaaaaaaaaaa");
         return $this->render('reservation/AfficherFront.html.twig', [
             'reservations' => $reservations,
         ]);
@@ -71,24 +73,21 @@ class ReservationController extends AbstractController
     public function addVoyage(Request $request,EntityManagerInterface $entityManager,$id,VoyageorganiseRepository $repv,UserRepository  $repU): Response
     {
         $reservation = new Reservation();
-
         $form = $this->createForm(ReservationVoyType::class, $reservation);
-
         $form->handleRequest($request);
-          $voyage=$repv->find($id);
+        $voyage=$repv->find($id);
+        $prix=$voyage->getPrix();
         $dated= new \DateTime($voyage->getDatedepart());
         $datef= new \DateTime($voyage->getDatearrive());
-          $reservation->setDateDebut($dated);
+        $reservation->setDateDebut($dated);
         $reservation->setDateFin($datef);
         $reservation->setIdVoyage($voyage);
         $reservation->setType("voyageOrganise");
         $reservation->setEtat("Approuve");
         $date = new \DateTime('@'.strtotime('now'));
         $reservation->setDateReservation($date);
-
-         dump($this->getUser());
-           if($this->getUser()!=null)
-           {  if ($form->isSubmitted() && $form->isValid()){
+        if($this->getUser()!=null)
+        {  if ($form->isSubmitted() && $form->isValid()){
             if($voyage->getNbrplace() >= $reservation->getNbrPlace())
             {
                 $user =$repU->find($this->getUser()->getUsername());
@@ -106,19 +105,20 @@ class ReservationController extends AbstractController
                 $this->addFlash('warning',$message);
                 return $this->render('reservation/addVo.html.twig', [
                     'reservation' => $reservation,
-                    'form' => $form->createView(),
+                    'form' => $form->createView(), 'prix'=>json_encode($prix)
                 ]);
             }
 
         }}
-           else
-           {
-               return $this->render('user/login.html.twig');
-           }
+        else
+        {
+            return $this->render('user/login.html.twig');
+        }
 
         return $this->render('reservation/addVo.html.twig', [
             'reservation' => $reservation,
             'form' => $form->createView(),
+            'prix'=>json_encode($prix),
         ]);
     }
 
@@ -128,10 +128,12 @@ class ReservationController extends AbstractController
      */
     public function addVol(Request $request, EntityManagerInterface $entityManager,$id,VolRepository $repv,   UserRepository  $repU): Response
     {
+        $vol=$repv->find($id);
         $reservation = new Reservation();
         $form = $this->createForm(ReservationVoyType::class, $reservation);
         $form->handleRequest($request);
-        $vol=$repv->find($id);
+
+            $prix=$vol->getPrix();
         $reservation->setDateDebut($vol->getDateDepart());
         $reservation->setDateFin($vol->getDateArrivee());
         $reservation->setIdVol($vol);
@@ -145,32 +147,32 @@ class ReservationController extends AbstractController
         {          $user =$repU->find($this->getUser()->getUsername());
             $reservation->setIdClient($user);
             if ($form->isSubmitted() && $form->isValid()  ) {
-            if($vol->getNbrPlacedispo() > $reservation->getNbrPlace())
-            {
-                $entityManager->persist($reservation);
-                $vol->setNbrPlacedispo($vol->getNbrPlacedispo() -  $reservation->getNbrPlace());
-                $entityManager->flush();
-                $entityManager->refresh($reservation);
+                if($vol->getNbrPlacedispo() > $reservation->getNbrPlace())
+                {
+                    $entityManager->persist($reservation);
+                    $vol->setNbrPlacedispo($vol->getNbrPlacedispo() -  $reservation->getNbrPlace());
+                    $entityManager->flush();
+                    $entityManager->refresh($reservation);
 
-                return $this->redirectToRoute('app_paiement_newvol', array('id' => $reservation->getId(),'prix'=>$vol->getPrix()));
-            }
-            else
-            { $message=" nombre de place non disponible il reste ".''.$vol->getNbrPlacedispo().''." palces seulement ";
-                $this->addFlash('warning',$message);
-                return $this->render('reservation/addVo.html.twig', [
-                    'reservation' => $reservation,
-                    'form' => $form->createView(),
-                ]);
-            }
+                    return $this->redirectToRoute('app_paiement_newvol', array('id' => $reservation->getId(),'prix'=>$vol->getPrix()));
+                }
+                else
+                { $message=" nombre de place non disponible il reste ".''.$vol->getNbrPlacedispo().''." palces seulement ";
+                    $this->addFlash('warning',$message);
+                    return $this->render('reservation/addVo.html.twig', [
+                        'reservation' => $reservation,
+                        'form' => $form->createView(),
+                    ]);
+                }
 
-        }}
+            }}
         else{
             return $this->render('user/login.html.twig');
         }
 
         return $this->render('reservation/addVol.html.twig', [
             'reservation' => $reservation,
-            'form' => $form->createView(),
+            'form' => $form->createView(),'prix'=>json_encode($prix)
         ]);
     }
 
@@ -199,27 +201,27 @@ class ReservationController extends AbstractController
         if($this->getUser()!=null)
         {          $user =$repU->find($this->getUser()->getUsername());
             $reservation->setIdClient($user);
-        if($form->isSubmitted() && $form->isValid())
-        {
-            if(empty($check1)&&empty($check2)&&empty($check3)&&empty($check4)&&empty($check5)&&$reservation->getDateDebut() >= $heb->getDateStart()&&$reservation->getDateFin() <= $heb->getDateEnd() )
+            if($form->isSubmitted() && $form->isValid())
             {
-                $entityManager->persist($reservation);
-                $entityManager->flush();
-                $entityManager->refresh($reservation);
-                $intvl = $reservation->getDateDebut()->diff($reservation->getDateFin());
+                if(empty($check1)&&empty($check2)&&empty($check3)&&empty($check4)&&empty($check5)&&$reservation->getDateDebut() >= $heb->getDateStart()&&$reservation->getDateFin() <= $heb->getDateEnd() )
+                {
+                    $entityManager->persist($reservation);
+                    $entityManager->flush();
+                    $entityManager->refresh($reservation);
+                    $intvl = $reservation->getDateDebut()->diff($reservation->getDateFin());
 
-                return $this->redirectToRoute('app_paiement_newH', array('id' => $reservation->getId(),'prix'=>$heb->getPrix(),'nbrj'=>$intvl->d));
-            }
-            else
-            {
+                    return $this->redirectToRoute('app_paiement_newH', array('id' => $reservation->getId(),'prix'=>$heb->getPrix(),'nbrj'=>$intvl->d));
+                }
+                else
+                {
 
-                $this->addFlash('warning',' les dates selectionees ne sont pas  disponible   ');
-                return $this->render('reservation/AddHebergement.html.twig', [
-                    'reservation' => $reservation,
-                    'form' => $form->createView(),
-                ]);
+                    $this->addFlash('warning',' les dates selectionees ne sont pas  disponible   ');
+                    return $this->render('reservation/AddHebergement.html.twig', [
+                        'reservation' => $reservation,
+                        'form' => $form->createView(),
+                    ]);
 
-            }}
+                }}
 
         }
         else
@@ -249,35 +251,35 @@ class ReservationController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-           if($reservation->getEtat()=="Annulee")
-           {
-               if($reservation->getType()=="Vol")
-               {
-                   $vol= $repvol->find($reservation->getIdVol()->getIdVol());
-                   $vol->setNbrPlacedispo($vol->getNbrPlacedispo()+$reservation->getNbrPlace());
-                   $entityManager->flush();
-               }
-               if($reservation->getType()=="voyageOrganise")
-               {
-                   $voy= $repvo->find($reservation->getIdVoyage()->getIdvoy());
-                   $voy->setNbrplace($voy->getNbrplace()+$reservation->getNbrPlace());
-                   $entityManager->flush();
-               }
-               if($reservation->getType()=="Activite")
-               {
-                   $act= $repa->find($reservation->getIdActivite()->getRefact());
-                   $act->setNbrplace($act->getNbrplace()+$reservation->getNbrPlace());
-                   $entityManager->flush();
-               }
-               else
-               {
-                   $entityManager->flush();
-               }
+            if($reservation->getEtat()=="Annulee")
+            {
+                if($reservation->getType()=="Vol")
+                {
+                    $vol= $repvol->find($reservation->getIdVol()->getIdVol());
+                    $vol->setNbrPlacedispo($vol->getNbrPlacedispo()+$reservation->getNbrPlace());
+                    $entityManager->flush();
+                }
+                if($reservation->getType()=="voyageOrganise")
+                {
+                    $voy= $repvo->find($reservation->getIdVoyage()->getIdvoy());
+                    $voy->setNbrplace($voy->getNbrplace()+$reservation->getNbrPlace());
+                    $entityManager->flush();
+                }
+                if($reservation->getType()=="Activite")
+                {
+                    $act= $repa->find($reservation->getIdActivite()->getRefact());
+                    $act->setNbrplace($act->getNbrplace()+$reservation->getNbrPlace());
+                    $entityManager->flush();
+                }
+                else
+                {
+                    $entityManager->flush();
+                }
 
 
-               return $this->redirectToRoute('AfficherClient',array('id'=>$reservation->getIdClient()->getId()));
+                return $this->redirectToRoute('AfficherClient',array('id'=>$reservation->getIdClient()->getId()));
 
-           }
+            }
 
 
 
@@ -311,6 +313,8 @@ class ReservationController extends AbstractController
         $reservation = new Reservation();
 
         $form = $this->createForm(ReservationVoyType::class,$reservation);
+
+
         $form->handleRequest($request);
         $act=$repv->find($id);
 
@@ -324,40 +328,38 @@ class ReservationController extends AbstractController
         $reservation->setEtat("Approuve");
         $date = new \DateTime('@'.strtotime('now'));
         $reservation->setDateReservation($date);
-        dump("hello");
-
         if($this->getUser()!=null)
         {          $user =$repU->find($this->getUser()->getUsername());
             $reservation->setIdClient($user);
-        if ($form->isSubmitted() && $form->isValid()){
+            if ($form->isSubmitted() && $form->isValid()){
 
-            if($act->getNbrplace() >=  $reservation->getNbrPlace())
-            {
-                 dump("hello");
-                $entityManager->persist($reservation);
-                $act->setNbrplace($act->getNbrplace() -  $reservation->getNbrPlace());
-                $entityManager->flush();
-                $entityManager->refresh($reservation);
-                return $this->redirectToRoute('app_paiement_newAct', array('id' => $reservation->getId(),'prix'=>$act->getPrix()));
-            }
-            else
-            {
-                $message=" nombre de place non disponible il reste ".''.$act->getNbrplace().''." palces seulement ";
-                $this->addFlash('warning',$message);
-                return $this->render('reservation/addVo.html.twig', [
-                    'reservation' => $reservation,
-                    'form' => $form->createView(),
-                ]);
-            }
+                if($act->getNbrplace() >=  $reservation->getNbrPlace())
+                {
+                    dump("hello");
+                    $entityManager->persist($reservation);
+                    $act->setNbrplace($act->getNbrplace() -  $reservation->getNbrPlace());
+                    $entityManager->flush();
+                    $entityManager->refresh($reservation);
+                    return $this->redirectToRoute('app_paiement_newAct', array('id' => $reservation->getId(),'prix'=>$act->getPrix()));
+                }
+                else
+                {
+                    $message=" nombre de place non disponible il reste ".''.$act->getNbrplace().''." palces seulement ";
+                    $this->addFlash('warning',$message);
+                    return $this->render('reservation/addVo.html.twig', [
+                        'reservation' => $reservation,
+                        'form' => $form->createView(), 'prix'=>json_encode($act->getPrix())
+                    ]);
+                }
 
-        }}
+            }}
         else
         {return $this->render('user/login.html.twig');
         }
 
         return $this->render('reservation/addVo.html.twig', [
             'reservation' => $reservation,
-            'form' => $form->createView(),
+            'form' => $form->createView(),'prix'=>json_encode($act->getPrix())
         ]);
     }
 
@@ -366,10 +368,10 @@ class ReservationController extends AbstractController
      */
     public function addGroup(Request $request, UserRepository $repU,EntityManagerInterface $entityManager,$idvoy,$idvol,$idact,$quantite,VolRepository $repvol,VoyageorganiseRepository $rep,ActiviteRepository $repa): Response
     {
-                 $voyage=$rep->find($idvoy);
-                 $vol=$repvol->find($idvol);
-                 $act=$repa->find($idact);
-                $reservation = new Reservation();
+        $voyage=$rep->find($idvoy);
+        $vol=$repvol->find($idvol);
+        $act=$repa->find($idact);
+        $reservation = new Reservation();
         if($this->getUser()!=null) {
             $user =$repU->find($this->getUser()->getUsername());
             $reservation->setIdClient($user);

@@ -35,7 +35,7 @@ class CartController extends AbstractController
         foreach ($panier as $id => $value) {
             if($rep->find($id))
             {$voyage[] = ['voyage' =>$rep->find($id)];
-            $Montant+=$rep->find($id)->getPrix();}
+                $Montant+=$rep->find($id)->getPrix();}
             if($repvol->find($id))
             { $vol[] = ['vol' => $repvol->find($id)];
                 $Montant+=$repvol->find($id)->getPrix();
@@ -61,18 +61,16 @@ class CartController extends AbstractController
         $nb=count($panier);
         $cookie = new Cookie("nombre",$nb);
 
-           $check3=  count($voyage)==1 && count($vol)==1 && count($act)==1;
-           dump($voyage,$vol,$act);
-           dump($this->check($s,$rep,$reph,$repvol, $repa));
-           dump($this->check2($s,$rep,$repvol));
-           dump($check3);
+        $check3=  count($voyage)==1 && count($vol)==1 && count($act)==1;
+        dump($voyage,$vol,$act);
+        dump($this->check($s,$rep,$reph,$repvol, $repa));
         $res->headers->setCookie($cookie);
         $res->send();
         $form = $this->createFormBuilder($var)
             ->add('nbrPlace', NumberType::class)
             ->add('submit', SubmitType::class, array(
                     'label' => 'Submit',
-                    'disabled' => ! ($this->check($s,$rep,$reph,$repvol, $repa) && $this->check2($s,$rep,$repvol)&&$check3),
+                    'disabled' => ! ($this->check($s,$rep,$reph,$repvol, $repa) &&$check3),
                 )
             )
             ->getForm();
@@ -84,19 +82,12 @@ class CartController extends AbstractController
         }
         $form->handleRequest($requuest);
         if($form->isSubmitted() && $form->isValid() ){
-
-
             return $this->redirectToRoute('reservation_all', array('idvol' => $vol[1]["vol"]->getIdVol(),'idact'=>$act[1]["act"]->getRefact(),'idvoy'=>$voyage[1]["voyage"]->getIdvoy(),'quantite'=>$form["nbrPlace"]->getData()));
-
-
-
-
         }
         return $this->render('cart/index.html.twig', ['items' => $voyage, 'items1' => $vol, 'items3' => $heb, 'items4' => $act
             , 'form' => $form->createView(),'Montant'=>$Montant,
         ]);
     }
-
     /**
      * @Route("/panier/add/{id}", name="cart_add")
      *
@@ -106,13 +97,11 @@ class CartController extends AbstractController
         $panier = $session->get('panier', []);
         if (!empty($panier[$id])) {
             $panier[$id]++;
-
         } else {
             $panier[$id] = 1;
         }
         unset($panier[0]);
         $var=count($panier);
-
         $session->set('panier', $panier);
         $cookie = new Cookie('nombre', $var);
         $res = new \Symfony\Component\HttpFoundation\Response();
@@ -177,98 +166,43 @@ class CartController extends AbstractController
      * @Route("/panier/count", name="count")
      *
      */
-
-
-
     public function check(SessionInterface $s, VoyageorganiseRepository $rep, HebergementRepository $reph, VolRepository $repvol, ActiviteRepository $repa)
     {$panier = $s->get('panier', []);
         $voyage[] = [];$vol[] = [];$heb[] = [];$act[] = [];
 
         if(empty($panier)==false)
         {
-        foreach ($panier as $id => $value) {
-            $voyage[] = ['voyage' => $rep->find($id)];
-            $vol[] = ['vol' => $repvol->find($id)];
-            $heb[] = ['heb' => $reph->find($id)];
-            $act[] = ['act' => $repa->find($id)];
-        }
-        $startDays[] = [];
-        foreach ($vol as $i => $value) {
-            if (!empty($value["vol"])) {
-                $startDays[] = $value["vol"]->getDateDepart()->format('Y-m-d');
-            }
-        }
-        foreach ($act as $i => $value) {
-            if (!empty($value["act"])) {
-                $startDays[] = (new \DateTime($value["act"]->getDate()))->format('Y-m-d');
-            }
-
-        }
-        foreach ($voyage as $i => $value) {
-            if (!empty($value["voyage"])) {
-                $startDays[] = $value["voyage"]->getDatedepart();
-            }
-        }
-        $messagesFiltered = [];
-            unset($startDays[0]);
-        if($startDays!=null)
-        {
-
-            $val=$startDays[1];
-            foreach ($startDays as $message) {
-            if ( $val != $message) {
-                $messagesFiltered[] = $message;
-            }
-        }
-        $startDays = $messagesFiltered;
-
-        unset($startDays[0]);
-
-
-            if(empty($startDays)){
-
-                return true;
-            }
-            else
-            {
-                return false;
-            }}}
-        return false;
-
-
-
-    }
-
-    public function check2(SessionInterface $s, VoyageorganiseRepository $rep, VolRepository $repvol)
-    {$panier = $s->get('panier', []);
-        $voyage[] = [];
-        $vol[] = [];
-        dump($panier);
-        if(empty($panier)==false)
-        {
             foreach ($panier as $id => $value) {
                 $voyage[] = ['voyage' => $rep->find($id)];
                 $vol[] = ['vol' => $repvol->find($id)];
+                $heb[] = ['heb' => $reph->find($id)];
+                $act[] = ['act' => $repa->find($id)];
             }
             $startDays[] = [];
             foreach ($vol as $i => $value) {
                 if (!empty($value["vol"])) {
-                    $startDays[] = $value["vol"]->getDateArrivee()->format('Y-m-d');
+                    $startDays[] = $value["vol"]->getDateDepart()->format('Y-m-d');
                 }
             }
+            foreach ($act as $i => $value) {
+                if (!empty($value["act"])) {
+                    $startDays[] = (new \DateTime($value["act"]->getDate()))->format('Y-m-d');
+                }
 
+            }
             foreach ($voyage as $i => $value) {
                 if (!empty($value["voyage"])) {
-                    $startDays[] = $value["voyage"]->getDatearrive();
+                    $startDays[] = $value["voyage"]->getDatedepart();
                 }
             }
             $messagesFiltered = [];
-          unset($startDays[0]);
-            dump($startDays);
-            if($startDays!=null) {
-                $val = $startDays[1];
+            unset($startDays[0]);
+            if($startDays!=null)
+            {
+
+                $val=$startDays[1];
                 foreach ($startDays as $message) {
-                    if ($val != $message) {
+                    if ( $val != $message) {
                         $messagesFiltered[] = $message;
                     }
                 }
@@ -277,19 +211,15 @@ class CartController extends AbstractController
                 unset($startDays[0]);
 
 
-
-                if (empty($startDays)) {
+                if(empty($startDays)){
 
                     return true;
-                } else {
-                    return false;
                 }
-            }
-        }
+                else
+                {
+                    return false;
+                }}}
         return false;
-
-
     }
-
 
 }
