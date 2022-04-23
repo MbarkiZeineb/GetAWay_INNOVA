@@ -22,8 +22,16 @@ use Symfony\Component\Form\FormEvents;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Dompdf\Dompdf;
-use Dompdf\Options;
+use Endroid\QrCode\Builder\BuilderInterface;
+use Endroid\QrCodeBundle\Response\QrCodeResponse;
+use Endroid\QrCode\Builder\Builder;
+use Endroid\QrCode\Color\Color;
+use Endroid\QrCode\Encoding\Encoding;
+use Endroid\QrCode\ErrorCorrectionLevel\ErrorCorrectionLevelHigh;
+use Endroid\QrCode\ErrorCorrectionLevel\ErrorCorrectionLevelLow;
+use Endroid\QrCode\QrCode;
+use Endroid\QrCode\RoundBlockSizeMode\RoundBlockSizeModeMargin;
+use Endroid\QrCode\Writer\PngWriter;
 /**
  * @Route("/reservation")
  */
@@ -438,5 +446,32 @@ class ReservationController extends AbstractController
     }
 
 
+    /**
+     * @Route ("/QrcodeR/{id}", name="QrcodeReservation", methods={"GET", "POST"})
+     */
+    public function QrCode($id,ReservationRepository $rep)
+    {    $reservation=$rep->find($id);
+        $result = Builder::create()
+            ->writer(new PngWriter())
+            ->writerOptions([])
+            ->data($reservation->show())
+            ->encoding(new Encoding('UTF-8'))
+            ->errorCorrectionLevel(new ErrorCorrectionLevelHigh())
+            ->size(300)
+            ->margin(10)
+            ->roundBlockSizeMode(new RoundBlockSizeModeMargin())
+            ->labelText($reservation->getType())
+            ->build();
+
+        // Directly output the QR code
+        header('Content-Type: '.$result->getMimeType());
+        echo $result->getString();
+
+// Generate a data URI to include image data inline (i.e. inside an <img> tag)
+        $dataUri = $result->getDataUri();
+
+        return $this->render("reservation/qrcode.html.twig", ['data'=>$dataUri]);
+
+    }
 
 }

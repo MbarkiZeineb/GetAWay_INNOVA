@@ -315,4 +315,10 @@ class Reservation
     }
 
 
+
+    public function show(): string
+    {
+        return 'Type :'. $this->type . ', dateR : ' . $this->dateReservation->format('d/m/Y').', DateDebut : '.$this->dateDebut->format('d/m/Y') .'DateDebut '. $this->dateFin->format('d/m/Y') .'Nom Client ' .$this->getIdClient()->getNom()  ;
+    }
+
 }

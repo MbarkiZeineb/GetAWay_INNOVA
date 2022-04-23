@@ -10,6 +10,7 @@
         "doctrine/doctrine-migrations-bundle": "^3.2",
         "doctrine/orm": "^2.11",
         "dompdf/dompdf": "^1.2",
+        "endroid/qr-code-bundle": "^4.0",
         "knplabs/knp-time-bundle": "^1.18",
         "miracode/stripe-bundle": "^1.0",
         "phpdocumentor/reflection-docblock": "^5.3",
@@ -55,7 +56,8 @@
     "config": {
         "allow-plugins": {
             "composer/package-versions-deprecated": true,
-            "symfony/flex": true
+            "symfony/flex": true,
+            "endroid/installer": false
         },
         "preferred-install": {
             "*": "dist"

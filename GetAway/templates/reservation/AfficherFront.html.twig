@@ -51,6 +51,7 @@
                                             <a class="btn btn-default" href="{{ path('detailsRFront', {'id': reservation.id}) }}">Paiement </a>
 
                                             {% endif %}
+                                        <a class="btn btn-default" href="{{ path('QrcodeReservation', {'id': reservation.id}) }}">QrCODE </a>
                                     {% else %}
                                         <tr>
                                             <td colspan="9">no records found</td>
