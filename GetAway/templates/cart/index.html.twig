@@ -4,6 +4,63 @@
   {% endblock %}
 
 {% block content %}
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js'></script>
+    <script>
+
+        $(document).ready(function () {
+
+            $('.increment-btn').click(function (e) {
+                e.preventDefault();
+                var incre_value = $(this).parents('.quantity').find('.qty-input').val();
+                var value = parseInt(incre_value, 10);
+                value = isNaN(value) ? 0 : value;
+                if(value<10){
+                    value++;
+                    $(this).parents('.quantity').find('.qty-input').val(value);
+                }
+            });
+
+            $('.decrement-btn').click(function (e) {
+                e.preventDefault();
+                var decre_value = $(this).parents('.quantity').find('.qty-input').val();
+                var value = parseInt(decre_value, 10);
+                value = isNaN(value) ? 0 : value;
+                if(value>1){
+                    value--;
+                    $(this).parents('.quantity').find('.qty-input').val(value);
+                }
+            });
+
+        });
+        $(document).ready(function () {
+
+            $('.changeQuantity').click(function () {
+
+                var quantity = $(this).closest(".cartpage").find('.qty-input').val();
+                var product_id = $(this).closest(".cartpage").find('.product_id').val();
+                console.log(product_id);
+                $.ajax({
+                    url:  "{{path('update_cart')}}" ,
+                    type:  "GET",
+                    data: {
+                        'quantity':quantity,
+                        'product_id':product_id,
+                    },
+                    success: function (response) {
+                                  var total=response.total;
+                                   console.log(total);
+                                   $('#'+product_id).text(response.total);
+
+                        console.log( form2.vars.value.nbrPlace);
+
+
+                    }
+                });
+            });
+
+        });
+
+    </script>
     <main id="main">
         <!-- top information area -->
         <div class="inner-top">
@@ -23,6 +80,7 @@
                     <th class="date-text">Date depart </th>
                     <th class="date-text"> Date fin </th>
                     <th class="date-text"> Destination / Nom </th>
+                    <th class="date-text"> nbreplace </th>
                     <th class="date-text"> prix </th>
 
                     <th class="date-text">  Reserver  </th>
@@ -30,7 +88,7 @@
                 </thead>
                 <tbody>
 
-                <tr>
+                <tr class="cartpage">
                     {% if items | length > 0  %}
                     {% for voyageorganise in items  %}
                     {%  if  voyageorganise is empty  %}
@@ -43,13 +101,29 @@
                                 <a class="delete" href="{{ path('delete_itemstab',{'id':voyageorganise.voyage.idVoy}) }}"><span class="icon-trash"></span></a>
                             </div>
                         </div>
-
                     </td>
                     <td> <span class="icon-beach"> </span>  Voyage Organise </td>
                     <td >{{ voyageorganise.voyage.datedepart}}</td>
                     <td>{{ voyageorganise.voyage.datearrive}}</td>
-                    <td >{{ voyageorganise.voyage.villedest}}</td>
-                    <td >{{ voyageorganise.voyage.prix}}</td>
+                    <td > {{ voyageorganise.voyage.villedest}} </td>
+                    <td class="cart-product-quantity" width="130px"  >
+                        <div  class="cartpage">
+                        <input type="hidden" class="product_id" value="{{voyageorganise.voyage.idvoy }}" >
+                        <div class="input-group quantity">
+                            <div class="input-group-prepend decrement-btn changeQuantity" >
+                                <span class="input-group-text">-</span>
+
+                                <input type="text" class="qty-input form-control" maxlength="2" max="10" >
+
+                                <div class="input-group-append increment-btn changeQuantity" >
+                                <span class="input-group-text">+</span>
+                            </div>
+                        </div>
+                        </div>
+                    </td>
+                    <td >
+                        <span id="{{voyageorganise.voyage.idvoy }}" > </span>
+                    </td>
                     <td >   <button type="button"  class="btn btn-default"><a href="{{ path('add_vo',{'id':voyageorganise.voyage.idVoy}) }}"> Reserver  </a></button> </td>
 
                 </tr>
@@ -154,17 +228,10 @@
 
                 {% endif %}
 
-                <tr  >
-                    <td >Prix total:    </td>
-                    <td >    </td>
-                    <td >    </td>
-                    <td >   </td>
-                    <td >   </td>
-                    <td >    {{ Montant}}  </td>
                 </tbody>
 
 
-                </tr>
+
             </table>
             <div class="inner-main common-spacing container">
                 <div class="top-box" >
@@ -177,6 +244,7 @@
             <div class="cart-option">
                 {{ form_start(form,{'attr': {'novalidate':'novalidate'}}) }}
                 <div class="input-hold">
+                    {{ form_start(form.nbrPlace,{ 'attr': {'class': 'form-control'}}) }}
                     {{ form_widget(form.submit, { 'attr': {'class': 'btn btn-default'}} )}}
                 </div>
 

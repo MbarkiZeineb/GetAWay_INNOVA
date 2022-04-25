@@ -383,7 +383,7 @@ class ReservationController extends AbstractController
         if($this->getUser()!=null) {
             $user =$repU->find($this->getUser()->getUsername());
             $reservation->setIdClient($user);
-            if ($voyage->getNbrplace() > $quantite && $vol->getNbrPlacedispo() > $quantite && $act->getNbrplace() > $quantite) {
+            if ($voyage->getNbrplace() >= $quantite && $vol->getNbrPlacedispo() >= $quantite && $act->getNbrplace() >= $quantite) {
                 $reservation->setDateDebut($vol->getDateDepart());
                 $reservation->setDateFin($vol->getDateArrivee());
                 $reservation->setType("Activite/voyage/vol");

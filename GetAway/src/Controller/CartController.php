@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Reservation;
+use App\Form\ReservationVoyType;
 use App\Repository\ActiviteRepository;
 use App\Repository\HebergementRepository;
 use App\Repository\ReservationRepository;
@@ -10,13 +11,16 @@ use App\Repository\VolRepository;
 use App\Repository\VoyageorganiseRepository;
 use phpDocumentor\Reflection\Types\Null_;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Voyageorganise;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use function PHPUnit\Framework\isEmpty;
 
 class CartController extends AbstractController
@@ -62,7 +66,6 @@ class CartController extends AbstractController
         $cookie = new Cookie("nombre",$nb);
 
         $check3=  count($voyage)==1 && count($vol)==1 && count($act)==1;
-        dump($voyage,$vol,$act);
         dump($this->check($s,$rep,$reph,$repvol, $repa));
         $res->headers->setCookie($cookie);
         $res->send();
@@ -84,8 +87,9 @@ class CartController extends AbstractController
         if($form->isSubmitted() && $form->isValid() ){
             return $this->redirectToRoute('reservation_all', array('idvol' => $vol[1]["vol"]->getIdVol(),'idact'=>$act[1]["act"]->getRefact(),'idvoy'=>$voyage[1]["voyage"]->getIdvoy(),'quantite'=>$form["nbrPlace"]->getData()));
         }
+        $total=0;
         return $this->render('cart/index.html.twig', ['items' => $voyage, 'items1' => $vol, 'items3' => $heb, 'items4' => $act
-            , 'form' => $form->createView(),'Montant'=>$Montant,
+            , 'form' => $form->createView(),'Montant'=>$Montant,'total'=>$total,
         ]);
     }
     /**
@@ -186,7 +190,7 @@ class CartController extends AbstractController
             }
             foreach ($act as $i => $value) {
                 if (!empty($value["act"])) {
-                    $startDays[] = (new \DateTime($value["act"]->getDate()))->format('Y-m-d');
+                    $startDays[] =$value["act"]->getDate();
                 }
 
             }
@@ -197,19 +201,16 @@ class CartController extends AbstractController
             }
             $messagesFiltered = [];
             unset($startDays[0]);
+            dump($startDays);
             if($startDays!=null)
-            {
-
-                $val=$startDays[1];
+            {   $val=$startDays[1];
                 foreach ($startDays as $message) {
                     if ( $val != $message) {
                         $messagesFiltered[] = $message;
                     }
                 }
+                dump($messagesFiltered);
                 $startDays = $messagesFiltered;
-
-                unset($startDays[0]);
-
 
                 if(empty($startDays)){
 
@@ -222,4 +223,25 @@ class CartController extends AbstractController
         return false;
     }
 
-}
+    /**
+     * @Route("/updatetocart", name="update_cart")
+     *
+     */
+    public function updatecart(Request $request,VoyageorganiseRepository $repv)
+    {   if ($request->isXmlHttpRequest()) {
+        { $prod_id = $request->get('product_id');
+        $quantity = $request->get('quantity');
+         $vol=$repv->find($prod_id);
+         dump($vol);
+         $total=$vol->getPrix()*$quantity;
+
+        return $this->json(['total' => $total]);
+
+        }
+
+
+    }
+
+
+}}
+
