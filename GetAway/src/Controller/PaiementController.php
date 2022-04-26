@@ -57,6 +57,29 @@ class PaiementController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($paiement);
             $entityManager->flush();
+            if($paiement->getModalitePaiement()=="CARTE")
+            {    $user=$reservation->getIdClient()->getNom().'  '.$reservation->getIdClient()->getPrenom();
+                $produit=$reservation->getType().' Ville de arrrive : '.$reservation->getIdVoyage()->getVilledest().' : '.'  Date de depart :'.$reservation->getIdVoyage()->getVilledest();
+                Stripe::setApiKey($_ENV['STRIPE_SK']);
+                $session =Session::create([
+                    'payment_method_types'=>['card'],
+                    'line_items'=>[[
+                        'price_data'=>[
+                            'currency'=>'usd',
+                            'product_data'=>[
+                                'name'=>$produit,
+
+                            ],
+                            'unit_amount'=>$paiement->getMontant(),
+                        ],
+                        'quantity'=>$reservation->getNbrPlace(),
+                    ]],
+                    'mode'=>'payment',
+                    'success_url'=>$this->generateUrl('success_url', [], UrlGeneratorInterface::ABSOLUTE_URL),
+                    'cancel_url'=>$this->generateUrl('cancel_url', [], UrlGeneratorInterface::ABSOLUTE_URL),
+                ]);
+
+            }
 
             return $this->redirectToRoute('delete_items',array('id'=>$reservation->getIdVoyage()->getIdvoy()));
         }
@@ -123,32 +146,38 @@ class PaiementController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($paiement);
             $entityManager->flush();
-            if($paiement->getModalitePaiement()=="CARTE")
-            {
+            if($paiement->getModalitePaiement()=="CARTE") {
+                $user = $reservation->getIdClient()->getNom() . '  ' . $reservation->getIdClient()->getPrenom();
+                $produit = $reservation->getType() . ' Ville de arrrive : ' . $reservation->getIdVol()->getVilleArrivee() . ' : ' . '  Date de depart :' . $reservation->getIdVol()->getDateDepart();
                 Stripe::setApiKey($_ENV['STRIPE_SK']);
-                $session =Session::create([
-                    'payment_method_types'=>['card'],
-                    'line_items'=>[[
-                        'price_data'=>[
-                            'currency'=>'usd',
-                            'product_data'=>[
-                                'name'=>'Abonnement',
+                $session = Session::create([
+                    'payment_method_types' => ['card'],
+                    'line_items' => [[
+                        'price_data' => [
+                            'currency' => 'usd',
+                            'product_data' => [
+                                'name' => $produit,
+
                             ],
-                            'unit_amount'=>$paiement->getMontant(),
+                            'unit_amount' => $paiement->getMontant(),
                         ],
-                        'quantity'=>$reservation->getNbrPlace(),
+                        'quantity' => $reservation->getNbrPlace(),
                     ]],
-                    'mode'=>'payment',
-                    'success_url'=>$this->generateUrl('success_url', [], UrlGeneratorInterface::ABSOLUTE_URL),
-                    'cancel_url'=>$this->generateUrl('cancel_url', [], UrlGeneratorInterface::ABSOLUTE_URL),
+                    'mode' => 'payment',
+                    'success_url' => $this->generateUrl('success_url', [], UrlGeneratorInterface::ABSOLUTE_URL),
+                    'cancel_url' => $this->generateUrl('cancel_url', [], UrlGeneratorInterface::ABSOLUTE_URL),
                 ]);
                 dump($session->id);
                 return $this->redirect($session->url, 303);
-
-
             }
-            return $this->redirectToRoute('delete_items',array('id'=>$reservation->getIdVol()->getIdVol()));
+            else{
+                return $this->redirectToRoute('delete_items',array('id'=>$reservation->getIdVol()->getIdVol()));
+            }
         }
+
+
+
+
 
         return $this->render('paiement/new.html.twig', [
             'paiement' => $paiement,
@@ -165,7 +194,7 @@ class PaiementController extends AbstractController
     }
 
     /**
-     * @Route("/DetailsR/{id}", name="detailsR", methods={"GET"})
+     * @Route("/DetailsR/{id}", name="detailsR", methods={"GET","POST"})
      */
     public function showP($id,PaiementRepository $rep): Response
     {
@@ -247,15 +276,37 @@ public function newact(Request $request, EntityManagerInterface $entityManager,$
     $date1 = new \DateTime('@'.strtotime('now'));
     $paiement->setDate($date1);
     $form = $this->createForm(PaiementType::class, $paiement);
-
     $form->handleRequest($request);
-
     if ($form->isSubmitted() && $form->isValid()) {
         $entityManager->persist($paiement);
         $entityManager->flush();
+        if($paiement->getModalitePaiement()=="CARTE")
+        {    $user=$reservation->getIdClient()->getNom().'  '.$reservation->getIdClient()->getPrenom();
+            $produit=$reservation->getType().'  nom : '.$reservation->getIdActivite()->getNom().' : '.'  Date  :'.$reservation->getIdActivite()->getDate();
+                Stripe::setApiKey($_ENV['STRIPE_SK']);
+                $session =Session::create([
+                    'payment_method_types'=>['card'],
+                    'line_items'=>[[
+                        'price_data'=>[
+                            'currency'=>'usd',
+                            'product_data'=>[
+                                'name'=>$produit,
 
-        return $this->redirectToRoute('delete_items',array('id'=>$reservation->getIdActivite()->getRefact()));
+                            ],
+                            'unit_amount'=>$paiement->getMontant(),
+                        ],
+                        'quantity'=>$reservation->getNbrPlace(),
+                    ]],
+                    'mode'=>'payment',
+                    'success_url'=>$this->generateUrl('success_url', [], UrlGeneratorInterface::ABSOLUTE_URL),
+                    'cancel_url'=>$this->generateUrl('cancel_url', [], UrlGeneratorInterface::ABSOLUTE_URL),
+                ]);
+
+
     }
+        else{
+            return $this->redirectToRoute('delete_items',array('id'=>$reservation->getIdActivite()->getRefact()));
+        }}
 
     return $this->render('paiement/new.html.twig', [
         'paiement' => $paiement,

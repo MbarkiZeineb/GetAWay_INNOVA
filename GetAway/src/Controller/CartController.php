@@ -243,5 +243,54 @@ class CartController extends AbstractController
     }
 
 
-}}
+}
+
+    /**
+     * @Route("/prixvol", name="prixvol")
+     *
+     */
+    public function updatecart1(Request $request,VolRepository $repv)
+    {   if ($request->isXmlHttpRequest()) {
+        { $prod_id = $request->get('product_id');
+            $quantity = $request->get('quantity');
+            $vol=$repv->find($prod_id);
+            dump($vol);
+            $total=$vol->getPrix()*$quantity;
+
+            return $this->json(['total' => $total]);
+
+        }
+
+
+    }
+
+
+    }
+
+    /**
+     * @Route("/prixact", name="prixact")
+     *
+     */
+    public function updatecart2(Request $request,ActiviteRepository $repv)
+    {   if ($request->isXmlHttpRequest()) {
+        { $prod_id = $request->get('product_id');
+            $quantity = $request->get('quantity');
+            $vol=$repv->find($prod_id);
+            dump($vol);
+            $total=$vol->getPrix()*$quantity;
+
+            return $this->json(['total' => $total]);
+
+        }
+
+
+    }
+
+
+    }
+
+
+
+
+}
 

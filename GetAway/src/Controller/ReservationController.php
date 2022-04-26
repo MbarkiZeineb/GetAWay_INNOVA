@@ -37,6 +37,10 @@ use Endroid\QrCode\Writer\PngWriter;
  */
 class ReservationController extends AbstractController
 {
+
+    /**
+     * @Route("/backafficher", name="app_reservation_index",methods={"GET", "POST"})
+     */
     public function index(EntityManagerInterface $entityManager): Response
     {
         $reservations = $entityManager
@@ -80,11 +84,10 @@ class ReservationController extends AbstractController
      */
     public function addVoyage(Request $request,EntityManagerInterface $entityManager,$id,VoyageorganiseRepository $repv,UserRepository  $repU): Response
     {
+
         $reservation = new Reservation();
-        $form = $this->createForm(ReservationVoyType::class, $reservation);
-        $form->handleRequest($request);
+         $reservation->setNbrPlace($request->request->get('qtevoy'));
         $voyage=$repv->find($id);
-        $prix=$voyage->getPrix();
         $dated= new \DateTime($voyage->getDatedepart());
         $datef= new \DateTime($voyage->getDatearrive());
         $reservation->setDateDebut($dated);
@@ -95,7 +98,7 @@ class ReservationController extends AbstractController
         $date = new \DateTime('@'.strtotime('now'));
         $reservation->setDateReservation($date);
         if($this->getUser()!=null)
-        {  if ($form->isSubmitted() && $form->isValid()){
+        {
             if($voyage->getNbrplace() >= $reservation->getNbrPlace())
             {
                 $user =$repU->find($this->getUser()->getUsername());
@@ -110,24 +113,15 @@ class ReservationController extends AbstractController
             }
             else
             {  $message=" nombre de place non disponible il reste ".''.$voyage->getNbrplace().''." palces seulement ";
-                $this->addFlash('warning',$message);
-                return $this->render('reservation/addVo.html.twig', [
-                    'reservation' => $reservation,
-                    'form' => $form->createView(), 'prix'=>json_encode($prix)
-                ]);
+                $this->addFlash('warningnb',$message);
+                return $this->redirectToRoute('cart_panier');
             }
 
-        }}
-        else
-        {
-            return $this->render('user/login.html.twig');
         }
 
-        return $this->render('reservation/addVo.html.twig', [
-            'reservation' => $reservation,
-            'form' => $form->createView(),
-            'prix'=>json_encode($prix),
-        ]);
+            return $this->render('user/login.html.twig');
+
+
     }
 
 
@@ -138,23 +132,19 @@ class ReservationController extends AbstractController
     {
         $vol=$repv->find($id);
         $reservation = new Reservation();
-        $form = $this->createForm(ReservationVoyType::class, $reservation);
-        $form->handleRequest($request);
-
-            $prix=$vol->getPrix();
+        $reservation->setNbrPlace($request->request->get('qtevol'));
+        $prix=$vol->getPrix()*$request->request->get('qtevol');
         $reservation->setDateDebut($vol->getDateDepart());
         $reservation->setDateFin($vol->getDateArrivee());
         $reservation->setIdVol($vol);
         $reservation->setType("Vol");
         $reservation->setEtat("Approuve");
-
-
         $date = new \DateTime('@'.strtotime('now'));
         $reservation->setDateReservation($date);
         if($this->getUser()!=null)
         {          $user =$repU->find($this->getUser()->getUsername());
             $reservation->setIdClient($user);
-            if ($form->isSubmitted() && $form->isValid()  ) {
+
                 if($vol->getNbrPlacedispo() > $reservation->getNbrPlace())
                 {
                     $entityManager->persist($reservation);
@@ -162,26 +152,19 @@ class ReservationController extends AbstractController
                     $entityManager->flush();
                     $entityManager->refresh($reservation);
 
-                    return $this->redirectToRoute('app_paiement_newvol', array('id' => $reservation->getId(),'prix'=>$vol->getPrix()));
+                    return $this->redirectToRoute('app_paiement_newvol', array('id' => $reservation->getId(),'prix'=>$prix));
                 }
                 else
                 { $message=" nombre de place non disponible il reste ".''.$vol->getNbrPlacedispo().''." palces seulement ";
-                    $this->addFlash('warning',$message);
-                    return $this->render('reservation/addVo.html.twig', [
-                        'reservation' => $reservation,
-                        'form' => $form->createView(),
-                    ]);
+                    $this->addFlash('warningnb',$message);
+                    return $this->redirectToRoute('cart_panier');
+
                 }
-
-            }}
-        else{
+            }
+        else
             return $this->render('user/login.html.twig');
-        }
 
-        return $this->render('reservation/addVol.html.twig', [
-            'reservation' => $reservation,
-            'form' => $form->createView(),'prix'=>json_encode($prix)
-        ]);
+
     }
 
     /**
@@ -217,7 +200,7 @@ class ReservationController extends AbstractController
                     $entityManager->flush();
                     $entityManager->refresh($reservation);
                     $intvl = $reservation->getDateDebut()->diff($reservation->getDateFin());
-
+                    dump("rrrrrrrrrrrr00");
                     return $this->redirectToRoute('app_paiement_newH', array('id' => $reservation->getId(),'prix'=>$heb->getPrix(),'nbrj'=>$intvl->d));
                 }
                 else
@@ -301,7 +284,7 @@ class ReservationController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="app_reservation_delete", methods={"POST"})
+     * @Route("/deleteR/{id}", name="app_reservation_delete", methods={"GET", "POST"})
      */
     public function delete(Request $request, Reservation $reservation, PaiementRepository $rpp,EntityManagerInterface $entityManager): Response
     {
@@ -319,14 +302,9 @@ class ReservationController extends AbstractController
     public function addAct(Request $request,UserRepository $repU,EntityManagerInterface $entityManager,$id,ActiviteRepository  $repv): Response
     {
         $reservation = new Reservation();
-
-        $form = $this->createForm(ReservationVoyType::class,$reservation);
-
-
-        $form->handleRequest($request);
         $act=$repv->find($id);
-
-
+        dump("aaa");
+        $reservation->setNbrPlace($request->request->get('qteact'));
         $dated= new \DateTime($act->getDate());
         $datef= new \DateTime($act->getDate());
         $reservation->setDateDebut($dated);
@@ -339,7 +317,7 @@ class ReservationController extends AbstractController
         if($this->getUser()!=null)
         {          $user =$repU->find($this->getUser()->getUsername());
             $reservation->setIdClient($user);
-            if ($form->isSubmitted() && $form->isValid()){
+
 
                 if($act->getNbrplace() >=  $reservation->getNbrPlace())
                 {
@@ -353,22 +331,18 @@ class ReservationController extends AbstractController
                 else
                 {
                     $message=" nombre de place non disponible il reste ".''.$act->getNbrplace().''." palces seulement ";
-                    $this->addFlash('warning',$message);
-                    return $this->render('reservation/addVo.html.twig', [
-                        'reservation' => $reservation,
-                        'form' => $form->createView(), 'prix'=>json_encode($act->getPrix())
-                    ]);
+                    $this->addFlash('warningnb',$message);
+                    return $this->redirectToRoute('cart_panier');
+
+
                 }
 
-            }}
-        else
-        {return $this->render('user/login.html.twig');
-        }
+            }
 
-        return $this->render('reservation/addVo.html.twig', [
-            'reservation' => $reservation,
-            'form' => $form->createView(),'prix'=>json_encode($act->getPrix())
-        ]);
+        return $this->render('user/login.html.twig');
+
+
+
     }
 
     /**
@@ -406,7 +380,7 @@ class ReservationController extends AbstractController
             }
             else
             {
-                $this->addFlash('warning',"nombre de place non disponible ");
+                $this->addFlash('warningnb',"nombre de place non disponible ");
                 return $this->redirectToRoute('cart_panier');
             }
 
@@ -449,12 +423,14 @@ class ReservationController extends AbstractController
     /**
      * @Route ("/QrcodeR/{id}", name="QrcodeReservation", methods={"GET", "POST"})
      */
-    public function QrCode($id,ReservationRepository $rep)
+    public function QrCode($id,ReservationRepository $rep,PaiementRepository $repp)
     {    $reservation=$rep->find($id);
+        $paiment=$repp->findBy(['idReservation'=>$reservation]);
+        $data= $reservation->show().' Montant total '.$paiment[0]->getMontant();
         $result = Builder::create()
             ->writer(new PngWriter())
             ->writerOptions([])
-            ->data($reservation->show())
+            ->data($data)
             ->encoding(new Encoding('UTF-8'))
             ->errorCorrectionLevel(new ErrorCorrectionLevelHigh())
             ->size(300)
