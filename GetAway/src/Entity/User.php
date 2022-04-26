@@ -19,7 +19,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *     message ="L'email que vous avez indiqué est deja utilisé! "
  * )
  */
-class User
+class User implements UserInterface
 {
     /**
      * @ORM\OneToMany(targetEntity=Reclamation::class, mappedBy="idclient", orphanRemoval=true)
@@ -292,11 +292,11 @@ class User
     }
     public function eraseCredentials()
     {
-        // TODO: Implement eraseCredentials() method.
+        return $this->getEtat();
     }
     public function getSalt()
     {
-        // TODO: Implement getSalt() method.
+        return $this->getRole();
     }
     public function getRoles()
     {
@@ -304,7 +304,7 @@ class User
     }
     public function getUsername()
     {
-        return $this->id;
+        // TODO: Implement getUsername() method.
     }
 
     /**
@@ -336,4 +336,6 @@ class User
 
         return $this;
     }
+
+
 }

@@ -15,9 +15,6 @@ class AvionType extends AbstractType
         $builder
             ->add('nbrPlace')
             ->add('nomAvion')
-            ->add('idAgence',EntityType::class,[
-                'class'=> \App\Entity\User::class,
-                'choice_label'=>'nom'])
         ;
     }
 

@@ -1,11 +1,18 @@
+<!DOCTYPE html>
+<html>
 
 {% block body %}
-    <h2 class="page-header">
+<div class="page">
+    <table>
+        <tr>
+            <td>
+                <p style="color: #0000FF", style="font-size: 15px;">
+                        <span class="center">  le {{ "now"|date("m/d/Y") }} </span>
+                </p>
+            </td>
+        </tr>
+    </table>
 
-        <center>   <img style="position: center" src=" " alt="" width="200"></center>
-
-        <small class="pull-right"></small>
-    </h2>
     <h1 align="center" style="color: #0000FF">liste des vols</h1><hr>
 
 
@@ -36,5 +43,7 @@
             <h1 align="center"></h1><hr>
 
         {% endfor %}
+
         </body>
+</div>
     {% endblock %}

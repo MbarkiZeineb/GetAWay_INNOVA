@@ -4,11 +4,11 @@ namespace App\Controller;
 
 use App\Entity\Reclamation;
 use App\Entity\User;
-use App\Form\ReclamationType;
 use App\Form\UserbackType;
 use App\Form\UserType;
-use App\Repository\ReclamationRepository;
+use App\Repository\AvionRepository;
 use App\Repository\UserRepository;
+use App\Repository\VolRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,7 +22,6 @@ use Symfony\Component\Security\Core\User\UserProviderInterface;
  */
 class UserController extends AbstractController
 {
-
     /**
      * @Route("/", name="app_user_index", methods={"GET"})
      */
@@ -36,14 +35,33 @@ class UserController extends AbstractController
             'users' => $users,
         ]);
     }
-
+    /**
+     * @Route("/afficheAvion/{ida}", name="app_avion", methods={"GET"})
+     */
+    public function listByidagent(UserRepository $userRepository, AvionRepository $avionRepository,$ida): Response
+    {
+        $user=$userRepository->find($ida);
+        $avion=$avionRepository->listByida($user->getId());
+        return $this->render('avion/index.html.twig', [
+            'user'=>$user,
+            'avions' => $avion,
+        ]);
+    }
 
     /**
      * @Route("/pro", name="app_user_profil", methods={"GET"})
      */
     public function profil(EntityManagerInterface $entityManager): Response
     {
-        return $this->render('user/index1.html.twig');
+        dump($this->getUser()->eraseCredentials());
+        if($this->getUser()->eraseCredentials()==0)
+            return $this->redirectToRoute('security_login');
+        else if($this->getUser()->getSalt()=="Client" || $this->getUser()->getSalt()=="Offreur" )
+
+            return $this->render('user/index1.html.twig');
+        else
+
+            return $this->redirectToRoute('app_user_index');
     }
 
 
@@ -219,6 +237,14 @@ class UserController extends AbstractController
 
         return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
     }
+
+
+
+
+
+
+
+
 
 
 

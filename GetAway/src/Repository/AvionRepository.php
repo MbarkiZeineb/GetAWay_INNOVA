@@ -86,4 +86,15 @@ class AvionRepository extends ServiceEntityRepository
         return $query->getResult();
 
     }
+
+    public function listByida($id)
+    {
+        return $this->createQueryBuilder('r')
+            ->join('r.idAgence','u')
+            ->addSelect('u')
+            ->where('u.id=:id')
+            ->setParameter('id',$id)
+            ->getQuery()->getResult();
+
+    }
 }

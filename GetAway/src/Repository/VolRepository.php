@@ -22,14 +22,14 @@ class VolRepository extends ServiceEntityRepository
     }
 
 
-    public function countByDate(){
+    public function countByDate()
+    {
         $query = $this->createQueryBuilder('a')
             ->select('SUBSTRING(a.dateDepart, 1, 10) as date, COUNT(a) as count')
             ->groupBy('date');
         return $query->getQuery()->getResult();
 
     }
-
 
 
     /**
@@ -48,7 +48,7 @@ class VolRepository extends ServiceEntityRepository
     {
 
         return $this->createQueryBuilder('a')
-            ->orderBy('a.prix','ASC')
+            ->orderBy('a.prix', 'ASC')
             ->getQuery()
             ->getResult();
 
@@ -96,4 +96,25 @@ class VolRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    public function findByvilledest($villeArrivee){
+        return $this->getEntityManager()->createQuery(
+            'SELECT c
+                    FROM App\Entity\Vol c
+                    WHERE c.villeArrivee LIKE :villeArrivee'
+        )
+            ->setParameter('villeArrivee', '%'.$villeArrivee.'%')
+            ->getResult();
+    }
+
+    public function listByidv($id)
+    {
+        return $this->createQueryBuilder('v')
+            ->join('v.idAvion','a')
+            ->addSelect('a')
+            ->where('a.idAgence=:idAvion')
+            ->setParameter('idAvion',$id)
+            ->getQuery()->getResult();
+
+    }
 }

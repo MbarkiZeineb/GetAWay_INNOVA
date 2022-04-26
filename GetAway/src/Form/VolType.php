@@ -51,9 +51,13 @@ class VolType extends AbstractType
                     'Dubai-International'   => 'Dubai-International',
                 )))
             ->add('nbrPlacedispo')
-            ->add('idAvion',EntityType::class,[
-                'class'=> Avion::class,
-                'choice_label'=>'nomavion'])
+            ->add('idAvion' , EntityType::class,array(
+                'class' => Avion::class,
+                'choice_label' => function($avion) {
+                    /** @var Avion $avion */
+                    return $avion->getNomAvion() ;
+                }
+            ))
             ->add('prix')
         ;
     }
@@ -62,6 +66,7 @@ class VolType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Vol::class,
+
         ]);
     }
 }

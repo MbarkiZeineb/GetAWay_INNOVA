@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\Avion;
+use App\Entity\User;
+use App\Repository\UserRepository;
 use App\Form\AvionType;
 use App\Repository\AvionRepository;
 use App\Repository\VolRepository;
@@ -31,27 +33,37 @@ class AvionController extends AbstractController
         ]);
     }
 
+
     /**
-     * @Route("/new", name="app_avion_new", methods={"GET", "POST"})
+     * @Route("/new/{ida}", name="app_avion_new", methods={"GET", "POST"})
      */
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
-    {
+    public function new(Request $request, EntityManagerInterface $entityManager,$ida): Response
+    { $user= $entityManager->getRepository(User::class)->find($ida);
+
         $avion = new Avion();
+        $avion->setIdAgence($user);
         $form = $this->createForm(AvionType::class, $avion);
         $form->handleRequest($request);
 
+
         if ($form->isSubmitted() && $form->isValid()) {
+
+
+            $avion->setType($user->getNomagence());
+
             $entityManager->persist($avion);
             $entityManager->flush();
             $this->addFlash('info', 'Avion ajouté avec succès');
 
-            return $this->redirectToRoute('app_avion_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_avion', ['ida'=>$avion->getIdAgence()->getId()]);
         }
+
 
         return $this->render('avion/new.html.twig', [
             'avion' => $avion,
             'form' => $form->createView(),
         ]);
+
     }
 
     /**
@@ -75,7 +87,7 @@ class AvionController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
             $this->addFlash('info', 'Avion modifié avec succès');
-            return $this->redirectToRoute('app_avion_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_avion', ['ida'=>$avion->getIdAgence()->getId()]);
         }
 
         return $this->render('avion/edit.html.twig', [
@@ -90,12 +102,13 @@ class AvionController extends AbstractController
     public function delete(Request $request, Avion $avion,VolRepository $volRepository,EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$avion->getIdAvion(), $request->request->get('_token'))) {
+
             $entityManager->remove($avion);
             $entityManager->flush();
             $this->addFlash('info', 'Avion et ses listes des vols sont supprimés avec succès');
         }
 
-        return $this->redirectToRoute('app_avion_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_avion', ['ida'=>$avion->getIdAgence()->getId()]);
     }
 
     /**
@@ -111,4 +124,18 @@ class AvionController extends AbstractController
         ]);
 
     }
+
+    /**
+     * @Route("/affichevol/{ida}", name="app_vol", methods={"GET"})
+     */
+    public function listvolByid(UserRepository $userRepository,VolRepository $volRepository, AvionRepository $avionRepository,$ida): Response
+    {
+        $user=$avionRepository->find($ida);
+        $vol=$volRepository->listByidv($user->getIdAvion());
+        return $this->render('vol/index.html.twig', [
+            'user'=>$user,
+            'vols' => $vol,
+        ]);
+    }
+
 }

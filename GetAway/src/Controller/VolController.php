@@ -2,8 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\Avion;
 use App\Entity\Vol;
 use App\Form\VolType;
+use App\Repository\AvionRepository;
 use App\Repository\VolRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -25,6 +27,8 @@ class VolController extends AbstractController
      */
     public function index(EntityManagerInterface $entityManager,Request $request, PaginatorInterface $paginator): Response
     {
+
+
         $vols = $entityManager
             ->getRepository(Vol::class)
             ->findAll();
@@ -63,6 +67,7 @@ class VolController extends AbstractController
      */
     public function index1(EntityManagerInterface $entityManager): Response
     {
+
         $vols = $entityManager
             ->getRepository(Vol::class)
             ->findAll();
@@ -78,11 +83,14 @@ class VolController extends AbstractController
      */
     public function new(Request $request, EntityManagerInterface $entityManager,VolRepository $volRepository): Response
     {
+
         $vol = new Vol();
         $form = $this->createForm(VolType::class, $vol);
         $form->handleRequest($request);
 
+
         if ($form->isSubmitted() && $form->isValid()) {
+
             if (($vol->getDuration())>=1){
                 $entityManager->flush();
                 $this->addFlash(
@@ -90,10 +98,11 @@ class VolController extends AbstractController
                     "Impossible de créer un vol qui dure plus que 24h."
                 );
             }else {
-                $entityManager->persist($vol);
-                $entityManager->flush();
-                $this->addFlash('info', 'Vol ajouté avec succès');
-                return $this->redirectToRoute('app_vol_index', [], Response::HTTP_SEE_OTHER);
+                    $entityManager->persist($vol);
+                    $entityManager->flush();
+                    $this->addFlash('info', 'Vol ajouté avec succès');
+                    return $this->redirectToRoute('app_vol', ['ida' => $vol->getIdAvion()->getIdAgence()->getId()]);
+
 
             }
         }
@@ -133,7 +142,7 @@ class VolController extends AbstractController
             }else {
             $entityManager->flush();
             $this->addFlash('info', 'Vol modifié avec succès');
-            return $this->redirectToRoute('app_vol_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_vol',['ida'=>$vol->getIdAvion()->getIdAgence()->getId()]);
         }}
 
         return $this->render('vol/edit.html.twig', [
@@ -145,7 +154,7 @@ class VolController extends AbstractController
     /**
      * @Route("/{idVol}", name="app_vol_delete", methods={"POST"})
      */
-    public function delete(Request $request, Vol $vol, EntityManagerInterface $entityManager): Response
+    public function delete(Request $request, Vol $vol,EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$vol->getIdVol(), $request->request->get('_token'))) {
             $entityManager->remove($vol);
@@ -153,7 +162,7 @@ class VolController extends AbstractController
             $this->addFlash('info', 'Vol supprimé avec succès');
         }
 
-        return $this->redirectToRoute('app_vol_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_vol',['ida'=>$vol->getIdAvion()->getIdAgence()->getId()]);
     }
 
 
@@ -211,6 +220,32 @@ class VolController extends AbstractController
 
 
     }
+
+
+    /**
+     * @Route("/search", name="ajax_search")
+     */
+    public function searchAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $Voyage = $request->get('q');
+        $Vol=$em->getRepository(Vol::class)->findByvilledest($Voyage);
+        if(!$Vol ) {
+            $result['Vol']['error'] = "vol introuvable ";
+        } else {
+            $result['Vol'] = $this->getRealEntities($Vol );
+        }
+        return new Response(json_encode($result));
+    }
+
+    public function getRealEntities($Vol){
+        foreach ($Vol  as $Vol ){
+            $realEntities[$Vol ->getIdVol()] = [$Vol->getNumVol(), $Vol->getPrix(),$Vol->getVilleDepart(), $Vol->getVilleArrivee(),$Vol->getDateDepart(),$Vol->getDateArrivee(), $Vol->getNbrPlacedispo()];
+        }
+        return $realEntities;
+    }
+
+
 
 
 }

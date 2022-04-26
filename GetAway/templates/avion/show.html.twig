@@ -18,10 +18,14 @@
                 <th>NomAvion</th>
                 <td>{{ avion.nomAvion }}</td>
             </tr>
+            <tr>
+                <th>Type</th>
+                <td>{{ avion.type }}</td>
+            </tr>
         </tbody>
     </table>
 
-    <a href="{{ path('app_avion_index') }}">back to list</a>
+    <a href="{{ path('app_avion',{'ida':app.user.id}) }}">back to list</a>
     <hr>
     <a href="{{ path('app_avion_edit', {'idAvion': avion.idAvion}) }}">edit</a>
 

@@ -65,6 +65,12 @@ class Avion
      */
     private $vols;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     *
+     */
+    private $type;
+
     public function getIdAvion(): ?int
     {
         return $this->idAvion;
@@ -102,6 +108,18 @@ class Avion
     public function setIdAgence(?User $idAgence): self
     {
         $this->idAgence = $idAgence;
+
+        return $this;
+    }
+
+    public function getType(): ?string
+    {
+        return $this->type;
+    }
+
+    public function setType(?string $type): self
+    {
+        $this->type = $type;
 
         return $this;
     }

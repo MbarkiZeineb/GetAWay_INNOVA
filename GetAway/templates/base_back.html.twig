@@ -151,7 +151,10 @@
                 </a>
                 <div class="collapse" id="Vols" >
                     <ul class="nav flex-column sub-menu">
-                        <li class="nav-item"> <a class="nav-link" href="/vol/V">Afficher</a></li>
+                       {# <li class="nav-item"> <a class="nav-link" href="/vol/V">Afficher</a></li> #}
+                        <li>
+                            <a href="{{ path('app_vol',{'ida':app.user.id}) }}">Afficher </a>
+                        </li>
                     </ul>
                 </div>
             </li>
@@ -164,7 +167,10 @@
                 </a>
                 <div class="collapse" id="Avions" >
                     <ul class="nav flex-column sub-menu">
-                        <li class="nav-item"> <a class="nav-link" href="/avion/">Afficher</a></li>
+                       {# <li class="nav-item"> <a class="nav-link" href="/avion/">Afficher</a></li> #}
+                        <li>
+                            <a href="{{ path('app_avion',{'ida':app.user.id}) }}">Afficher </a>
+                        </li>
                     </ul>
                 </div>
             </li>

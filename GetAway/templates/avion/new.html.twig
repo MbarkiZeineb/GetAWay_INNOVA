@@ -9,6 +9,6 @@
 
     {{ include('avion/_form.html.twig') }}
 
-    <a href="{{ path('app_avion_index') }}">back to list</a>
+    <a href="{{ path('app_avion',{'ida':app.user.id}) }}">back to list</a>
     <br>
 {% endblock %}

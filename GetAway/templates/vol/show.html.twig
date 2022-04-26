@@ -38,7 +38,7 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_vol_index') }}">back to list</a>
+    <a href="{{ path('app_vol',{'ida':app.user.id}) }}">back to list</a>
     <hr>
     <a href="{{ path('app_vol_edit', {'idVol': vol.idVol}) }}">edit</a>
 
