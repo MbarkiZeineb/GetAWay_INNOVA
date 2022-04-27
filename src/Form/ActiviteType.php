@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Activite;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -18,7 +19,21 @@ class ActiviteType extends AbstractType
         $builder
             ->add('nom')
             ->add('descrip')
-            ->add('duree')
+            ->add('duree', ChoiceType::class, [
+                'choices' => [
+                    ''=>'',
+                    '15 minutes' => '15 minutes',
+                    '30 minutes' => '30 minutes',
+                    '50 minutes' => '50 minutes',
+                    '1 Heure' => '1 Heure',
+                    '1 Heure 15 minutes' => '1 Heures 15 minute',
+                    '1 Heure 30 minutes' => '1 Heures 30 minute',
+                    '1 Heure 50 minutes' => '1 Heures 50 minute',
+                    '2 Heures' => '2 Heures',
+                    '1 Heures 15 minutes' => '1 Heures 15 minute',
+                    '1 Heures 30 minutes' => '1 Heures 30 minute',
+                    '2 Heures 50 minutes' => '2 Heures 50 minutes'
+                    ]])
             ->add('nbrplace')
             ->add('date',DateTimeType::class, array(
                 'widget' => 'single_text',
@@ -28,7 +43,13 @@ class ActiviteType extends AbstractType
                     'data-provide' => 'datetimepicker',
                     'data-format' => 'dd-mm-yyyy HH:ii',
                 ), ))
-            ->add('type')
+            ->add('type',  ChoiceType::class, [
+                'choices' => [
+                    ''=>'',
+                    'Sport' => 'Sport',
+                    'Educative' => 'Educative',
+                    'Loisir' => 'Loisir',
+                    'Aventure' => 'Aventure']])
             ->add('location')
             ->add('prix')
             ->add('imageFile', VichImageType::class)

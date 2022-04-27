@@ -89,7 +89,9 @@ class Activite
     /**
      * @var float
      * @Assert\NotBlank(message="Prix ne doit pas être vide")
-     * @Assert\Positive(message="Le prix est négatif")
+     * @Assert\Range(
+     *      min = 10.0,
+     *      max = 200.0)
      * @Assert\Type("float")
      *
      * @ORM\Column(name="Prix", type="float", precision=10, scale=0, nullable=false)

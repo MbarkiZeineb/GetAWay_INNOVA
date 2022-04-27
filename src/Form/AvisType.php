@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Avis;
+use http\Client\Curl\User;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -16,10 +17,11 @@ class AvisType extends AbstractType
         $builder
 
             ->add('message')
-
             ->add('rating')
-            ->add('Id',EntityType::class,['class'=>\App\Entity\User::class,'choice_label'=>'nom'])
-            ->add('Ajouter',SubmitType::class)
+            ->add('Ajouter',SubmitType::class,[
+                'attr' => ['class' => 'btn  btn-warning ']
+
+            ])
         ;
     }
 

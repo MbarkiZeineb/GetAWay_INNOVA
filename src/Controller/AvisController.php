@@ -6,13 +6,17 @@ use App\Entity\Activite;
 use App\Form\ActiviteType;
 use App\Repository\ActiviteRepository;
 use App\Entity\Avis;
+use App\Entity\User;
+
 use App\Form\AvisType;
+use App\Services\SmsService;
 use Doctrine\ORM\EntityManagerInterface;
 use MercurySeries\FlashyBundle\FlashyNotifier;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Services\GetUser;
 
 /**
  * @Route("/avis")
@@ -34,7 +38,7 @@ class AvisController extends AbstractController
             ->getRepository(Avis::class)
             ->findAll();
 
-        return $this->render('avis/login.html.twig', [
+        return $this->render('avis/index.html.twig', [
             'avis' => $avis,
         ]);
     }
@@ -138,14 +142,22 @@ class AvisController extends AbstractController
     /**
      * @Route("/new/{RefAct}", name="app_avis_act", methods={"GET", "POST"})
      */
-    public function addavisAct(Request $request, EntityManagerInterface $entityManager,$RefAct): Response
+    public function addavisAct(Request $request, EntityManagerInterface $entityManager,$RefAct, SmsService $smsService,GetUser $getUser): Response
     {
-        $activite= $entityManager->getRepository(Activite::class)->find($RefAct);
+        $activite = $entityManager->getRepository(Activite::class)->find($RefAct);
+        $listavis = $entityManager->getRepository(Avis::class)->findAll();
+
         $avis = new Avis();
         $avis->setDate(new \DateTime('now'));
         $form = $this->createForm(AvisType::class, $avis);
         $form->handleRequest($request);
         $avis->setRefactivite($activite);
+        $userConnected=$getUser->getUser();
+        $user = $entityManager->getRepository(User::class)->find($userConnected);
+
+
+        $avis->setId($user);
+
         dump($avis);
         if ($form->isSubmitted() && $form->isValid()) {
 
@@ -155,10 +167,15 @@ class AvisController extends AbstractController
                 'info',
                 'Avis Ajouter'
             );
+            if($user)
+            $smsService->sendSms("+216".$user->getNumtel(),
+                "Votre avis à été bien enregistrer"
+            );
         }
 
         return $this->render('activite/show_front.html.twig', [
             'activite'=>$activite,
+            'listavis'=>$listavis,
             'form' => $form->createView(),
         ]);
     }

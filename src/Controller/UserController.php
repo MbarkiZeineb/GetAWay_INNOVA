@@ -41,8 +41,15 @@ class UserController extends AbstractController
      * @Route("/pro", name="app_user_profil", methods={"GET"})
      */
     public function profil(EntityManagerInterface $entityManager): Response
-    {
+    {    dump($this->getUser()->getSalt());
+        if($this->getUser()->getSalt()=="Client")
+
         return $this->render('user/index1.html.twig');
+        else
+        {
+            return $this->render('user/new.html.twig');
+        }
+
     }
 
 

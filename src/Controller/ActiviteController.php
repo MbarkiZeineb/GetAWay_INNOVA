@@ -11,9 +11,11 @@ use App\Repository\ActiviteRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use MercurySeries\FlashyBundle\FlashyNotifier;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use function PHPUnit\Framework\countOf;
 
 /**
  * @Route("/activite")
@@ -26,6 +28,11 @@ class ActiviteController extends AbstractController
         $this->flashy = $flashy;
     }
 
+
+
+
+
+
     /**
      * @Route("/", name="app_activite_index", methods={"GET"})
      */
@@ -35,10 +42,73 @@ class ActiviteController extends AbstractController
         $activites = $entityManager
             ->getRepository(Activite::class)
             ->findAll();
-        return $this->render('activite/login.html.twig', [
+        $act=$entityManager->getRepository(Activite::class)->findNbrplacedispo();
+        $act2=$entityManager->getRepository(Activite::class)->findNbrAct();
+        dump($act);
+        dump($act2);
+
+
+     if($act2<6 && $act>0){
+                $this->flashy->error("Vous avez '$act' activites avec 0 place disponible et Total des activites: $act2");
+        }
+        else
+            if($act>0) {
+                $this->flashy->error("Vous avez '$act' activites avec 0 place disponible");
+            }
+            else
+                if ($act2<6)
+                    $this->flashy->error("Vous avez que '$act2' activites");
+
+        return $this->render('activite/index.html.twig', [
             'activites' => $activites,
         ]);
 
+    }
+    /**
+     *  @Route("/stats",name="stats")
+     */
+    public function stats()
+    {
+
+
+
+
+
+
+        $sportArray = $this->getDoctrine()->getRepository(Activite::class)->findBy(
+            ['type' => 'Sport']);
+        $sportArraySize=sizeof($sportArray);
+
+
+
+        $educativeArray = $this->getDoctrine()->getRepository(Activite::class)->findBy(
+            ['type' => 'Educative']);
+        $educativeArraySize=sizeof($educativeArray);
+
+
+        $loisirArray = $this->getDoctrine()->getRepository(Activite::class)->findBy(
+            ['type' => 'Loisir']);
+        $loisirArraySize=sizeof($loisirArray);
+
+
+
+        $aventureArray = $this->getDoctrine()->getRepository(Activite::class)->findBy(
+            ['type' => 'Aventure']);
+        $aventureArraySize=sizeof($aventureArray);
+
+
+
+
+
+
+
+
+        return $this->render('activite/stats.html.twig', [
+            'aventureArraySize'=>$aventureArraySize,'loisirArraySize'=>$loisirArraySize,
+            'educativeArraySize'=>$educativeArraySize,'sportArraySize'=>$sportArraySize
+
+
+        ]);
     }
 
 
@@ -71,6 +141,8 @@ class ActiviteController extends AbstractController
             $this->flashy->success('Activite ajouter');
             return $this->redirectToRoute('app_activite_index', [], Response::HTTP_SEE_OTHER);
         }
+
+
         $this->flashy->error("L'Ajout de l'activite à echouée");
         return $this->render('activite/new.html.twig', [
             'activite' => $activite,
@@ -98,8 +170,19 @@ class ActiviteController extends AbstractController
         return $this->render('activite/show_front.html.twig', [
             'activite' => $activite,
 
+
         ]);
     }
+
+
+
+
+
+
+
+
+
+
 
     /**
      * @Route("/{refact}/edit", name="app_activite_edit", methods={"GET", "POST"})
@@ -176,4 +259,8 @@ class ActiviteController extends AbstractController
 
         return $this->json(['code' => 200, 'likes' => $likeRepo->getCountForPost($activite)], 200);
     }
+
+
+
+
 }

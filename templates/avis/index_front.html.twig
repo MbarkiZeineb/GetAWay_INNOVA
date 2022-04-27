@@ -24,7 +24,13 @@
             </tr>
         </thead>
         <tbody>
+
+
+
         {% for avi in avis %}
+                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+            {% if avi.id.id==app.user.id  %}
+
             <tr>
 
                 <td>{{ avi.message }}</td>
@@ -37,10 +43,12 @@
                 </td>
 
             </tr>
-        {% else %}
-            <tr>
-                <td colspan="5">no records found</td>
-            </tr>
+
+
+        {% endif %}
+                {% endif %}
+
+
         {% endfor %}
         </tbody>
     </table>

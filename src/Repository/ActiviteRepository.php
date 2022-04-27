@@ -45,6 +45,32 @@ class ActiviteRepository extends ServiceEntityRepository
         }
     }
 
+    public function findNbrplacedispo() :int
+    {
+        $conn = $this->getEntityManager()->getConnection();
+
+        $sql = 'SELECT RefAct, Nbrplace from Activite WHERE Nbrplace<1';
+        $stmt = $conn->prepare($sql);
+        $resultSet = $stmt->executeQuery();
+
+
+        return $resultSet->rowCount();
+    }
+
+    public function findNbrAct() :int
+    {
+        $conn = $this->getEntityManager()->getConnection();
+
+        $sql = 'SELECT RefAct from Activite';
+        $stmt = $conn->prepare($sql);
+        $resultSet = $stmt->executeQuery();
+
+
+        return $resultSet->rowCount();
+    }
+
+
+
     // /**
     //  * @return Activite[] Returns an array of Activite objects
     //  */

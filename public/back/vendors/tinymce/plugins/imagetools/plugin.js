@@ -743,7 +743,7 @@
           'type'
         ]).map(getServiceErrorMsg);
       }).getOr('Invalid JSON in service error message');
-      return 'ImageProxy Service error: ' + errorMsg;
+      return 'ImageProxy Services error: ' + errorMsg;
     };
     var handleServiceError = function (blob) {
       return readBlobText(blob).then(function (text) {

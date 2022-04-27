@@ -112,18 +112,7 @@
             <article class="blog-single">
 
                 <div class="header-box">
-                    <a href="#" class="link-right">75 Commenting</a>
-                    <span class="rate-left">
-                          <strong class="title">Overall Rating</strong>
-                          <span class="star-rating">
-                            <span><span class="icon-star"></span></span>
-                            <span><span class="icon-star"></span></span>
-                            <span><span class="icon-star"></span></span>
-                            <span><span class="icon-star"></span></span>
-                            <span class="disable"><span class="icon-star"></span></span>
-                          </span>
-                          <span class="value">4.7/5</span>
-                        </span>
+
                 </div>
 
                         <!-- comment form -->
@@ -140,9 +129,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-sm-6 form-group">
-                                        {{ form_widget(form.Id , {'attr': {'class': 'form-control' , 'placeholder' : 'client'}} ) }}
-                                    </div>
+
                                     <div class="col-sm-6 form-group form-rate">
                                         {{ form_widget(form.rating , {'attr': {'class': 'form-control' , 'placeholder' : 'Rating'}} ) }}
                                         <div>
@@ -172,71 +159,41 @@
                 <!-- comments -->
                 <div class="comments">
                     <div class="comment-slot">
-                        <div class="thumb">
-                            <a href="#"><img src="img/blog/thumb-07.jpg" height="50" width="50" alt="image description"></a>
-                        </div>
-                        <div class="text">
-                            <header class="comment-head">
-                                <div class="left">
-                                    <strong class="name">
-                                        <a href="#">Foulen ben foulen</a>
-                                    </strong>
-                                    <div class="meta">
-                                        Commented on
-                                        <time datetime="2016-07-19">14/1/2016</time>
-                                    </div>
-                                </div>
 
-                            </header>
-                            <div class="comment-detail">
-                                <p>
-                                    This is Photoshop's version of Lorem Ipsum.
-                                    Proin gravida nibh vel velit auctor aliquet.
-                                    Aenean sollicitudin, lorem quis bibendum auctor,
-                                    nisi elit consequat ipsum, nec sagittis sem nibh
-                                    id elit. Duis sed odio sit amet nibh vulputate
-                                    cursus a sit amet mauris.
-                                </p>
-                                <div class="link-holder">
-                                    <a href="#">Read Full Review</a>
-                                </div>
-                            </div>
-                        </div>
                         <!-- comemmts reply -->
-                        <div class="comments reply">
+                        {% for avis in listavis %}
+                            {% if avis.refactivite.RefAct==activite.RefAct %}
+
+
+                        <div class="comment-head">
                             <div class="comment-slot">
                                 <div class="thumb">
-                                    <a href="#"><img src="img/blog/thumb-08.jpg" height="50" width="50" alt="image description"></a>
+                                    <a href="#"><img src={{ vich_uploader_asset(activite,'imageFile')}} height="50" width="50" alt="image description"></a>
                                 </div>
                                 <div class="text">
                                     <header class="comment-head">
                                         <div class="left">
                                             <strong class="name">
-                                                <a href="#">Cleona Torez - Spain</a>
+                                                <a href="#">{{ avis.id.nom }} {{ avis.id.prenom }}</a>
                                             </strong>
                                             <div class="meta">
                                                 Commented on
-                                                <time datetime="2016-07-19">14/1/2016</time>
+                                                <time datetime="2016-07-19">{{  avis.date ? avis.date|date('Y-m-d Hh:') : '' }}</time>
                                             </div>
                                         </div>
                                     </header>
                                     <div class="comment-detail">
                                         <p>
-                                            This is Photoshop's version of Lorem Ipsum.
-                                            Proin gravida nibh vel velit auctor aliquet.
-                                            Aenean sollicitudin, lorem quis bibendum
-                                            auctor, nisi elit consequat ipsum, nec
-                                            sagittis sem nibh id elit. Duis sed odio sit
-                                            amet nibh vulputate cursus a sit amet
-                                            mauris.
+                                            {{ avis.message }}
                                         </p>
-                                        <div class="link-holder">
-                                            <a href="#">Read Full Review</a>
-                                        </div>
+
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        {% endif %}
+
+                        {% endfor %}
                 </div>
 
                 </div>
