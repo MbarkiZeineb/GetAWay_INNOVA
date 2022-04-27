@@ -34,17 +34,15 @@
                                     <tbody>
                                     {% for reservation in reservations %}
                                         <tr>
-                                        {% set difference = time_diff(reservation.dateDebut ? reservation.dateDebut|date('Y-m-d') : '')  %}
                                         <td class="alert-info">{{time_diff(reservation.dateDebut ? reservation.dateDebut|date('Y-m-d') : '') }}</td>
-                                        <td>{{ reservation.dateReservation ? reservation.dateReservation|date('Y-m-d') : '' | ago }}</td>
+                                        <td>{{ reservation.dateReservation ? reservation.dateReservation|date('Y-m-d') : ''  }}</td>
                                         <td>{{ reservation.nbrPlace }}</td>
                                         <td>{{ reservation.dateDebut ? reservation.dateDebut|date('Y-m-d') : '' }}</td>
                                         <td>{{ reservation.dateFin ? reservation.dateFin|date('Y-m-d') : '' }}</td>
                                         <td>{{ reservation.etat }}</td>
                                         <td>{{ reservation.type }}</td>
                                         <td>
-                                        {% if  time_diff(reservation.dateDebut ? reservation.dateDebut|date('Y-m-d') : '')   > 400 %}
-
+                                        {% if time_diff(reservation.dateDebut ? reservation.dateDebut|date('Y-m-d') : '')   > 2000 %}
                                         <a class="btn btn-default" href="{{ path('app_reservation_edit', {'id': reservation.id}) }}">Annuler </a>
                                         <a class="btn btn-default" href="{{ path('detailsRFront', {'id': reservation.id}) }}">Paiement </a>
                                         {% else %}

@@ -78,7 +78,8 @@ class PaiementController extends AbstractController
                     'success_url'=>$this->generateUrl('success_url', [], UrlGeneratorInterface::ABSOLUTE_URL),
                     'cancel_url'=>$this->generateUrl('cancel_url', [], UrlGeneratorInterface::ABSOLUTE_URL),
                 ]);
-
+                dump($session->id);
+                return $this->redirect($session->url, 303);
             }
 
             return $this->redirectToRoute('delete_items',array('id'=>$reservation->getIdVoyage()->getIdvoy()));
@@ -108,7 +109,30 @@ class PaiementController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($paiement);
             $entityManager->flush();
+            if($paiement->getModalitePaiement()=="CARTE")
+            {    $user=$reservation->getIdClient()->getNom().'  '.$reservation->getIdClient()->getPrenom();
+                $produit=$reservation->getType().' Ville de arrrive : '.$reservation->getIdVoyage()->getVilledest().' : '.'  Date de depart :'.$reservation->getIdVoyage()->getVilledest();
+                Stripe::setApiKey($_ENV['STRIPE_SK']);
+                $session =Session::create([
+                    'payment_method_types'=>['card'],
+                    'line_items'=>[[
+                        'price_data'=>[
+                            'currency'=>'usd',
+                            'product_data'=>[
+                                'name'=>$produit,
 
+                            ],
+                            'unit_amount'=>$paiement->getMontant(),
+                        ],
+                        'quantity'=>$reservation->getNbrPlace(),
+                    ]],
+                    'mode'=>'payment',
+                    'success_url'=>$this->generateUrl('success_url', [], UrlGeneratorInterface::ABSOLUTE_URL),
+                    'cancel_url'=>$this->generateUrl('cancel_url', [], UrlGeneratorInterface::ABSOLUTE_URL),
+                ]);
+                dump($session->id);
+                return $this->redirect($session->url, 303);
+            }
             return $this->redirectToRoute('delete_items',array('id'=>$reservation->getIdHebergement()->getReferance()));
         }
 
@@ -174,11 +198,6 @@ class PaiementController extends AbstractController
                 return $this->redirectToRoute('delete_items',array('id'=>$reservation->getIdVol()->getIdVol()));
             }
         }
-
-
-
-
-
         return $this->render('paiement/new.html.twig', [
             'paiement' => $paiement,
             'form' => $form->createView(),
@@ -280,8 +299,9 @@ public function newact(Request $request, EntityManagerInterface $entityManager,$
     if ($form->isSubmitted() && $form->isValid()) {
         $entityManager->persist($paiement);
         $entityManager->flush();
+        dump("aa");
         if($paiement->getModalitePaiement()=="CARTE")
-        {    $user=$reservation->getIdClient()->getNom().'  '.$reservation->getIdClient()->getPrenom();
+        {       dump("test");
             $produit=$reservation->getType().'  nom : '.$reservation->getIdActivite()->getNom().' : '.'  Date  :'.$reservation->getIdActivite()->getDate();
                 Stripe::setApiKey($_ENV['STRIPE_SK']);
                 $session =Session::create([
@@ -301,12 +321,15 @@ public function newact(Request $request, EntityManagerInterface $entityManager,$
                     'success_url'=>$this->generateUrl('success_url', [], UrlGeneratorInterface::ABSOLUTE_URL),
                     'cancel_url'=>$this->generateUrl('cancel_url', [], UrlGeneratorInterface::ABSOLUTE_URL),
                 ]);
-
-
+            dump($session->id);
+            return $this->redirect($session->url, 303);
     }
         else{
             return $this->redirectToRoute('delete_items',array('id'=>$reservation->getIdActivite()->getRefact()));
-        }}
+        }
+
+
+    }
 
     return $this->render('paiement/new.html.twig', [
         'paiement' => $paiement,
@@ -331,6 +354,31 @@ public function newact(Request $request, EntityManagerInterface $entityManager,$
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($paiement);
             $entityManager->flush();
+
+            if($paiement->getModalitePaiement()=="CARTE")
+            {    $user=$reservation->getIdClient()->getNom().'  '.$reservation->getIdClient()->getPrenom();
+                $produit=$reservation->getType().' Ville de arrrive : '.$reservation->getIdVoyage()->getVilledest().' : '.'  Date de depart :'.$reservation->getIdVoyage()->getVilledest();
+                Stripe::setApiKey($_ENV['STRIPE_SK']);
+                $session =Session::create([
+                    'payment_method_types'=>['card'],
+                    'line_items'=>[[
+                        'price_data'=>[
+                            'currency'=>'usd',
+                            'product_data'=>[
+                                'name'=>$produit,
+
+                            ],
+                            'unit_amount'=>$paiement->getMontant(),
+                        ],
+                        'quantity'=>$reservation->getNbrPlace(),
+                    ]],
+                    'mode'=>'payment',
+                    'success_url'=>$this->generateUrl('success_url', [], UrlGeneratorInterface::ABSOLUTE_URL),
+                    'cancel_url'=>$this->generateUrl('cancel_url', [], UrlGeneratorInterface::ABSOLUTE_URL),
+                ]);
+                dump($session->id);
+                return $this->redirect($session->url, 303);
+            }
             return $this->redirectToRoute('delete_items_Group',array('idvol'=>$reservation->getIdVol()->getIdVol(),'ida'=>$reservation->getIdActivite()->getRefact(),'idv'=>$reservation->getIdVoyage()->getIdvoy()));
         }
 
