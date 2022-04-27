@@ -65,8 +65,8 @@ class ReservationRepository extends ServiceEntityRepository
 
         return $this->createQueryBuilder('r')
             ->where('r.idHebergement=:id')
-            ->andWhere(' r.dateDebut <= :df  ')
-            ->andWhere('  r.dateFin >=  :df ')
+            ->andWhere(' r.dateDebut <= :df')
+            ->andWhere('  r.dateFin >= :df')
             ->andWhere('r.etat  like :ap' )
             ->setParameter('ap','%Approuve%')
             ->setParameter('id',$id)
@@ -81,7 +81,7 @@ class ReservationRepository extends ServiceEntityRepository
 
         return $this->createQueryBuilder('r')
             ->where('r.idHebergement=:id')
-            ->andWhere('r.dateDebut <= :dd      ')
+            ->andWhere('r.dateDebut <= :dd')
             ->andWhere(' r.dateFin >= :df')
             ->andWhere('r.etat  like :ap' )
             ->setParameter('ap','%Approuve%')
@@ -98,8 +98,8 @@ class ReservationRepository extends ServiceEntityRepository
 
         return $this->createQueryBuilder('r')
             ->where('r.idHebergement=:id')
-            ->andWhere('r.dateDebut >= :dd    ')
-            ->andWhere(' r.dateFin <=  :df')
+            ->andWhere('r.dateDebut >= :dd')
+            ->andWhere(' r.dateFin <= :df')
             ->andWhere('r.etat  like :ap' )
             ->setParameter('ap','%Approuve%')
             ->setParameter('id',$id)

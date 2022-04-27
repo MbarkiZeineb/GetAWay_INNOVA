@@ -184,14 +184,15 @@ class ReservationController extends AbstractController
             ->setDateReservation($date)
             ->setIdHebergement($reph->find($heb));
         $check1=$repv->check1($id,$reservation->getDateDebut());
-        $check2=$repv->check2($id,$reservation->getDateDebut());
+        $check2=$repv->check2($id,$reservation->getDateFin());
         $check3=$repv->check3($id,$reservation->getDateDebut(),$reservation->getDateFin());
         $check4=$repv->check4($id,$reservation->getDateDebut(),$reservation->getDateFin());
-        $check5=$repv->check4($id,$reservation->getDateDebut(),$reservation->getDateFin());
+        $check5=$repv->check5($id,$reservation->getDateDebut(),$reservation->getDateFin());
         dump($this->getUser());
         if($this->getUser()!=null)
         {          $user =$repU->find($this->getUser()->getUsername());
             $reservation->setIdClient($user);
+
             if($form->isSubmitted() && $form->isValid())
             {
                 if(empty($check1)&&empty($check2)&&empty($check3)&&empty($check4)&&empty($check5)&&$reservation->getDateDebut() >= $heb->getDateStart()&&$reservation->getDateFin() <= $heb->getDateEnd() )
