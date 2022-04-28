@@ -17,9 +17,9 @@
             </header>
 
 
-
             <div class="content-holder">
                 <div class="row db-3-col">
+
                     {% for activite in activites %}
                         <article class="col-sm-6 col-md-4 article has-hover-s3">
                             <div class="img-wrap">
@@ -61,8 +61,11 @@
                             <p>
                                 {{ activite.descrip }}
                             </p>
+
                         </article>
                     {% endfor %}
+                    </tbody>
+
                 </div>
             </div>
         </div>
@@ -70,6 +73,7 @@
 {% endblock %}
 
 {% block javascript %}
+
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script>
     const LIKE_ICON = 'fa-solid fa-heart';
@@ -95,7 +99,7 @@ try{
 }
 }
     }
-
 </script>
+
 
 {% endblock %}

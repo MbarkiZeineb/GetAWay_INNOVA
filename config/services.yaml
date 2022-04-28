@@ -6,9 +6,7 @@
 parameters:
     app.path.activite_images: /uploads/actvites
 
-    twilio_sid: "AC13598b9ef19843484e05b1b5c80fcb84"
-    twilio_token: "a0ca08cb134930e08143ff7a553109b7"
-    twilio_number:  '+18596817423'
+    
 
 services:
     # default configuration for services in *this* file
