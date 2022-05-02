@@ -7,6 +7,8 @@ use App\Form\PaiementType;
 use App\Form\ReservationVoyType;
 use App\Repository\PaiementRepository;
 use App\Repository\ReservationRepository;
+use App\Repository\UserRepository;
+use App\Repository\VoyageorganiseRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,6 +17,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Stripe\Stripe;
 use Stripe\Checkout\Session;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 
 /**
@@ -397,4 +400,31 @@ public function newact(Request $request, EntityManagerInterface $entityManager,$
     }
 
 
-}
+    //mobile
+
+
+    /**
+     * @Route ("/addpaimentmobile" ,  name="addpaimentvoymobile")
+     */
+    public function addPaiement(Request $request , NormalizerInterface $normalizer , EntityManagerInterface  $em,ReservationRepository  $repR)
+
+    {
+        $paiement = new Paiement();
+        $reservation=$repR->find($request->get("idR"));
+        $paiement->setMontant($request->get("montant"));
+        $paiement->setIdReservation($reservation);
+        $paiement->setModalitePaiement($request->get("modep"));
+        $date1 = new \DateTime('@'.strtotime('now'));
+        $paiement->setDate($date1);
+        $em->persist($paiement);
+        $em->flush();
+        dump("aaaa");
+        dump($paiement);
+        $dataJson=$normalizer->normalize($paiement,'json',['groups'=>'paiement']);
+        return new Response(json_encode($dataJson));
+
+    }
+
+
+
+    }

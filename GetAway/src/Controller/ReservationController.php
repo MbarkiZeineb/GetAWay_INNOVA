@@ -14,12 +14,13 @@ use App\Repository\ReservationRepository;
 use App\Repository\UserRepository;
 use App\Repository\VolRepository;
 use App\Repository\VoyageorganiseRepository;
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Query\AST\Functions\CurrentDateFunction;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormEvents;
-use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Endroid\QrCode\Builder\BuilderInterface;
@@ -30,8 +31,14 @@ use Endroid\QrCode\Encoding\Encoding;
 use Endroid\QrCode\ErrorCorrectionLevel\ErrorCorrectionLevelHigh;
 use Endroid\QrCode\ErrorCorrectionLevel\ErrorCorrectionLevelLow;
 use Endroid\QrCode\QrCode;
+use Symfony\Component\HttpFoundation\Request;
 use Endroid\QrCode\RoundBlockSizeMode\RoundBlockSizeModeMargin;
 use Endroid\QrCode\Writer\PngWriter;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
+use Symfony\Component\Serializer\SerializerInterface;
+
+
+
 /**
  * @Route("/reservation")
  */
@@ -448,6 +455,45 @@ class ReservationController extends AbstractController
         $dataUri = $result->getDataUri();
 
         return $this->render("reservation/qrcode.html.twig", ['data'=>$dataUri]);
+
+    }
+    //***************************************Mobile*******
+
+    /**
+     * @Route ("/addReservationVoy" ,  name="addrvoymobile")
+     */
+    public function addvoymobile(Request $request , NormalizerInterface $normalizer , EntityManagerInterface  $em,VoyageorganiseRepository $repvoy,UserRepository $repuser){
+
+       $voy= $repvoy->find($request->get("idh"));
+       $voy->setNbrplace($voy->getNbrplace()-$request->get("nbplace"));
+       $client=$repuser->find($request->get("idclient"));
+        $reservation = new Reservation();
+        $reservation->setNbrPlace($request->get("nbplace"));
+        $reservation->setIdClient($client);
+        $reservation->setIdVoyage($voy);
+      $date  = new \DateTime('@' . strtotime('now'));
+        $reservation->setDateReservation( $date);
+        $dated= new \DateTime($voy->getDatedepart());
+        $datef= new \DateTime($voy->getDatearrive());
+        $reservation->setDateDebut($dated);
+        $reservation->setDateFin($datef);
+        $reservation->setType("voyageOrganise");
+        $reservation->setEtat("Approuve");
+        $em->persist($reservation);
+        $em->flush();
+        $em->refresh($reservation);
+        $dataJson=$normalizer->normalize($reservation->getId(),'json',['groups'=>'reservation']);
+        return new Response(json_encode($dataJson));
+    }
+    /**
+     * @Route("/GetReservation", name="GetReservation")
+     */
+    public function getReservation (ReservationRepository $repository , SerializerInterface  $serializer)
+    {
+        $p = $repository->findAll();
+        $dataJson=$serializer->serialize($p,'json',['groups'=>'reservation']);
+        // dd($dataJson);
+        return new JsonResponse(json_decode($dataJson) );
 
     }
 

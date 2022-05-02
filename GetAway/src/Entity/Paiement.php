@@ -19,6 +19,7 @@ class Paiement
      * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @Groups("paiement")
      */
     private $id;
 
@@ -27,6 +28,7 @@ class Paiement
      * @Assert\NotBlank(
      * message = " vous devez selectionner le mode de paiement",groups={"p"})
      * @ORM\Column(name="modalite_paiement", type="string", length=30, nullable=false)
+     *  @Groups("paiement")
      */
     private $modalitePaiement;
 
@@ -34,6 +36,7 @@ class Paiement
      * @var float
      *
      * @ORM\Column(name="montant", type="float", precision=10, scale=0, nullable=false)
+     *  @Groups("paiement")
      */
     private $montant;
 
@@ -41,6 +44,7 @@ class Paiement
      * @var \DateTime
      *
      * @ORM\Column(name="date", type="date", nullable=false)
+     *  @Groups("paiement")
      */
     private $date;
 
@@ -51,6 +55,7 @@ class Paiement
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="id_reservation", referencedColumnName="id")
      * })
+     *  @Groups("paiement")
      */
     private $idReservation;
 

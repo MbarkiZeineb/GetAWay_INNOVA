@@ -3,7 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-
+use Symfony\Component\Serializer\Annotation\Groups;
 /**
  * Voyageorganise
  *
@@ -18,6 +18,7 @@ class Voyageorganise
      * @ORM\Column(name="idVoy", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @Groups("voyage")
      */
     private $idvoy;
 
@@ -25,54 +26,55 @@ class Voyageorganise
      * @var string
      *
      * @ORM\Column(name="villeDepart", type="string", length=30, nullable=false)
+     * @Groups("voyage")
      */
     private $villedepart;
 
     /**
      * @var string
-     *
      * @ORM\Column(name="villeDest", type="string", length=30, nullable=false)
+     * @Groups("voyage")
      */
     private $villedest;
 
     /**
      * @var string
-     *
+     *@Groups("voyage")
      * @ORM\Column(name="dateDepart", type="string", length=20, nullable=false)
      */
     private $datedepart;
 
     /**
      * @var string
-     *
+     *@Groups("voyage")
      * @ORM\Column(name="dateArrive", type="string", length=20, nullable=false)
      */
     private $datearrive;
 
     /**
      * @var int
-     *
+     *@Groups("voyage")
      * @ORM\Column(name="nbrPlace", type="integer", nullable=false)
      */
     private $nbrplace;
 
     /**
      * @var int
-     *
+     *@Groups("voyage")
      * @ORM\Column(name="idCat", type="integer", nullable=false)
      */
     private $idcat;
 
     /**
      * @var float
-     *
+     *@Groups("voyage")
      * @ORM\Column(name="prix", type="float", precision=10, scale=0, nullable=false)
      */
     private $prix;
 
     /**
      * @var string
-     *
+     *@Groups("voyage")
      * @ORM\Column(name="description", type="string", length=1000, nullable=false)
      */
     private $description;

@@ -4,11 +4,15 @@ namespace App\Controller;
 
 use App\Entity\Voyageorganise;
 use App\Form\VoyageorganiseType;
+use App\Repository\ReservationRepository;
+use App\Repository\VoyageorganiseRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\SerializerInterface;
 
 /**
  * @Route("/voyageorganise")
@@ -51,15 +55,7 @@ class VoyageorganiseController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{idvoy}", name="app_voyageorganise_show", methods={"GET"})
-     */
-    public function show(Voyageorganise $voyageorganise): Response
-    {
-        return $this->render('voyageorganise/show.html.twig', [
-            'voyageorganise' => $voyageorganise,
-        ]);
-    }
+
 
     /**
      * @Route("/{idvoy}/edit", name="app_voyageorganise_edit", methods={"GET", "POST"})
@@ -92,5 +88,17 @@ class VoyageorganiseController extends AbstractController
         }
 
         return $this->redirectToRoute('app_voyageorganise_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    //********************mobile
+    /**
+     * @Route("/getallVoyage")
+     */
+    public function getvoyage (VoyageorganiseRepository $repository , SerializerInterface  $serializer)
+    {
+        $p = $repository->findAll();
+        $dataJson=$serializer->serialize($p,'json',['groups'=>'voyage']);
+        return new JsonResponse(json_decode($dataJson) );
+
     }
 }

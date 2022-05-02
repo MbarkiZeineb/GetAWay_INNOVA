@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
 /**
  * Reservation
  *
@@ -20,6 +21,7 @@ class Reservation
      * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @Groups("reservation")
      */
     private $id;
 
@@ -27,6 +29,7 @@ class Reservation
      * @var \DateTime
      *
      * @ORM\Column(name="date_reservation", type="date", nullable=false)
+     * @Groups("reservation")
      */
     private $dateReservation;
 
@@ -42,7 +45,7 @@ class Reservation
      *      max = 20,
      *      notInRangeMessage = " nombre de place doit etre entre {{ min }} et {{ max }}",groups={"VVA"})
      *
-     *
+     *@Groups("reservation")
 
      */
     private $nbrPlace;
@@ -55,6 +58,7 @@ class Reservation
      * @Assert\GreaterThan("today",
      *     message = " la date debut doit etre superieur a la date d'aujourd'hui ",
      * groups={"Hebergement"})
+     * @Groups("reservation")
      *
      */
     private $dateDebut;
@@ -70,6 +74,7 @@ class Reservation
      *message="La date fin ne doit pas être  inferieur  à la date début"
      *,groups={"Hebergement"})
      * groups={"Hebergement"}
+     * @Groups("reservation")
 
      */
     private $dateFin;
@@ -78,6 +83,7 @@ class Reservation
      * @var string
      *
      * @ORM\Column(name="etat", type="string", length=30, nullable=false)
+     * @Groups("reservation")
      */
     private $etat;
 
@@ -85,6 +91,7 @@ class Reservation
      * @var string|null
      *
      * @ORM\Column(name="type", type="string", length=30, nullable=true)
+     * @Groups("reservation")
      */
     private $type;
 
@@ -95,6 +102,7 @@ class Reservation
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="id_client", referencedColumnName="id")
      * })
+     * @Groups("reservation")
      */
     private $idClient;
 
@@ -105,6 +113,7 @@ class Reservation
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="id_voyage", referencedColumnName="idVoy")
      * })
+     * @Groups("reservation")
      */
     private $idVoyage;
 
@@ -115,6 +124,7 @@ class Reservation
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="id_activite", referencedColumnName="RefAct")
      * })
+     * @Groups("reservation")
      */
     private $idActivite;
 
@@ -125,6 +135,7 @@ class Reservation
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="id_hebergement", referencedColumnName="referance")
      * })
+     * @Groups("reservation")
      */
     private $idHebergement;
 
@@ -135,6 +146,7 @@ class Reservation
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="id_vol", referencedColumnName="id_vol")
      * })
+     * @Groups("reservation")
      */
     private $idVol;
     /**
