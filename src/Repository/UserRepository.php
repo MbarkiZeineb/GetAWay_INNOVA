@@ -73,4 +73,16 @@ class UserRepository extends ServiceEntityRepository
         ;
     }
     */
+    public function OrderBymail()
+    {
+        $em=$this->getEntityManager();
+        $query=$em->createQuery('select u from App\Entity\user u
+         order by u.email ASC');
+        return $query->getResult();
+    }
+
+
+
+
+
 }

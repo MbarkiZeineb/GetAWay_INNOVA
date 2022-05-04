@@ -6,7 +6,7 @@
 
     <div class="table-responsive pt-3">
         <table class="table table-bordered table-striped">
-            <tbody>
+
         <thead>
             <tr class="table-info">
                 <th>Id</th>
@@ -25,7 +25,9 @@
                 <th>actions</th>
             </tr>
         </thead>
+            <p style="margin-left: 950px"><label for="myInput"></label><input id="myInput" type="text" placeholder="Chercher...">
 
+                <tbody  id="myTable">
         {% for user in users %}
             <tr >
                 <td>{{ user.id }}</td>
@@ -55,7 +57,19 @@
         {% endfor %}
         </tbody>
     </table>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script>
+            $(document).ready(function(){
+                $("#myInput").on("keyup", function() {
+                    var value = $(this).val().toLowerCase();
+                    $("#myTable tr").filter(function() {
+                        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                    });
+                });
+            });
+        </script>
     <a class="btn btn-primary me-2" href="{{ path('app_user_newback') }}">Ajouter un utilisateur</a>
+        <a class="btn btn-primary me-2" href="{{ path('triuser') }}">Trier la liste des utilisateurs</a>
 </div>
 
 

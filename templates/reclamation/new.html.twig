@@ -1,13 +1,21 @@
 {% extends 'base_front.html.twig' %}
 
 {% block content %}
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <h1>Ajouter une reclamation :</h1>
 
-    {{ include('reclamation/_form.html.twig') }}
+<main id="main">
+
+    <div class="inner-main common-spacing container">
+        <div class="row">
+            <div class="col-md-20">
+                <div class="top-box">
+                    <span class="holder height">Ajouter une reclamation </span>
+                </div>
+
+                {{ include('reclamation/_form.html.twig') }}
+            </div>
+        </div>
+    </div>
+</main>
+
 
 {% endblock %}

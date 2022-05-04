@@ -1,12 +1,19 @@
 {% extends 'base_front.html.twig' %}
 
 {% block content %}
-    <br>
-    <br>
-    <br>
-    <br>
-    <h1>Modifier Reclamation</h1>
+<main id="main">
+
+    <div class="inner-main common-spacing container">
+        <div class="row">
+            <div class="col-md-20">
+                <div class="top-box">
+                    <span class="holder height">Modifier votre reclamation </span>
+                </div>
 
     {{ include('reclamation/_formedit.html.twig', {'button_label': 'Modifier'}) }}
+            </div>
+        </div>
+    </div>
+</main>
 
 {% endblock %}

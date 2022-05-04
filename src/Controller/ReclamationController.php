@@ -124,7 +124,6 @@ public function delete1(EntityManagerInterface $entityManager,UserRepository $us
      * @return void
      * @Route("/traiter/{idr}",name="traiter")
      */
-
     public function  traiter($idr,EntityManagerInterface $entityManager): Response
     {
        $rec=$entityManager->getRepository(Reclamation::class)->find($idr);

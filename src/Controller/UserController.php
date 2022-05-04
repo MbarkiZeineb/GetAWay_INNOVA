@@ -12,6 +12,7 @@ use App\Form\UserType;
 use App\Repository\ReclamationRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use MercurySeries\FlashyBundle\FlashyNotifier;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -48,7 +49,7 @@ class UserController extends AbstractController
      */
     public function profil(EntityManagerInterface $entityManager): Response
     {
-        dump($this->getUser()->eraseCredentials());
+        dump($this->getUser()->getSalt());
        if($this->getUser()->eraseCredentials()==0)
            return $this->redirectToRoute('security_login');
         else if($this->getUser()->getSalt()=="Client" || $this->getUser()->getSalt()=="Offreur" )
@@ -57,6 +58,17 @@ class UserController extends AbstractController
         else
 
           return $this->redirectToRoute('app_user_index');
+
+    }
+
+
+    /**
+     * @Route("/profil", name="app_user_pro", methods={"GET"})
+     */
+    public function profilCO(EntityManagerInterface $entityManager): Response
+    {
+
+            return $this->render('user/index1.html.twig');
 
     }
 
@@ -203,7 +215,7 @@ dump($user);
             $user->setPassword($hash);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_user_profil', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_user_pro', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('user/editfront.html.twig', [
@@ -229,11 +241,12 @@ dump($user);
     /**
      * @Route("/activer/{id}", name="activer", methods={"GET"})
      */
-public function activer( EntityManagerInterface $entityManager,$id)
+public function activer( EntityManagerInterface $entityManager,$id,FlashyNotifier $flashy)
 {
  $user=$entityManager->getRepository(User::class)->find($id);
  $user->setEtat(1);
     $entityManager->flush();
+    $flashy->success('Event created!', 'http://your-awesome-link.com');
     return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
 
 }
@@ -248,6 +261,21 @@ public function activer( EntityManagerInterface $entityManager,$id)
         $user->setEtat(0);
         $entityManager->flush();
         return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
+
+    }
+
+    /**
+     * @param UserRepository $userRepository
+     * @return Response
+     * @Route ("/listDql",name="triuser")
+     */
+
+    function OrderByMailDql(UserRepository $userRepository)
+    {
+        $users=$userRepository->OrderBymail();
+        return $this->render('user/index.html.twig', [
+            'users' => $users,
+        ]);
 
     }
 
@@ -289,7 +317,7 @@ public function activer( EntityManagerInterface $entityManager,$id)
     /**
      * @Route("/mdpoub", name="mdpoub")
      */
-    public function mdpoub(Request $request, UserRepository $users, MailerInterface $mailer, TokenGeneratorInterface $tokenGenerator
+    public function mdpoub(Request $request, UserRepository $users, MailerInterface $mailer, TokenGeneratorInterface $tokenGenerator, FlashyNotifier $flashy
     ): Response
     {
         // On initialise le formulaire
@@ -345,7 +373,7 @@ public function activer( EntityManagerInterface $entityManager,$id)
             $mailer->send($message);
 
             // On crée le message flash de confirmation
-            $this->addFlash('message', 'E-mail de réinitialisation du mot de passe envoyé !');
+            $flashy->success('Event created!');
 
             // On redirige vers la page de login
             return $this->redirectToRoute('security_login');
@@ -358,7 +386,7 @@ public function activer( EntityManagerInterface $entityManager,$id)
     /**
      * @Route("/reset_pass/{token}", name="app_reset_password")
      */
-    public function resetPassword(Request $request, string $token, UserPasswordEncoderInterface $passwordEncoder)
+    public function resetPassword(Request $request, string $token, UserPasswordEncoderInterface $passwordEncoder, FlashyNotifier $flashy)
     {
         // On cherche un utilisateur avec le token donné
         $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(['resetToken'=> $token]);
@@ -384,7 +412,7 @@ public function activer( EntityManagerInterface $entityManager,$id)
             $entityManager->flush();
 
             // On crée le message flash
-            $this->addFlash('message', 'Mot de passe mis à jour');
+            $flashy->success('Mot de passe mis à jour');
 
             // On redirige vers la page de connexion
             return $this->redirectToRoute('security_login');
