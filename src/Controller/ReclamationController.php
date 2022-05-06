@@ -9,11 +9,16 @@ use App\Form\ReclamationType;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Mime\Email;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
 
 /**
  * @Route("/reclamation")
@@ -48,6 +53,47 @@ public function delete1(EntityManagerInterface $entityManager,UserRepository $us
             'reclamations' => $reclamations,
         ]);
     }
+
+    /**
+     * @return void
+     * @Route("/displayReclamations",name="displayReclamations")
+     */
+    public function allRec(NormalizerInterface $Normalizer)
+    {
+        $reclamation=$this->getDoctrine()->getManager()->getRepository(Reclamation::class)->findAll();
+        $jsonContent=$Normalizer->normalize($reclamation,'json',['groups'=>'post:read']);
+        return new Response(json_encode($jsonContent));
+    }
+
+
+    /**
+     * @param Request $request
+     * @param NormalizerInterface $normalizer
+     * @return void
+     * @Route("/addRecJson",name="addRecJson")
+     */
+    public function addRecJson(Request $request)
+    {
+       $reclamation=new Reclamation();
+       $description=$request->query->get('description');
+       $objet=$request->query->get("objet");
+       $em=$this->getDoctrine()->getManager();
+       $iduser=$request->query->get("idclient");
+       $reclamation->setObjet($objet);
+       $reclamation->setDescription($description);
+       $reclamation->setIdclient($this->getDoctrine()->getManager()->getRepository(User::class)->find($iduser));
+       $em->persist($reclamation);
+       $em->flush();
+       $encoder=new JsonEncoder();
+       $normalizer=new ObjectNormalizer();
+       $normalizer->setCircularReferenceHandler(function ($object){
+           return $object;
+       });
+           $serializer=new Serializer([$normalizer],[$encoder]);
+$formatted =$serializer->normalize($reclamation);
+return new JsonResponse($formatted);
+    }
+
 
     /**
      * @Route("/new/{idc}", name="app_reclamation_new", methods={"GET", "POST"})

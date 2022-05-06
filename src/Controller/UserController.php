@@ -14,6 +14,7 @@ use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use MercurySeries\FlashyBundle\FlashyNotifier;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mailer\MailerInterface;
@@ -23,6 +24,10 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
 
 /**
  * @Route("/user")
@@ -139,6 +144,113 @@ return $this->redirectToRoute('security_login');
     }
 
     /**
+     * @param Request $request
+     * @return void
+     * @Route("/inscription",name="inscri")
+     */
+public function inscription(Request $request,UserPasswordEncoderInterface $encoder )
+{
+  $email=$request->query->get("email");
+    $nom=$request->query->get("nom");
+    $prenom=$request->query->get("prenom");
+    $password=$request->query->get("password");
+    $role=$request->query->get("role");
+    $numtel=$request->query->get("numtel");
+    if(!filter_var($email,FILTER_VALIDATE_EMAIL))
+    {
+        return new Response("email invalide");
+    }
+    $user=new User();
+    $user->setNom($nom);
+    $user->setEmail($email);
+    $user->setPrenom($prenom);
+    $user->setPassword($encoder->encodePassword($user,$password));
+    $user->setRole($role);
+    $user->setNumtel($numtel);
+    try {
+        $em=$this->getDoctrine()->getManager();
+        $em->persist($user);
+        $em->flush();
+        return new JsonResponse("compte cree",200);
+
+    }catch(\Exception $ex){
+        return new Response("exception".$ex->getMessage());
+    }
+
+}
+
+    /**
+     * @param Request $request
+     * @return void
+     * @Route ("/signin",name="signin")
+     */
+public function signin(Request $request)
+{
+$email=$request->query->get("email");
+$password=$request->query->get("password");
+$em=$this->getDoctrine()->getManager();
+$user=$em->getRepository(User::class)->findOneBy(['email'=>$email]);
+if($user)
+{
+    if(password_verify($password,$user->getPassword()))
+    {
+        $encoder=new JsonEncoder();
+        $normalizer=new ObjectNormalizer();
+        $normalizer->setCircularReferenceHandler(function ($object){
+            return $object;
+        });
+        $serializer=new Serializer([$normalizer],[$encoder]);
+        $formatted =$serializer->normalize($user);
+        return new JsonResponse($formatted);
+
+    }
+    else{
+        return new Response("password not found");
+
+    }
+}
+else {
+    return new Response("user not found ");
+}
+}
+
+    /**
+     * @param Request $request
+     * @return void
+     * @Route ("/editUser",name="editUser")
+     */
+public function editUser(Request $request,UserPasswordEncoderInterface $encoder)
+{
+ $id=$request->get("id");
+ $nom=$request->query->get("nom");
+ $prenom=$request->query->get("prenom");
+    $email=$request->query->get("email");
+    $password=$request->query->get("password");
+    $numtel=$request->query->get("numtel");
+    $em=$this->getDoctrine()->getManager();
+    $user = $em->getRepository(User::class)->find($id);
+    $user->setNom($nom);
+    $user->setEmail($email);
+    $user->setPrenom($prenom);
+    $user->setPassword($encoder->encodePassword($user,$password));
+    $user->setNumtel($numtel);
+
+    try {
+        $em=$this->getDoctrine()->getManager();
+        $em->persist($user);
+        $em->flush();
+        return new JsonResponse("success",200);
+
+    }catch(\Exception $ex){
+        return new Response("fail".$ex->getMessage());
+    }
+}
+
+
+
+
+
+    /**
      * @return void
      * @Route("/connexion", name="security_login")
      */
@@ -238,6 +350,37 @@ dump($user);
             'reclamations' => $reclamation,
         ]);
     }
+
+    /**
+     * @return void
+     * @Route("/getrecbyidc/{idc}",name="getrecbyidc")
+     */
+    public function allRec(UserRepository $userRepository,NormalizerInterface $Normalizer,$idc)
+    {
+        $user=$userRepository->find($idc);
+        $reclamation=$this->getDoctrine()->getManager()->getRepository(Reclamation::class)->listReclamationByidc($user->getId());
+        $jsonContent=$Normalizer->normalize($reclamation,'json',['groups'=>'post:read']);
+        return new Response(json_encode($jsonContent));
+    }
+
+    /**
+     * @Route("/getPasswordByEmail",name="app_password")
+     */
+    public function getPasswordByEmail(Request $request)
+    {
+        $email=$request->get('email');
+        $user=$this->getDoctrine()->getManager()->getRepository(User::class)->findOneBy(['email'=>$email]);
+        if($user){
+            $password = $user->getPassword();
+            $serializer =new Serializer([new ObjectNormalizer()]);
+            $formatted=$serializer->normalize($password);
+            return new JsonResponse($formatted);
+        }
+        return new Response("user not found");
+    }
+
+
+
     /**
      * @Route("/activer/{id}", name="activer", methods={"GET"})
      */
