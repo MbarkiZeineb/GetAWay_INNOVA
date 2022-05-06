@@ -296,10 +296,10 @@ class ReservationController extends AbstractController
      */
     public function delete(Request $request, Reservation $reservation, PaiementRepository $rpp,EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$reservation->getId(), $request->request->get('_token'))) {
+
             $entityManager->remove($reservation);
             $entityManager->flush();
-        }
+
 
         return $this->redirectToRoute('app_reservation_index', [], Response::HTTP_SEE_OTHER);
     }
@@ -488,13 +488,100 @@ class ReservationController extends AbstractController
     /**
      * @Route("/GetReservation", name="GetReservation")
      */
-    public function getReservation (ReservationRepository $repository , SerializerInterface  $serializer)
+    public function getReservation (ReservationRepository $repository , SerializerInterface  $serializer,Request $request)
     {
-        $p = $repository->findAll();
+
+        $p=$repository->listReservationByidc($request->get("id"));
         $dataJson=$serializer->serialize($p,'json',['groups'=>'reservation']);
         // dd($dataJson);
         return new JsonResponse(json_decode($dataJson) );
-
     }
 
-}
+    /**
+     * @Route ("/verifierdateH" ,  name="verifierheb")
+     */
+    public function verfierheb(Request $request , NormalizerInterface $normalizer , EntityManagerInterface  $em,ReservationRepository $repv,HebergementRepository $reph){
+
+        $heb= $reph->find($request->get("idh"));
+
+        $dated= new \DateTime($request->get("dated"));
+        $datef= new \DateTime($request->get("datef"));
+        $check1=$repv->check1($heb->getReferance(),$dated);
+        $check2=$repv->check2($heb->getReferance(),$datef);
+        $check3=$repv->check3($heb->getReferance(),$dated,$datef);
+        $check4=$repv->check4($heb->getReferance(),$dated,$datef);
+        $check5=$repv->check5($heb->getReferance(),$dated,$datef);
+        //dd($check1,$check2,$check4,$check5,$dated >= $heb->getDateStart(),$datef <= $heb->getDateEnd(),$dated,$datef);
+        $test=empty($check1)&&empty($check2)&&empty($check3)&&empty($check4)&&empty($check5)&&$dated >= $heb->getDateStart()&&$datef <= $heb->getDateEnd();
+        $dataJson=$normalizer->normalize($test,'json',['groups'=>'reservation']);
+        return new Response(json_encode($dataJson));
+    }
+    /**
+     * @Route ("/addReservationHeb" ,  name="addrhebbmobile")
+     */
+    public function addhebmobile(Request $request , NormalizerInterface $normalizer , EntityManagerInterface  $em,HebergementRepository $reph,UserRepository $repuser){
+
+
+        $heb= $reph->find($request->get("idh"));
+        $dated= new \DateTime($request->get("dated"));
+        $datef= new \DateTime($request->get("datef"));
+        $client=$repuser->find($request->get("idclient"));
+        $reservation = new Reservation();
+        $reservation->setIdClient($client);
+      $date  = new \DateTime('@' . strtotime('now'));
+        $reservation->setDateDebut($dated);
+        $reservation->setDateFin($datef);
+        $reservation->setNbrPlace(0)
+            ->setType("Hebergement")
+            ->setEtat("Approuve")
+            ->setDateReservation($date)
+            ->setIdHebergement($reph->find($heb));
+        $em->persist($reservation);
+        $em->flush();
+        $em->refresh($reservation);
+        $dataJson=$normalizer->normalize($reservation->getId(),'json',['groups'=>'reservation']);
+        return new Response(json_encode($dataJson));
+    }
+
+
+    /**
+     * @Route ("/DeleteReservationmaisonJSON" ,  name="deleteReservation")
+     */
+    public function deletereservation(Request $request , NormalizerInterface $normalizer ,ReservationRepository $repr,EntityManagerInterface  $em)
+    {
+
+
+
+       $reservation= $repr->find($request->get("id"));
+        $em->remove($reservation);
+        $em->flush();
+        $dataJson=$normalizer->normalize($reservation,'json',['groups'=>'reservation']);
+        return new Response(json_encode($dataJson));
+    }
+
+
+    /**
+     * @Route ("/UpdateReservationmaisonJSON" ,  name="UpdateReservationmaisonMob")
+     */
+    public function updateReservationmob(Request $request , NormalizerInterface $normalizer ,ReservationRepository $repr,EntityManagerInterface  $em,VoyageorganiseRepository $repvo)
+    {
+
+
+
+        $reservation= $repr->find($request->get("id"));
+      if($reservation->getType()=="Hebergement")
+      {
+          $reservation->setEtat("Annulee");
+      }
+      if($reservation->getType()=="voyageOrganise")
+      {
+          $voy= $repvo->find($reservation->getIdVoyage()->getIdvoy());
+          $voy->setNbrplace($voy->getNbrplace()+$reservation->getNbrPlace());
+          $reservation->setEtat("Annulee");
+      }
+
+        $em->flush();
+        $dataJson=$normalizer->normalize($reservation,'json',['groups'=>'reservation']);
+        return new Response(json_encode($dataJson));
+    }
+    }

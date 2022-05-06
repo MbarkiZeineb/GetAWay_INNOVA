@@ -22,6 +22,7 @@ class Reservation
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      * @Groups("reservation")
+     * @Groups("paiement")
      */
     private $id;
 

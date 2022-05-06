@@ -47,12 +47,21 @@ class PaiementRepository extends ServiceEntityRepository
 public function showPaiement($id)
 {
     return $this->createQueryBuilder('p')
-        ->join('p.idReservation','r')
+        ->join('p.idReservation', 'r')
         ->addSelect('r')
         ->where('r.id=:id')
-        ->setParameter('id',$id)
+        ->setParameter('id', $id)
         ->getQuery()
         ->getSingleResult();
+
+}
+    public function showjoinpr()
+{
+    return $this->createQueryBuilder('p')
+        ->join('p.idReservation','r')
+        ->addSelect('r')
+        ->getQuery()
+        ->getResult();
 }
 
 
