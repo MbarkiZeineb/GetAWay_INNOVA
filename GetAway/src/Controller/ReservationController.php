@@ -584,4 +584,30 @@ class ReservationController extends AbstractController
         $dataJson=$normalizer->normalize($reservation,'json',['groups'=>'reservation']);
         return new Response(json_encode($dataJson));
     }
+
+
+    /**
+     * @Route ("/addReservationVol" ,  name="addrvolmobile")
+     */
+    public function addvolmobile(Request $request , NormalizerInterface $normalizer , EntityManagerInterface  $em,VolRepository $repvoy,UserRepository $repuser){
+
+        $voy= $repvoy->find($request->get("idv"));
+        $voy->setNbrPlacedispo($voy->getNbrPlacedispo()-$request->get("nbplace"));
+        $client=$repuser->find($request->get("idclient"));
+        $reservation = new Reservation();
+        $reservation->setNbrPlace($request->get("nbplace"));
+        $reservation->setIdClient($client);
+        $reservation->setIdVoyage($voy);
+        $date  = new \DateTime('@' . strtotime('now'));
+        $reservation->setDateReservation( $date);
+        $reservation->setDateDebut($voy->getDateDepart());
+        $reservation->setDateFin($voy->getDateArrivee());
+        $reservation->setType("Vol");
+        $reservation->setEtat("Approuve");
+        $em->persist($reservation);
+        $em->flush();
+        $em->refresh($reservation);
+        $dataJson=$normalizer->normalize($reservation->getId(),'json',['groups'=>'reservation']);
+        return new Response(json_encode($dataJson));
+    }
     }
