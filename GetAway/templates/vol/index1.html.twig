@@ -87,25 +87,32 @@
                                     {% endfor %}
                                 </table>
 
+
                     </div>
 
                 </div>
                     </div>
-
-                    <nav class="pagination-wrap">
-                        <div class="navigation text-center">
-                            <ul class="pagination">
-                                <li> <div style="float:left;" >{{ knp_pagination_render(vols) }}</div></li>
-
-                            </ul>
-
-                        </div>
-                    </nav>
 
 
                 </div>
             </div>
+
         </div>
+
     </div>
+<div class="content-block content-sub">
+    <div class="container">
+    <nav class="pagination-wrap">
+        <div class="navigation text-center">
+            <ul class="pagination">
+                <li> <div>{{ knp_pagination_render(vols) }}</div></li>
+
+            </ul>
+
+        </div>
+    </nav>
+    </div>
+</div>
+
 
 {% endblock %}

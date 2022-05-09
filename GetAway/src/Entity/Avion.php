@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Avion
@@ -20,7 +21,7 @@ class Avion
      * @ORM\Column(name="id_avion", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
-     *
+     *@Groups("avion")
      */
     private $idAvion;
 
@@ -31,10 +32,10 @@ class Avion
      * @Assert\NotBlank
      * @Assert\Positive
      * @Assert\Range(
-     *      min = 1,
-     *      max = 500,
+     *      min = 150,
+     *      max = 600,
      *      notInRangeMessage = " Le nombre de place doit etre entre {{ min }} et {{ max }}")
-     *
+     *@Groups("avion")
      */
     private $nbrPlace;
 
@@ -47,6 +48,7 @@ class Avion
      *     htmlPattern = "[a-zA-Z]+"
      * )
      *  @Assert\NotBlank
+     * @Groups("avion")
      */
     private $nomAvion;
 
@@ -57,6 +59,7 @@ class Avion
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="id_agence", referencedColumnName="id")
      * })
+     * @Groups("avion")
      */
     private $idAgence;
 
@@ -67,7 +70,7 @@ class Avion
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     *
+     * @Groups("avion")
      */
     private $type;
 

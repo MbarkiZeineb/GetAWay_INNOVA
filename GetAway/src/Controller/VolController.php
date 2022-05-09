@@ -9,6 +9,7 @@ use App\Repository\AvionRepository;
 use App\Repository\VolRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Knp\Component\Pager\PaginatorInterface;
@@ -16,6 +17,7 @@ use Dompdf\Dompdf;
 use Dompdf\Options;
 use CMEN\GoogleChartsBundle\GoogleCharts\Charts\PieChart;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\SerializerInterface;
 
 /**
  * @Route("/vol")
@@ -113,16 +115,6 @@ class VolController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{idVol}", name="app_vol_show", methods={"GET"})
-     */
-    public function show(Vol $vol): Response
-    {
-        return $this->render('vol/show.html.twig', [
-            'vol' => $vol,
-        ]);
-
-    }
 
     /**
      * @Route("/{idVol}/edit", name="app_vol_edit", methods={"GET", "POST"})
@@ -222,28 +214,18 @@ class VolController extends AbstractController
     }
 
 
+    //********************mobile
     /**
-     * @Route("/search", name="ajax_search")
+     * @Route("/getallVol",name="getvol")
      */
-    public function searchAction(Request $request)
+    public function getvoyage (VolRepository $repository , SerializerInterface  $serializer)
     {
-        $em = $this->getDoctrine()->getManager();
-        $Voyage = $request->get('q');
-        $Vol=$em->getRepository(Vol::class)->findByvilledest($Voyage);
-        if(!$Vol ) {
-            $result['Vol']['error'] = "vol introuvable ";
-        } else {
-            $result['Vol'] = $this->getRealEntities($Vol );
-        }
-        return new Response(json_encode($result));
+        $p = $repository->findAll();
+        $dataJson=$serializer->serialize($p,'json',['groups'=>'vol']);
+        return new JsonResponse(json_decode($dataJson) );
+
     }
 
-    public function getRealEntities($Vol){
-        foreach ($Vol  as $Vol ){
-            $realEntities[$Vol ->getIdVol()] = [$Vol->getNumVol(), $Vol->getPrix(),$Vol->getVilleDepart(), $Vol->getVilleArrivee(),$Vol->getDateDepart(),$Vol->getDateArrivee(), $Vol->getNbrPlacedispo()];
-        }
-        return $realEntities;
-    }
 
 
 

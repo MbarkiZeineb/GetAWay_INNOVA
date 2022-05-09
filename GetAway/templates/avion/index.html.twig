@@ -39,15 +39,16 @@
             <th class="wd-15p">Actions</th>
         </tr>
         </thead>
-        <tbody>
-        {% for avion in avions %}
+        <tbody id="myTable">
+         <p style="margin-left: 950px"><label for="myInput"></label><input id="myInput" type="text" placeholder="Search..">
+
+         {% for avion in avions %}
             <tr>
                 <td>{{ avion.idAvion }}</td>
                 <td>{{ avion.NbrPlace }}</td>
                 <td>{{ avion.NomAvion }}</td>
                 <td>{{ avion.type }}</td>
                 <td>
-                    <a href="{{ path('app_avion_show', {'idAvion': avion.idAvion}) }}" class="btn btn-primary ">show</a>
                     <a href="{{ path('app_avion_edit', {'idAvion': avion.idAvion}) }}" class="btn btn-primary ">edit</a>
                     {# <a href="{{ path('app_vol', {'idAvion': avion.idAvion}) }}" class="btn btn-primary ">vol</a> #}
                     <br>
@@ -63,7 +64,20 @@
             </tr>
         {% endfor %}
         </tbody>
+
     </table>
+
+                            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+                            <script>
+                                $(document).ready(function(){
+                                    $("#myInput").on("keyup", function() {
+                                        var value = $(this).val().toLowerCase();
+                                        $("#myTable tr").filter(function() {
+                                            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                                        });
+                                    });
+                                });
+                            </script>
                         </div>
                     </div>
                 </div>

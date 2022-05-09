@@ -10,9 +10,13 @@ use App\Repository\AvionRepository;
 use App\Repository\VolRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\Normalizer\NormalizableInterface;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
+use Symfony\Component\Serializer\SerializerInterface;
 
 /**
  * @Route("/avion")
@@ -66,15 +70,6 @@ class AvionController extends AbstractController
 
     }
 
-    /**
-     * @Route("/{idAvion}", name="app_avion_show", methods={"GET"})
-     */
-    public function show(Avion $avion): Response
-    {
-        return $this->render('avion/show.html.twig', [
-            'avion' => $avion,
-        ]);
-    }
 
     /**
      * @Route("/{idAvion}/edit", name="app_avion_edit", methods={"GET", "POST"})
@@ -130,12 +125,65 @@ class AvionController extends AbstractController
      */
     public function listvolByid(UserRepository $userRepository,VolRepository $volRepository, AvionRepository $avionRepository,$ida): Response
     {
-        $user=$avionRepository->find($ida);
-        $vol=$volRepository->listByidv($user->getIdAvion());
+
+        $user=$userRepository->find($ida);
+        $avion=$avionRepository->findBy(['idAgence'=>$user]);
+
+        $vol=$volRepository->listByidv($user->getId());
         return $this->render('vol/index.html.twig', [
             'user'=>$user,
             'vols' => $vol,
         ]);
     }
+
+
+    //********************mobile
+    /**
+     * @Route("/getallAvion",name="getavion")
+     */
+    public function getvoyage (AvionRepository $repository , SerializerInterface  $serializer)
+    {
+        $p = $repository->findAll();
+        $dataJson=$serializer->serialize($p,'json',['groups'=>'avion']);
+        return new JsonResponse(json_decode($dataJson) );
+
+    }
+
+    //***************************************Mobile*******
+
+    /**
+     * @Route ("/addavion" ,  name="addavion")
+     */
+    public function addavion(Request $request , NormalizerInterface $normalizer ){
+
+        $em=$this->getDoctrine()->getManager();
+        $avion = new Avion();
+        $avion->setNbrPlace($request->get('nbrPlace'));
+        $avion->setNomAvion($request->get('nomAvion'));
+        //$avion->setIdAgence($request->get('idAgence'));
+
+        $em->persist($avion);
+        $em->flush();
+        $jsonContent =$normalizer->normalize($avion,'json',['groups'=>'avion']);
+        return new Response(json_encode($jsonContent));
+    }
+
+    //***************************************Mobile*******
+
+    /**
+     * @Route ("/deleteavion/{id}" ,  name="deleteavion", methods={"GET", "POST"})
+     */
+    public function deleteavion(Request $request , NormalizerInterface $normalizer ,$id){
+
+        $em=$this->getDoctrine()->getManager();
+        $avion = $em->getRepository(Avion::class)->find($id);
+
+        $em->remove($avion);
+        $em->flush();
+        $dataJson=$normalizer->normalize($avion,'json',['groups'=>'avion']);
+        return new Response("avion delete successfully".json_encode($dataJson));
+    }
+
+
 
 }

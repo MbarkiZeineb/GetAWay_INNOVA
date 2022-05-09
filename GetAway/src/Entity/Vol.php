@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Vol
@@ -19,6 +20,7 @@ class Vol
      * @ORM\Column(name="id_vol", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @Groups("vol")
      */
     private $idVol;
 
@@ -31,9 +33,9 @@ class Vol
      * @ORM\Column(name="num_vol", type="integer", nullable=true)
      * * @Assert\Range(
      *      min = 1,
-     *      max = 5000,
+     *      max = 10000,
      *      notInRangeMessage = " Le nombre de place doit etre entre {{ min }} et {{ max }}")
-     *
+     *@Groups("vol")
      */
     private $numVol;
 
@@ -43,7 +45,7 @@ class Vol
      *@Assert\NotBlank()
      * @ORM\Column(name="date_depart", type="datetime", nullable=false)
      * @Assert\GreaterThan("today")
-     *
+     *@Groups("vol")
      *
      */
     private $dateDepart;
@@ -57,7 +59,7 @@ class Vol
      *     message="La date fin ne doit pas être antérieure à la date début"
      * )
      * @ORM\Column(name="date_arrivee", type="datetime", nullable=false)
-     *
+     *@Groups("vol")
      *
      */
     private $dateArrivee;
@@ -68,6 +70,7 @@ class Vol
      * @ORM\Column(name="ville_depart", type="string", length=60, nullable=false)
      *
      * @Assert\NotBlank
+     * @Groups("vol")
      */
     private $villeDepart;
 
@@ -77,6 +80,7 @@ class Vol
      * @ORM\Column(name="ville_arrivee", type="string", length=50, nullable=false)
      *
      * @Assert\NotBlank
+     * @Groups("vol")
      *
      */
     private $villeArrivee;
@@ -88,9 +92,11 @@ class Vol
      * @Assert\NotBlank
      * @Assert\Positive
      * @Assert\Range(
-     *      min = 1,
-     *      max = 500,
+     *      min = 150,
+     *      max = 600,
      *      notInRangeMessage = " Le nombre de place doit etre entre {{ min }} et {{ max }}")
+     *
+     * @Groups("vol")
      *
      */
     private $nbrPlacedispo;
@@ -102,9 +108,11 @@ class Vol
      * @Assert\NotBlank
      * @Assert\Positive
      * @Assert\Range(
-     *      min = 1,
-     *      max = 1000,
+     *      min = 100,
+     *      max = 3000,
      *      notInRangeMessage = " Le prix doit etre entre {{ min }} et {{ max }}")
+     *
+     * @Groups("vol")
      *
      */
     private $prix;

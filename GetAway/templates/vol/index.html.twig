@@ -42,7 +42,10 @@
                                         <th class="wd-15p">actions</th>
                                     </tr>
                                     </thead>
-                                    <tbody>
+                                    <tbody id="myTable">
+                                    <p style="margin-left: 950px"><label for="myInput"></label><input id="myInput" type="text" placeholder="Search..">
+
+
                                     {% for vol in vols %}
                                         <tr>
 
@@ -55,7 +58,6 @@
 
                                             <td>{{ vol.prix }}</td>
                                             <td>
-                                                <a href="{{ path('app_vol_show', {'idVol': vol.idVol}) }} " class="btn btn-primary" >show</a>
                                                 <a href="{{ path('app_vol_edit', {'idVol': vol.idVol}) }}" class="btn btn-primary">edit</a>
 
 
@@ -71,6 +73,18 @@
                                     {% endfor %}
                                     </tbody>
                                 </table>
+
+                                <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+                                <script>
+                                    $(document).ready(function(){
+                                        $("#myInput").on("keyup", function() {
+                                            var value = $(this).val().toLowerCase();
+                                            $("#myTable tr").filter(function() {
+                                                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                                            });
+                                        });
+                                    });
+                                </script>
                             </div>
                         </div>
                     </div>
