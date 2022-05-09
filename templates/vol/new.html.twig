@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Vol{% endblock %}
+
+{% block body %}
+    <h1>Create new Vol</h1>
+
+    {{ include('vol/_form.html.twig') }}
+
+    <a href="{{ path('app_vol_index') }}">back to list</a>
+{% endblock %}
