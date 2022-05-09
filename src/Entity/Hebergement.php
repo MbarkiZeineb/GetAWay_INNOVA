@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Hebergement
  *
  * @ORM\Table(name="hebergement", indexes={@ORM\Index(name="fk_categ", columns={"id_categ"}), @ORM\Index(name="fk_off", columns={"offreur_id"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\HebergementRepository")
  */
 class Hebergement
 {
@@ -106,16 +106,6 @@ class Hebergement
     private $modelCaravane;
 
     /**
-     * @var \Category
-     *
-     * @ORM\ManyToOne(targetEntity="Category")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_categ", referencedColumnName="id_categ")
-     * })
-     */
-    private $idCateg;
-
-    /**
      * @var \User
      *
      * @ORM\ManyToOne(targetEntity="User")
@@ -124,6 +114,16 @@ class Hebergement
      * })
      */
     private $offreur;
+
+    /**
+     * @var \Category
+     *
+     * @ORM\ManyToOne(targetEntity="Category")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_categ", referencedColumnName="id_categ")
+     * })
+     */
+    private $idCateg;
 
     public function getReferance(): ?int
     {
@@ -274,18 +274,6 @@ class Hebergement
         return $this;
     }
 
-    public function getIdCateg(): ?Category
-    {
-        return $this->idCateg;
-    }
-
-    public function setIdCateg(?Category $idCateg): self
-    {
-        $this->idCateg = $idCateg;
-
-        return $this;
-    }
-
     public function getOffreur(): ?User
     {
         return $this->offreur;
@@ -294,6 +282,18 @@ class Hebergement
     public function setOffreur(?User $offreur): self
     {
         $this->offreur = $offreur;
+
+        return $this;
+    }
+
+    public function getIdCateg(): ?Category
+    {
+        return $this->idCateg;
+    }
+
+    public function setIdCateg(?Category $idCateg): self
+    {
+        $this->idCateg = $idCateg;
 
         return $this;
     }

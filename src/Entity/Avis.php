@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Avis
  *
  * @ORM\Table(name="avis", indexes={@ORM\Index(name="frk_act", columns={"RefActivite"}), @ORM\Index(name="fk_idavis", columns={"Id"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\AvisRepository")
  */
 class Avis
 {
@@ -43,16 +43,6 @@ class Avis
     private $rating;
 
     /**
-     * @var \User
-     *
-     * @ORM\ManyToOne(targetEntity="User")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="Id", referencedColumnName="id")
-     * })
-     */
-    private $id;
-
-    /**
      * @var \Activite
      *
      * @ORM\ManyToOne(targetEntity="Activite")
@@ -61,6 +51,16 @@ class Avis
      * })
      */
     private $refactivite;
+
+    /**
+     * @var \User
+     *
+     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="Id", referencedColumnName="id")
+     * })
+     */
+    private $id;
 
     public function getRefavis(): ?int
     {
@@ -103,18 +103,6 @@ class Avis
         return $this;
     }
 
-    public function getId(): ?User
-    {
-        return $this->id;
-    }
-
-    public function setId(?User $id): self
-    {
-        $this->id = $id;
-
-        return $this;
-    }
-
     public function getRefactivite(): ?Activite
     {
         return $this->refactivite;
@@ -123,6 +111,18 @@ class Avis
     public function setRefactivite(?Activite $refactivite): self
     {
         $this->refactivite = $refactivite;
+
+        return $this;
+    }
+
+    public function getId(): ?User
+    {
+        return $this->id;
+    }
+
+    public function setId(?User $id): self
+    {
+        $this->id = $id;
 
         return $this;
     }
