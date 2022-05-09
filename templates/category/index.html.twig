@@ -6,7 +6,7 @@
     <br>
     <br>
     <br>
-    <h1>Category index</h1>
+    <center><h1>Gestion de Category</h1></center>
 
     <table class="table">
         <thead>
@@ -22,8 +22,8 @@
                 <td>{{ category.idCateg }}</td>
                 <td>{{ category.nomCateg }}</td>
                 <td>
-                    <a href="{{ path('app_category_show', {'idCateg': category.idCateg}) }}">show</a>
-                    <a href="{{ path('app_category_edit', {'idCateg': category.idCateg}) }}">edit</a>
+                    <a class="btn btn-default" href="{{ path('app_category_show', {'idCateg': category.idCateg}) }}">show</a>
+                    <a class="btn btn-default" href="{{ path('app_category_edit', {'idCateg': category.idCateg}) }}">edit</a>
                 </td>
             </tr>
         {% else %}
@@ -34,5 +34,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_category_new') }}">Create new</a>
+    <a class="btn btn-default"  href="{{ path('app_category_new') }}">Create new</a>
 {% endblock %}

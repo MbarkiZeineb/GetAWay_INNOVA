@@ -53,8 +53,8 @@
 
                 <td>
 
-                    <a href="{{ path('app_hebergement_show', {'referance': hebergement.referance}) }}">show</a>
-                    <a href="{{ path('app_hebergement_edit', {'referance': hebergement.referance}) }}">edit</a>
+                    <a  class="btn btn-default" href="{{ path('app_hebergement_show', {'referance': hebergement.referance}) }}">show</a>
+                    <a class="btn btn-default"  href="{{ path('app_hebergement_edit', {'referance': hebergement.referance}) }}">edit</a>
                 </td>
             </tr>
         {% else %}
@@ -78,5 +78,5 @@
             });
         });
     </script>
-    <a href="{{ path('app_hebergement_new') }}">Create new</a>
+    <a class="btn btn-default"  href="{{ path('app_hebergement_new') }}">Create new</a>
 {% endblock %}
