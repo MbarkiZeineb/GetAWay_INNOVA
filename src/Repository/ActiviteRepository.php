@@ -4,6 +4,8 @@ namespace App\Repository;
 
 use App\Entity\Activite;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\OptimisticLockException;
+use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -18,6 +20,56 @@ class ActiviteRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Activite::class);
     }
+
+    /**
+     * @throws ORMException
+     * @throws OptimisticLockException
+     */
+    public function add(Activite $entity, bool $flush = true): void
+    {
+        $this->_em->persist($entity);
+        if ($flush) {
+            $this->_em->flush();
+        }
+    }
+
+    /**
+     * @throws ORMException
+     * @throws OptimisticLockException
+     */
+    public function remove(Activite $entity, bool $flush = true): void
+    {
+        $this->_em->remove($entity);
+        if ($flush) {
+            $this->_em->flush();
+        }
+    }
+
+    public function findNbrplacedispo() :int
+    {
+        $conn = $this->getEntityManager()->getConnection();
+
+        $sql = 'SELECT RefAct, Nbrplace from Activite WHERE Nbrplace<1';
+        $stmt = $conn->prepare($sql);
+        $resultSet = $stmt->executeQuery();
+
+
+        return $resultSet->rowCount();
+    }
+
+    public function findNbrAct() :int
+    {
+        $conn = $this->getEntityManager()->getConnection();
+
+        $sql = 'SELECT RefAct from Activite';
+        $stmt = $conn->prepare($sql);
+        $resultSet = $stmt->executeQuery();
+
+
+        return $resultSet->rowCount();
+    }
+
+
 
     // /**
     //  * @return Activite[] Returns an array of Activite objects
@@ -47,4 +99,12 @@ class ActiviteRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    /*
+     * @return Activite[]
+     */
+    public function findSearch(\App\Data\SearchData $data)
+    {
+        return $this->findAll();
+    }
 }

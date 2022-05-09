@@ -1,0 +1,61 @@
+{% extends 'base_back.html.twig' %}
+
+{% block title %}Activite{% endblock %}
+
+{% block content %}
+    <a href="{{ path('app_activite_index') }}"><button type="button" class="btn btn-inverse-primary btn-rounded btn-icon col-lg-0 ">
+            <i class="ti-home"></i>
+        </button></a>
+
+<div class="table-responsive pt-3">
+    <table class="table" border="2">
+        <tbody>
+            <tr>
+                <th>Refact</th>
+                <td>{{ activite.refact }}</td>
+            </tr>
+            <tr>
+                <th>Nom</th>
+                <td>{{ activite.nom }}</td>
+            </tr>
+            <tr>
+                <th>Descrip</th>
+                <td>{{ activite.descrip }}</td>
+            </tr>
+            <tr>
+                <th>Duree</th>
+                <td>{{ activite.duree }}</td>
+            </tr>
+            <tr>
+                <th>Nbrplace</th>
+                <td>{{ activite.nbrplace }}</td>
+            </tr>
+            <tr>
+                <th>Date</th>
+                <td>{{ activite.date|date('d-m-y H:i')}}</td>
+            </tr>
+            <tr>
+                <th>Type</th>
+                <td>{{ activite.type }}</td>
+            </tr>
+            <tr>
+                <th>Location</th>
+                <td>{{ activite.location }}</td>
+            </tr>
+            <tr>
+                <th>Prix</th>
+                <td>{{ activite.prix }}</td>
+            </tr>
+            <tr>
+                <th>Image</th>
+                <td>{{ activite.image }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_activite_edit', {'refact': activite.refact}) }}"> <button class="btn btn-primary btn-icon-text icon-lg-3 col-1">Modifier<i class="mdi mdi-plus-one"></i></button></a>
+
+
+    {{ include('activite/_delete_form.html.twig') }}
+</div>
+{% endblock %}

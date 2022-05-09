@@ -1,0 +1,12 @@
+{% extends 'base_front.html.twig' %}
+
+{% block title %}Edit Avis{% endblock %}
+
+{% block content %}
+
+    {{ form_start(form, {attr:{novalidate:'novalidate'}}) }}
+
+    {{ include('avis/_form.html.twig', {'button_label': 'Update'}) }}
+
+    {{ include('avis/_delete_form.html.twig') }}
+{% endblock %}

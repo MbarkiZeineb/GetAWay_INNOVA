@@ -3,13 +3,22 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use phpDocumentor\Reflection\Types\Integer;
+use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\Validator\Constraints as Assert;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 
 /**
  * Activite
  *
  * @ORM\Table(name="activite")
+ * @ORM\Entity
  * @ORM\Entity(repositoryClass="App\Repository\ActiviteRepository")
+ * @Vich\Uploadable
  */
+
 class Activite
 {
     /**
@@ -23,27 +32,29 @@ class Activite
 
     /**
      * @var string
-     *
+     * @Assert\NotBlank(message="Nom ne doit pas être vide")
      * @ORM\Column(name="Nom", type="string", length=50, nullable=false)
      */
     private $nom;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="Descrip", type="string", length=255, nullable=false)
+     * @Assert\NotBlank(message="Description ne doit pas être vide")
+     * @ORM\Column(name="Descrip", type="string", length=50, nullable=false)
      */
     private $descrip;
 
     /**
      * @var string
-     *
+     *  @Assert\NotBlank(message="Durée ne doit pas être vide")
      * @ORM\Column(name="Duree", type="string", length=50, nullable=false)
      */
     private $duree;
 
     /**
      * @var int
+     * @Assert\NotBlank(message="Nombre de place ne doit pas être vide")
+     * @Assert\GreaterThanOrEqual(1,message="Nombre de place doix être >= 1")
      *
      * @ORM\Column(name="NbrPlace", type="integer", nullable=false)
      */
@@ -52,12 +63,16 @@ class Activite
     /**
      * @var string
      *
-     * @ORM\Column(name="Date", type="string", length=100, nullable=false)
+     * @Assert\NotNull()
+     * @ORM\Column(name="date", type="datetime", nullable=false)
+     * @Assert\GreaterThan("today",message="Doix etre >= à la date d'aujourd'hui")
+     *
      */
     private $date;
 
     /**
      * @var string
+     * @Assert\NotBlank(message="Type ne doit pas être vide")
      *
      * @ORM\Column(name="Type", type="string", length=50, nullable=false)
      */
@@ -65,6 +80,7 @@ class Activite
 
     /**
      * @var string
+     * @Assert\NotBlank(message="Localisation ne doit pas être vide")
      *
      * @ORM\Column(name="Location", type="string", length=50, nullable=false)
      */
@@ -72,6 +88,11 @@ class Activite
 
     /**
      * @var float
+     * @Assert\NotBlank(message="Prix ne doit pas être vide")
+     * @Assert\Range(
+     *      min = 10.0,
+     *      max = 200.0)
+     * @Assert\Type("float")
      *
      * @ORM\Column(name="Prix", type="float", precision=10, scale=0, nullable=false)
      */
@@ -85,11 +106,21 @@ class Activite
     private $image;
 
     /**
-     * @var int|null
-     *
-     * @ORM\Column(name="likes", type="integer", nullable=true)
+     * @Vich\UploadableField(mapping="activite_images", fileNameProperty="image")
+     * @var File
+     */
+    private $imageFile;
+
+    /**
+     * @var int
+     * @ORM\OneToMany(targetEntity="App\Entity\Activitelike", mappedBy="act")
      */
     private $likes;
+
+    public function __construct()
+    {
+        $this->likes = new ArrayCollection();
+    }
 
     public function getRefact(): ?int
     {
@@ -144,12 +175,12 @@ class Activite
         return $this;
     }
 
-    public function getDate(): ?string
+    public function getDate(): ?\DateTimeInterface
     {
         return $this->date;
     }
 
-    public function setDate(string $date): self
+    public function setDate(\DateTimeInterface $date): self
     {
         $this->date = $date;
 
@@ -204,17 +235,69 @@ class Activite
         return $this;
     }
 
-    public function getLikes(): ?int
+    public function setImageFile(File $image = null)
+    {
+        $this->imageFile = $image;
+
+        // VERY IMPORTANT:
+        // It is required that at least one field changes if you are using Doctrine,
+        // otherwise the event listeners won't be called and the file is lost
+        if ($image) {
+            // if 'updatedAt' is not defined in your entity, use another property
+            $this->updatedAt = new \DateTime('now');
+        }
+    }
+
+    public function getImageFile()
+    {
+        return $this->imageFile;
+    }
+
+
+    /**
+     * @return Collection|Activitelike[]
+     */
+    public function getLikes(): Collection
     {
         return $this->likes;
     }
 
-    public function setLikes(?int $likes): self
+    /**
+     *
+     * @return boolean
+     */
+    public function isLikedByUser(User $user): bool
     {
-        $this->likes = $likes;
+
+        foreach ($this->likes as $like) {
+            if ($like->getUser() === $user) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public function addLike(Activitelike $like): self
+    {
+        if (!$this->likes->contains($like)) {
+            $this->likes[] = $like;
+            $like->setAct($this);
+        }
 
         return $this;
     }
 
+    public function removeLike(Activitelike $like): self
+    {
+        if ($this->likes->removeElement($like)) {
+            // set the owning side to null (unless already changed)
+            if ($like->getAct() === $this) {
+                $like->setAct(null);
+            }
+        }
+
+        return $this;
+    }
 
 }

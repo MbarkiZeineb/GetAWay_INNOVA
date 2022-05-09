@@ -4,6 +4,11 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
+    app.path.activite_images: /uploads/actvites
+
+    twilio_sid: "ACc22c78a937509169e352ecdd8ae51a9b"
+    twilio_token: "3166f14582b7b18f6a41988091a3dc76"
+    twilio_number:  '+19206858709'
 
 services:
     # default configuration for services in *this* file
@@ -28,3 +33,10 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+
+
+    twilio.client:
+        class: Twilio\Rest\Client
+        arguments: [ '%twilio_sid%', '%twilio_token%' ]
+
+    Twilio\Rest\Client: '@twilio.client'

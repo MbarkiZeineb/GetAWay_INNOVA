@@ -1,34 +1,47 @@
-<!DOCTYPE html>
-<html >
+<!doctype html>
+<html lang="en">
 {% block stylesheets %}
-    <head>
-        <!-- Required meta tags -->
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <title>GetAway </title>
-        <!-- plugins:css -->
-        <link rel="stylesheet" href= "{{ asset('back/vendors/feather/feather.css') }} " >
-        <link rel="stylesheet" href=" {{ asset('back/vendors/mdi/css/materialdesignicons.min.css')}} " >
-        <link rel="stylesheet" href="{{ asset('back/vendors/ti-icons/css/themify-icons.css')}}">
-        <link rel="stylesheet" href="{{ asset('back/vendors/typicons/typicons.css')}}">
-        <link rel="stylesheet" href="{{ asset('back/vendors/simple-line-icons/css/simple-line-icons.css')}}">
-        <link rel="stylesheet" href=" {{ asset('back/vendors/css/vendor.bundle.base.css')}}">
-        <link rel="stylesheet" href=" {{ asset('back/vendors/datatables.net-bs4/dataTables.bootstrap4.css')}}">
-        <link rel="stylesheet" href=" {{ asset('back/js/select.dataTables.min.css') }}">
-
-        <link rel="stylesheet" href="{{ asset('back/css/vertical-layout-light/style.css') }}">
-
-        <link rel="shortcut icon" href={{ asset("back/images/favicon.png")}} />
-    </head>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>GetAway </title>
+    <!-- plugins:css -->
+    <link rel="stylesheet" href= "{{ asset('back/vendors/feather/feather.css') }} " >
+    <link rel="stylesheet" href=" {{ asset('back/vendors/mdi/css/materialdesignicons.min.css')}} " >
+    <link rel="stylesheet" href="{{ asset('back/vendors/ti-icons/css/themify-icons.css')}}">
+    <link rel="stylesheet" href="{{ asset('back/vendors/typicons/typicons.css')}}">
+    <link rel="stylesheet" href="{{ asset('back/vendors/simple-line-icons/css/simple-line-icons.css')}}">
+    <link rel="stylesheet" href=" {{ asset('back/vendors/css/vendor.bundle.base.css')}}">
+    <link rel="stylesheet" href=" {{ asset('back/vendors/datatables.net-bs4/dataTables.bootstrap4.css')}}">
+    <link rel="stylesheet" href=" {{ asset('back/js/select.dataTables.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('back/css/vertical-layout-light/style.css') }}">
+    <link rel="shortcut icon" href={{ asset("back/images/favicon.png")}} />
+    <link rel="stylesheet" href="{{ asset('bundles/mercuryseriesflashy/css/flashy.css') }}">
+</head>
+<body>
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>GetAway </title>
+    <!-- plugins:css -->
+    <link rel="stylesheet" href= "{{ asset('back/vendors/feather/feather.css') }} " >
+    <link rel="stylesheet" href=" {{ asset('back/vendors/mdi/css/materialdesignicons.min.css')}} " >
+    <link rel="stylesheet" href="{{ asset('back/vendors/ti-icons/css/themify-icons.css')}}">
+    <link rel="stylesheet" href="{{ asset('back/vendors/typicons/typicons.css')}}">
+    <link rel="stylesheet" href="{{ asset('back/vendors/simple-line-icons/css/simple-line-icons.css')}}">
+    <link rel="stylesheet" href=" {{ asset('back/vendors/css/vendor.bundle.base.css')}}">
+    <link rel="stylesheet" href=" {{ asset('back/vendors/datatables.net-bs4/dataTables.bootstrap4.css')}}">
+    <link rel="stylesheet" href=" {{ asset('back/js/select.dataTables.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('back/css/vertical-layout-light/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('bundles/mercuryseriesflashy/css/flashy.css') }}">
+    <link rel="shortcut icon" href={{ asset("back/images/favicon.png")}} />
+    <link href="//fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700' rel='stylesheet'>
+</head>
 {% endblock%}
 {% block header%}
-<body>
-<div class="container-scroller">
-</div>
-
-
-
-<nav class="navbar default-layout col-lg-12 col-12 p-0 fixed-top d-flex align-items-top flex-row">
+<nav class="navbar default-layout col-lg-12 col-12 p-2 ">
     <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-start">
         <div>
             <a class="navbar-brand brand-logo" href="index.html">
@@ -52,6 +65,12 @@
         </button>
     </div>
 </nav>
+<body>
+<div class="container-scroller"></div>
+
+
+
+
 <!-- partial -->
 <div class="container-fluid page-body-wrapper">
 
@@ -96,7 +115,7 @@
                     <ul class="nav flex-column sub-menu">
                         <li class="nav-item"> <a class="nav-link" href="/activite/">Afficher</a></li>
                         <li class="nav-item"> <a class="nav-link" href="/activite/new">Ajouter</a></li>
-                        <li class="nav-item"> <a class="nav-link" href="pages/ui-features/typography.html">Statistique</a></li>
+                        <li class="nav-item"> <a class="nav-link" href="/activite/stats">Statistique</a></li>
                     </ul>
                 </div>
             </li>
@@ -124,11 +143,6 @@
                 <div class="collapse" id="Utilisateurs" >
                     <ul class="nav flex-column sub-menu">
                         <li class="nav-item"> <a class="nav-link" href="/user/">Afficher</a></li>
-                    </ul>
-                </div>
-                <div class="collapse" id="Utilisateurs" >
-                    <ul class="nav flex-column sub-menu">
-                        <li class="nav-item"> <a class="nav-link" href="/contact">Envoyer un email</a></li>
                     </ul>
                 </div>
             </li>
@@ -283,7 +297,13 @@
 <script src="{{ asset('back/js/Chart.roundedBarCharts.js') }}"></script>
 
 
+<!-- Flashy depends on jQuery -->
+<script src="//code.jquery.com/jquery.js"></script>
+<!-- Load Flashy default JavaScript -->
+<script src="{{ asset('bundles/mercuryseriesflashy/js/flashy.js') }}"></script>
+<!-- Include Flashy default partial -->
+{{ include('@MercurySeriesFlashy/flashy.html.twig') }}
 </body>
-
+</body>
 
 </html>

@@ -1,0 +1,198 @@
+{% extends 'base_front.html.twig' %}
+
+{% block title %}{{ activite.nom }}{% endblock %}
+
+{% block content %}
+
+    <section class="container-fluid trip-info">
+        <div class="same-height two-columns row">
+            <div class="height col-md-6" style="height: 728px;">
+                <!-- top image slideshow -->
+                <div id="tour-slide" class="owl-carousel owl-theme" style="opacity: 1; display: block;">
+                    <div class="owl-wrapper-outer">
+                        <div class="owl-wrapper" style="width: 3084px; left: 0px; display: block; transition: all 0ms ease 0s; transform: translate3d(0px, 0px, 0px);">
+                            <div class="owl-item" style="width: 771px;">
+                                <div class="slide">
+                                    <div class="bg-stretch">
+                                        <img src={{ vich_uploader_asset(activite,'imageFile')}} alt="image descriprion" height="1104" width="966" style="width: 771px; height: 881.143px; margin-top: -76.5714px; margin-left: 0px;">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="height col-md-6 text-col" style="height: 728px;">
+                <br>
+                <br>
+                <div class="holder">
+                    <h1 class="small-size">{{ activite.nom }}</h1>
+                    <div><strong>{{ activite.type }}</strong></div>
+                    <div class="price">à partir de <strong>${{ activite.prix }}</strong></div>
+                    <div class="description">
+                        <p>
+                            {{ activite.descrip }}
+                        </p>
+                    </div>
+                    <ul class="reviews-info">
+
+                        <li>
+                            <div class="info-left">
+                                <strong class="title">Places</strong>
+                                <span class="value">{{ activite.nbrplace }}</span>
+                            </div>
+                            <div class="info-right">
+                                <ul class="ico-list">
+                                    <li>
+                                        <span class="icon-foot-step"></span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="info-left">
+                                <strong class="title">Date & Heure</strong>
+                                <span class="value">{{ activite.date|date ('d-m-y H:i') }}</span>
+                            </div>
+                            <div class="material-icons align right"><i class="material-icons">date_range</i></div>
+
+                        </li>
+                        <li>
+                            <div class="info-left">
+                                <strong class="title">Type</strong>
+                                <span class="value">{{ activite.type }}</span>
+                            </div>
+                            <div class="info-right">
+                                <ul class="ico-list">
+                                    <li>
+                                        <span class="icon icon-list"></span>
+                                    </li>
+                                </ul>
+
+                            </div>
+                        </li>
+                        <li>
+                            <div class="info-left">
+                                <strong class="title">Localisation</strong>
+                                <span class="value">{{ activite.location }}</span>
+                            </div>
+                            <i class="material-icons">gps_fixed</i>
+                        </li>
+
+                        <li>
+                            <div class="info-center">
+                                <strong class="title">Reviews</strong>
+                                <span class="value">75 Reviews</span>
+                            </div>
+                            <div class="info-center">
+                                <div class="star-rating">
+                                    <span><span class="icon-star"></span></span>
+                                    <span><span class="icon-star"></span></span>
+                                    <span><span class="icon-star"></span></span>
+                                    <span><span class="icon-star"></span></span>
+                                    <span class="disable"><span class="icon-star"></span></span>
+                                </div>
+                                <span class="value">5/5</span>
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="btn-holder">
+                        <a href="#" class="btn btn-lg btn-warning">Réserver</a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div id="content" class="left col-sm-8 col-md-12 ">
+        <div class="blog-holder no-pagination ">
+            <!-- blog single -->
+            <article class="blog-single">
+
+                <div class="header-box">
+
+                </div>
+
+                        <!-- comment form -->
+                        {{ form_start(form,{'attr': {'novalidate':'novalidate'}}) }}
+
+                        <form action="#" class="comment-form">
+                            <fieldset>
+                                <h2>Veuillez mettre votre Avis, Merci.</h2>
+                                <div class="row">
+                                    <div class="col-sm-6 form-group">
+                                        {{ form_widget(form.message , {'attr': {'class': 'form-control' , 'placeholder' : 'Commentaire'}} ) }}
+                                        <div>
+                                            <p class="card-description"> <code> {{ form_errors(form.message) }}</code></p>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-sm-6 form-group form-rate">
+                                        {{ form_widget(form.rating , {'attr': {'class': 'form-control' , 'placeholder' : 'Rating'}} ) }}
+                                        <div>
+                                            <p class="card-description"> <code> {{ form_errors(form.rating) }}</code></p>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-sm-12 btn-holder">
+                                        {{ form_widget(form.Ajouter) }}
+                                        {{ form_end(form) }}
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </form>
+                <br>
+                {% for mesg in app.flashes('info') %}
+                    <div class="alert alert-success">
+                        {{ mesg }}
+                    </div>
+                {% endfor %}
+                <!-- comments -->
+                <div class="comments">
+                    <div class="comment-slot">
+
+                        <!-- comemmts reply -->
+                        {% for avis in listavis %}
+                            {% if avis.refactivite.RefAct==activite.RefAct %}
+
+
+                        <div class="comment-head">
+                            <div class="comment-slot">
+                                <div class="thumb">
+                                    <a href="#"><img src={{ vich_uploader_asset(activite,'imageFile')}} height="50" width="50" alt="image description"></a>
+                                </div>
+                                <div class="text">
+                                    <header class="comment-head">
+                                        <div class="left">
+                                            <strong class="name">
+                                                <a href="#">{{ avis.id.nom }} {{ avis.id.prenom }}</a>
+                                            </strong>
+                                            <div class="meta">
+                                                Commented on
+                                                <time datetime="2016-07-19">{{  avis.date ? avis.date|date('Y-m-d') : '' }}</time>
+                                            </div>
+                                        </div>
+                                    </header>
+                                    <div class="comment-detail">
+                                        <p>
+                                            {{ avis.message }}
+                                        </p>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+
+                        {% endfor %}
+                </div>
+
+                </div>
+
+            </article>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,56 @@
+{% extends 'base_front.html.twig' %}
+
+{% block title %}Avis index{% endblock %}
+
+{% block content %}
+
+<div class="demo-wrapper inner-main common-spacing container">
+    <table class="table table-striped table-hover data-table">
+        <thead>
+        {% for mesg in app.flashes('info') %}
+        <div class="alert alert-success">
+            {{ mesg }}
+        </div>
+        {% endfor %}
+        <tr class="table-info">
+
+                <th>Message</th>
+                <th>Date</th>
+                <th>Rating</th>
+                <th>Client</th>
+                <th>Activite</th>
+
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+
+
+
+        {% for avi in avis %}
+                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+            {% if avi.id.id==app.user.id  %}
+
+            <tr>
+
+                <td>{{ avi.message }}</td>
+                <td>{{ avi.date ? avi.date|date('Y-m-d') : '' }}</td>
+                <td>{{ avi.rating }}</td>
+                <td>{{ avi.Id.nom }}</td>
+                <td>{{ avi.refactivite.nom }}</td>
+                <td>
+                    <a class="btn btn-primary me-2"  href="{{ path('app_avis_show', {'refavis': avi.refavis}) }}">Afficher</a>
+                </td>
+
+            </tr>
+
+
+        {% endif %}
+                {% endif %}
+
+
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

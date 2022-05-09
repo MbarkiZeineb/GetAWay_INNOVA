@@ -1,0 +1,101 @@
+{% extends 'base_front.html.twig' %}
+
+
+{% block title %}Activite index{% endblock %}
+
+{% block content %}
+
+    <div class="content-block content-spacing">
+        <div class="container">
+            <header class="content-heading">
+                <br>
+                <br>
+
+                <h2 class="main-heading">Nos Activitès</h2>
+                <span class="main-subtitle">Nous avons une façon unique de répondre à vos attentes aventureuses!</span>
+                <div class="seperator"></div>
+            </header>
+
+
+            <div class="content-holder">
+                <div class="row db-3-col">
+
+                    {% for activite in activites %}
+                        <article class="col-sm-6 col-md-4 article has-hover-s3">
+                            <div class="img-wrap">
+                                <a href="#">
+                                    <img src={{ vich_uploader_asset(activite,'imageFile')}} height="215" width="370" alt="image description">
+                                </a>
+                                <div class="img-caption text-uppercase">
+                                    {{ activite.nom }}
+                                </div>
+                                <div class="hover-article">
+                                    <div class="star-rating">
+
+                                    </div>
+                                    <div class="icons">
+                                        <a href="{{ path('activite_like', {'id':activite.refact}) }}" class="btn btn-link
+                                        js-like" >
+                                    {% if app.user and activite.likedByUser(app.user) %}
+                                        <i class="fa-solid fa-heart"></i>
+                                    {% else %}
+                                       <i class="fa-regular fa-heart"></i>
+                                    {% endif %}
+
+                                        <span class="js-aime">{{ activite.likes | length}}</span>
+                                        </a>
+                                    </div>
+                                    <div class="info-footer">
+                                        <span class="price">from <span>${{ activite.prix }}</span></span>
+                                        <a href="{{ path('app_avis_act',{'RefAct': activite.refact})}}" class="link-more">Détails</a>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <h3><a href="#">{{ activite.nom }}</a></h3>
+                            <p>
+                                {{ activite.descrip }}
+                            </p>
+
+                        </article>
+                    {% endfor %}
+                    </tbody>
+
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascript %}
+
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script>
+    const LIKE_ICON = 'fa-solid fa-heart';
+    const UNLIKE_ICON = 'fa-regular fa-heart';
+    Array.from(document.querySelectorAll('a.js-like')).forEach(function (link) {
+    link.addEventListener('click', onClickLink);
+});
+    async function onClickLink(event) {
+    event.preventDefault();
+    const url = this.href;
+    const icone = this.querySelector('i');
+    const count = this.querySelector('span.js-aime');
+try{
+    const result = await axios.post(url);
+    const data = result.data;
+    console.log(data.likes);
+    icone.className = icone.className === LIKE_ICON ? UNLIKE_ICON : LIKE_ICON;
+    count.textContent = data.likes;
+} catch (error) {
+    if (error.response.status === 403) {
+        window.alert("Vous n'est pas connecté")
+    window.location = '/user/connexion'
+}
+}
+    }
+</script>
+
+
+{% endblock %}

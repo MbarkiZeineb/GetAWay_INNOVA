@@ -7,11 +7,13 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Activitelike
  *
- * @ORM\Table(name="activitelike", indexes={@ORM\Index(name="fk_actt", columns={"Act"}), @ORM\Index(name="fk_user", columns={"User"})})
+ * @ORM\Table(name="activitelike", indexes={@ORM\Index(name="fk_user", columns={"User"}), @ORM\Index(name="fk_actt", columns={"Act"})})
  * @ORM\Entity(repositoryClass="App\Repository\ActivitelikeRepository")
  */
+
 class Activitelike
 {
+
     /**
      * @var int
      *
@@ -24,7 +26,7 @@ class Activitelike
     /**
      * @var \User
      *
-     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="likes")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="User", referencedColumnName="id")
      * })
@@ -34,7 +36,7 @@ class Activitelike
     /**
      * @var \Activite
      *
-     * @ORM\ManyToOne(targetEntity="Activite")
+     * @ORM\ManyToOne(targetEntity="Activite", inversedBy="likes")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="Act", referencedColumnName="RefAct")
      * })
