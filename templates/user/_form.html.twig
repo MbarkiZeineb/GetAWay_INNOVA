@@ -1,0 +1,33 @@
+{{ form_start(form,{attr:{'novalidate':'novalidate'}}) }}
+{{ form_label(form.nom) }}{{ form_widget(form.nom) }}
+{{ form_label(form.prenom) }}{{ form_widget(form.prenom) }}
+
+{{ form_label(form.password) }}{{ form_widget(form.password) }}
+
+{{ form_label(form.securityq) }}{{ form_widget(form.securityq) }}
+{{ form_label(form.answer) }}{{ form_widget(form.answer) }}
+
+{{ form_label(form.email) }}{{ form_widget(form.email) }}
+
+{{ form_label(form.adresse) }}{{ form_widget(form.adresse) }}
+
+{{ form_label(form.numtel) }}{{ form_widget(form.numtel) }}
+
+{{ form_label(form.solde) }}{{ form_widget(form.solde) }}
+
+{{ form_label(form.role) }}{{ form_widget(form.role) }}
+<div class="row">
+    <div class="col-md-4 offset-md-4">
+        <div class="form-group">
+            <label>Are you a robot?</label>
+            {{ form_widget(form.captchaCode) }}
+        </div>
+    </div>
+</div>
+<div class="btn-hold">
+    <button type="submit" class="btn btn-default">
+        Valider
+    </button>
+</div>
+
+{{ form_end(form) }}

@@ -1,0 +1,40 @@
+{% extends 'base_front.html.twig' %}
+
+{% block content %}
+
+    <div class="table-responsive pt-3">
+        <div class="card-title"><h1>Liste des reclamations :<h1> </div>
+
+        <table class="table" border="1">
+            <thead>
+            <tr>
+
+                <th>Objet</th>
+                <th>Description</th>
+
+                <th>actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for reclamation in reclamations %}
+                <tr>
+
+                    <td>{{ reclamation.objet }}</td>
+                    <td>{{ reclamation.description }}</td>
+
+                    <td>
+                        <a href="{{ path('app_reclamation_edit', {'idr': reclamation.idr}) }}" class="btn btn-success">Modifier</a>
+
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="9">no records found</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+    </div>
+
+{% endblock %}

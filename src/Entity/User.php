@@ -2,17 +2,31 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 /**
  * User
  *
  * @ORM\Table(name="user")
- *@ORM\Entity(repositoryClass="App\Repository\UserRepository")
-
+ * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
+ * @UniqueEntity(
+ *  fields = {"email"},
+ *     message ="L'email que vous avez indiqué est deja utilisé! "
+ * )
  */
-class User
+class User implements UserInterface
 {
+
+    /**
+     * @ORM\OneToMany(targetEntity=Reclamation::class, mappedBy="idclient", orphanRemoval=true)
+     */
+    private $reclamation;
+
     /**
      * @var int
      *
@@ -26,6 +40,7 @@ class User
      * @var string
      *
      * @ORM\Column(name="nom", type="string", length=255, nullable=false)
+     *  @Assert\NotBlank(message="vous devez remplir ce champ")
      */
     private $nom;
 
@@ -33,6 +48,7 @@ class User
      * @var string
      *
      * @ORM\Column(name="prenom", type="string", length=255, nullable=false)
+     *  @Assert\NotBlank(message="vous devez remplir ce champ")
      */
     private $prenom;
 
@@ -40,6 +56,13 @@ class User
      * @var string
      *
      * @ORM\Column(name="password", type="string", length=255, nullable=false)
+     *  @Assert\NotBlank(message="vous devez remplir ce champ")
+     * @Assert\Length(
+     *      min = 4,
+     *      max = 255,
+     *      minMessage = "votre mdp doit contenir au moins {{ limit }} caracteres",
+     *      maxMessage = "votre mdp doit contenir au plus {{ limit }} caracteres"
+     * )
      */
     private $password;
 
@@ -54,6 +77,7 @@ class User
      * @var string|null
      *
      * @ORM\Column(name="answer", type="string", length=255, nullable=true)
+     *  @Assert\NotBlank(message="vous devez remplir ce champ")
      */
     private $answer;
 
@@ -61,6 +85,8 @@ class User
      * @var string
      *
      * @ORM\Column(name="email", type="string", length=255, nullable=false)
+     *  @Assert\NotBlank(message="vous devez remplir ce champ")
+     * @Assert\Email(message = "Adresse email non valide ")
      */
     private $email;
 
@@ -68,6 +94,7 @@ class User
      * @var string|null
      *
      * @ORM\Column(name="adresse", type="string", length=255, nullable=true)
+     *  @Assert\NotBlank(message="vous devez remplir ce champ")
      */
     private $adresse;
 
@@ -75,6 +102,13 @@ class User
      * @var int|null
      *
      * @ORM\Column(name="numtel", type="integer", nullable=true)
+     *  @Assert\NotBlank(message="vous devez remplir ce champ")
+     *   * @Assert\Length(
+     *      min = 8,
+     *      max = 8,
+     *      minMessage = "votre mdp ne doit pas depasser {{ limit }} chiffres",
+     *      maxMessage = "votre mdp ne doit pas depasser {{ limit }} chiffres"
+     * )
      */
     private $numtel;
 
@@ -103,6 +137,8 @@ class User
      * @var float|null
      *
      * @ORM\Column(name="solde", type="float", precision=10, scale=0, nullable=true)
+     *  @Assert\NotBlank(message="vous devez remplir ce champ")
+     * * @Assert\Positive(message="cette valeur doit etre positif")
      */
     private $solde;
 
@@ -112,13 +148,25 @@ class User
      * @ORM\Column(name="reset_token", type="string", length=255, nullable=true)
      */
     private $resetToken;
-
+    private $captchaCode;
     /**
      * @var int|null
      *
      * @ORM\Column(name="likes", type="integer", nullable=true)
      */
     private $likes;
+    public function getCaptchaCode()
+    {
+        return $this->captchaCode;
+    }
+    public function setCaptchaCode($captchaCode)
+    {
+        $this->captchaCode=$captchaCode;
+    }
+    public function __construct()
+    {
+        $this->reclamation = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -280,7 +328,52 @@ class User
 
         return $this;
     }
+    public function eraseCredentials()
+    {
+        return $this->getEtat();
+    }
+    public function getSalt()
+    {
+        return $this->getRole();
+    }
+    public function getRoles()
+    {
+        return ['Admin','Client','Agent-Aerien','Offreur'];
+    }
+    public function getUsername()
+    {
+        // TODO: Implement getUsername() method.
+    }
 
+    /**
+     * @return Collection<int, Reclamation>
+     */
+    public function getReclamation(): Collection
+    {
+        return $this->reclamation;
+    }
+
+    public function addReclamation(Reclamation $reclamation): self
+    {
+        if (!$this->reclamation->contains($reclamation)) {
+            $this->reclamation[] = $reclamation;
+            $reclamation->setIdclient($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReclamation(Reclamation $reclamation): self
+    {
+        if ($this->reclamation->removeElement($reclamation)) {
+            // set the owning side to null (unless already changed)
+            if ($reclamation->getIdclient() === $this) {
+                $reclamation->setIdclient(null);
+            }
+        }
+
+        return $this;
+    }
     public function getLikes(): ?int
     {
         return $this->likes;
@@ -292,6 +385,5 @@ class User
 
         return $this;
     }
-
 
 }

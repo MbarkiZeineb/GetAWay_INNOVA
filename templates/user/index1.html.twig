@@ -1,0 +1,57 @@
+{% extends 'base_front.html.twig' %}
+
+{% block content %}
+
+
+    <main id="main">
+
+        <div class="inner-main common-spacing container">
+            <!-- form -->
+            <form class="twocol-form" >
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="top-box">
+                            <span class="holder height">Bienvenue dans votre profil</span>
+                        </div>
+                        <div class="form-holder">
+                            <div class="wrap">
+                                <div class="hold">
+                                    <label > Nom : {{ app.user.nom }}</label>
+
+                                </div>
+                                <div class="hold">
+                                    <label >Prénom : {{ app.user.prenom }}</label>
+                                </div>
+                                <div class="hold">
+                                    <label >Adresse Email : {{ app.user.email }}</label>
+                                </div>
+                                <div class="hold">
+                                    <label >Adresse : {{ app.user.adresse }}</label>
+                                </div>
+                                <div class="hold">
+                                    <label >Numéro de téléphone : : {{ app.user.numtel }}</label>
+                                </div>
+                                <div class="btn-hold">
+                                    <a class="btn btn-default" href="{{ path('app_user_editfront', {'id': app.user.id}) }}" >Modifier</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+                </div>
+            </form>
+        </div>
+    </main>
+
+
+
+
+
+
+
+
+
+{% endblock %}

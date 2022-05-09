@@ -1,0 +1,39 @@
+{{ form_start(form,{attr:{'novalidate':'novalidate'}}) }}
+{{ form_label(form.nom) }}{{ form_widget(form.nom) }}
+
+{{ form_label(form.prenom) }}{{ form_widget(form.prenom) }}
+
+{{ form_label(form.password) }}{{ form_widget(form.password) }}
+
+{{ form_label(form.securityq) }}{{ form_widget(form.securityq) }}
+{{ form_label(form.answer) }}{{ form_widget(form.answer) }}
+
+{{ form_label(form.email) }}{{ form_widget(form.email) }}
+
+{{ form_label(form.adresse) }}{{ form_widget(form.adresse) }}
+
+{{ form_label(form.numtel) }}{{ form_widget(form.numtel) }}
+
+{{ form_label(form.solde) }}{{ form_widget(form.solde) }}
+
+{{ form_label(form.role) }}{{ form_widget(form.role) }}
+{{ form_label(form.nomagence) }}{{ form_widget(form.nomagence) }}
+    <a href="{{ path('activer',{'id':user.id}) }}"
+    >Activer</a
+    >
+
+    <a href="{{ path('bloquer',{'id':user.id}) }}"
+    >Bloquer</a
+    >
+<div><a href="{{ path('app_user_index') }}">Retour à la liste</a></div>
+
+<br>
+<br>
+<br>
+<div class="btn-hold">
+    <button type="submit" class="btn btn-primary me-2">
+        Modifier
+    </button>
+</div>
+
+{{ form_end(form) }}

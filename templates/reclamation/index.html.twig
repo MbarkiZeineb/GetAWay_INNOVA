@@ -1,0 +1,44 @@
+{% extends 'base_back.html.twig' %}
+
+{% block content %}
+
+
+
+
+
+        <div class="table-responsive pt-3">
+            <table class="table table-bordered table-striped">
+                <div class="card-title"><h2>Liste des reclamations :<h2> </div>
+                <tbody>
+        <thead>
+            <tr class="table-info">
+                <th>Idr</th>
+                <th>Objet</th>
+                <th>Description</th>
+                <th>Etat</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+
+        {% for reclamation in reclamations %}
+            <tr>
+                <td>{{ reclamation.idr }}</td>
+                <td>{{ reclamation.objet }}</td>
+                <td>{{ reclamation.description }}</td>
+                <td>{{ reclamation.etat }}</td>
+                <td>
+                    <a class="btn btn-primary me-2" href="{{ path('traiter', {'idr': reclamation.idr}) }}">Traiter</a>
+                    <a class="btn btn-primary me-2" href="{{ path('app_email', {'idr': reclamation.idr}) }}">Envoyer Mail</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr class="table-warning">
+                <td colspan="8">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+</div>
+
+{% endblock %}
