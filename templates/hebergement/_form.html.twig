@@ -41,22 +41,16 @@
             </div>
 
             <div class="form-group">
-                <label class="form-label" for="exampleInputEmail2">Debut de promotion </label>
-                {{ form_widget(form.dateStart , {'attr': {'class': 'form-control form-control-user' }} ) }}
-                <div>
-                    <p class="card-description"> <code> {{ form_errors(form.dateStart) }}</code></p>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="form-label" for="exampleInputEmail2">Debut de promotion </label>
+                <label class="form-label" for="exampleInputEmail2">Debut de date </label>
                 {{ form_widget(form.dateStart , {'attr': {'class': 'form-control form-control-user' }} ) }}
                 <div>
                     <p class="card-description"> <code> {{ form_errors(form.dateStart) }}</code></p>
                 </div>
             </div>
 
+
             <div class="form-group">
-                <label class="form-label" for="exampleInputEmail2">Fin de promotion</label>
+                <label class="form-label" for="exampleInputEmail2">Jusqu'a</label>
                 {{ form_widget(form.dateEnd , {'attr': {'class': 'form-control form-control-user' }} ) }}
                 <div>
                     <p class="card-description"> <code> {{ form_errors(form.dateEnd) }}</code></p>
