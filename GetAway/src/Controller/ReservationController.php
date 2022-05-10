@@ -597,7 +597,7 @@ class ReservationController extends AbstractController
         $reservation = new Reservation();
         $reservation->setNbrPlace($request->get("nbplace"));
         $reservation->setIdClient($client);
-        $reservation->setIdVoyage($voy);
+        $reservation->setIdVol($voy);
         $date  = new \DateTime('@' . strtotime('now'));
         $reservation->setDateReservation( $date);
         $reservation->setDateDebut($voy->getDateDepart());

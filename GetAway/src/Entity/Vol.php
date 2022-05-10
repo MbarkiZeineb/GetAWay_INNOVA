@@ -3,12 +3,13 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-
+use Symfony\Component\Serializer\Annotation\Groups;
 /**
  * Vol
  *
  * @ORM\Table(name="vol", indexes={@ORM\Index(name="id_avion", columns={"id_avion"})})
  * @ORM\Entity(repositoryClass="App\Repository\VolRepository")
+ *
  */
 class Vol
 {
@@ -18,6 +19,7 @@ class Vol
      * @ORM\Column(name="id_vol", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @Groups("vol")
      */
     private $idVol;
 
@@ -25,6 +27,7 @@ class Vol
      * @var \DateTime
      *
      * @ORM\Column(name="date_depart", type="datetime", nullable=false)
+     * @Groups("vol")
      */
     private $dateDepart;
 
@@ -32,33 +35,34 @@ class Vol
      * @var \DateTime
      *
      * @ORM\Column(name="date_arrivee", type="datetime", nullable=false)
+     * @Groups("vol")
      */
     private $dateArrivee;
 
     /**
      * @var string
-     *
+     *@Groups("vol")
      * @ORM\Column(name="ville_depart", type="string", length=60, nullable=false)
      */
     private $villeDepart;
 
     /**
      * @var string
-     *
+     *@Groups("vol")
      * @ORM\Column(name="ville_arrivee", type="string", length=50, nullable=false)
      */
     private $villeArrivee;
 
     /**
      * @var int
-     *
+     *@Groups("vol")
      * @ORM\Column(name="nbr_placedispo", type="integer", nullable=false)
      */
     private $nbrPlacedispo;
 
     /**
      * @var int
-     *
+     *@Groups("vol")
      * @ORM\Column(name="id_avion", type="integer", nullable=false)
      */
     private $idAvion;
@@ -66,6 +70,7 @@ class Vol
     /**
      * @var float
      *
+     * @Groups("vol")
      * @ORM\Column(name="prix", type="float", precision=10, scale=0, nullable=false)
      */
     private $prix;

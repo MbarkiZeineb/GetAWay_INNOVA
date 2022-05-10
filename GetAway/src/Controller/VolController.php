@@ -4,11 +4,15 @@ namespace App\Controller;
 
 use App\Entity\Vol;
 use App\Form\VolType;
+use App\Repository\VolRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
+use Symfony\Component\Serializer\SerializerInterface;
 
 /**
  * @Route("/vol")
@@ -51,15 +55,7 @@ class VolController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{idVol}", name="app_vol_show", methods={"GET"})
-     */
-    public function show(Vol $vol): Response
-    {
-        return $this->render('vol/show.html.twig', [
-            'vol' => $vol,
-        ]);
-    }
+
 
     /**
      * @Route("/{idVol}/edit", name="app_vol_edit", methods={"GET", "POST"})
@@ -92,5 +88,15 @@ class VolController extends AbstractController
         }
 
         return $this->redirectToRoute('app_vol_index', [], Response::HTTP_SEE_OTHER);
+    }
+    /**
+     * @Route("/getallVol",name="getvol")
+     */
+    public function getvoyage (VolRepository $repository , SerializerInterface  $serializer)
+    {
+        $p = $repository->findAll();
+        $dataJson=$serializer->serialize($p,'json',['groups'=>'vol']);
+        return new JsonResponse(json_decode($dataJson) );
+
     }
 }
