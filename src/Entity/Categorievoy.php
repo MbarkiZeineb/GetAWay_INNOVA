@@ -45,7 +45,8 @@ class Categorievoy
 
     /**
      * @var int
-     *@Assert\LessThan(
+     *@Assert\NotBlank(message="le champ est vide")
+     * @Assert\LessThan(
      *     value = 100, message="reduction ne peux pas 100%"
      * )
      * @ORM\Column(name="reduction", type="integer", nullable=false)

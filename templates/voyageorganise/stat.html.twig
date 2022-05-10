@@ -1,34 +1,33 @@
 {% extends 'base_back.html.twig' %}
 
-{% block title %}Statistiques{% endblock %}
+{% block content %}
 
-{% block stylesheets %}
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.css"
-          integrity="sha512-/zs32ZEJh+/EO2N1b0PEdoA10JkdC3zJ8L5FTiQu82LR9S/rOQNfQN7U59U9BC12swNeRAz3HSzIL2vpp4fv3w=="
-          crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.css" integrity="sha512-/zs32ZEJh+/EO2N1b0PEdoA10JkdC3zJ8L5FTiQu82LR9S/rOQNfQN7U59U9BC12swNeRAz3HSzIL2vpp4fv3w==" crossorigin="anonymous">
+    <div class="container">
+        <h1>Statistiques</h1>
+        <canvas id="categories" width="400" height="100"></canvas>
+
+        <canvas id="annonces" width="400" height="100"></canvas>
+    </div>
+
+
 {% endblock %}
-
-{% block body %}
-    <h1>Statistiques</h1>
-    <canvas id="categories" width="400" height="100"></canvas>
-{% endblock %}
-
-{% block javascripts %}
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"
-            integrity="sha512-d9xgZrVZpmmQlfonhQUvTR7lMPtO7NkZMkA0ABN3PHCbKA5nqylQ/yWlFAyY6hYgdF1Qh6nYiuADWwKB4C2WSw=="
-            crossorigin="anonymous"></script>
+{% block javascripts  %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js" integrity="sha512-s+xg36jbIujB2S2VKfpGmlC3T5V2TF3lY48DX7u2r9XzGzgPsa6wTpOQA7J9iffvdeBN0q9tKzRxVxw1JviZPg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js" integrity="sha512-s+xg36jbIujB2S2VKfpGmlC3T5V2TF3lY48DX7u2r9XzGzgPsa6wTpOQA7J9iffvdeBN0q9tKzRxVxw1JviZPg==" crossorigin="anonymous"></script>
     <script>
         let categories = document.querySelector("#categories")
         let categGraph = new Chart(categories, {
             type: "pie",
             data: {
-                labels: {{ categNom|raw }},
+                labels: {{ type|raw }},
                 datasets: [{
-                    label: "Repartition des categories",
-                    data: {{ categCount|raw }},
-                    backgroundColor: {{ categColor|raw }}
+                    label: " Nombre de reservation par type ",
+                    data: {{ nbre|raw }}
                 }]
             }
         })
     </script>
+
+
 {% endblock %}

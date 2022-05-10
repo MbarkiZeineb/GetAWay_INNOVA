@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Reservation
  *
- * @ORM\Table(name="reservation", indexes={@ORM\Index(name="fk_heb", columns={"id_hebergement"}), @ORM\Index(name="fk_voyage", columns={"id_voyage"}), @ORM\Index(name="fk_act", columns={"id_activite"}), @ORM\Index(name="id_vol", columns={"id_vol"}), @ORM\Index(name="fk_client", columns={"id_client"})})
+ * @ORM\Table(name="reservation", indexes={@ORM\Index(name="fk_voyage", columns={"id_voyage"}), @ORM\Index(name="fk_act", columns={"id_activite"}), @ORM\Index(name="id_vol", columns={"id_vol"}), @ORM\Index(name="fk_client", columns={"id_client"}), @ORM\Index(name="fk_heb", columns={"id_hebergement"})})
  * @ORM\Entity
  */
 class Reservation
@@ -64,6 +64,26 @@ class Reservation
     private $type;
 
     /**
+     * @var \Activite
+     *
+     * @ORM\ManyToOne(targetEntity="Activite")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_activite", referencedColumnName="RefAct")
+     * })
+     */
+    private $idActivite;
+
+    /**
+     * @var \Hebergement
+     *
+     * @ORM\ManyToOne(targetEntity="Hebergement")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_hebergement", referencedColumnName="referance")
+     * })
+     */
+    private $idHebergement;
+
+    /**
      * @var \Vol
      *
      * @ORM\ManyToOne(targetEntity="Vol")
@@ -92,26 +112,6 @@ class Reservation
      * })
      */
     private $idVoyage;
-
-    /**
-     * @var \Activite
-     *
-     * @ORM\ManyToOne(targetEntity="Activite")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_activite", referencedColumnName="RefAct")
-     * })
-     */
-    private $idActivite;
-
-    /**
-     * @var \Hebergement
-     *
-     * @ORM\ManyToOne(targetEntity="Hebergement")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_hebergement", referencedColumnName="referance")
-     * })
-     */
-    private $idHebergement;
 
     public function getId(): ?int
     {
@@ -190,6 +190,30 @@ class Reservation
         return $this;
     }
 
+    public function getIdActivite(): ?Activite
+    {
+        return $this->idActivite;
+    }
+
+    public function setIdActivite(?Activite $idActivite): self
+    {
+        $this->idActivite = $idActivite;
+
+        return $this;
+    }
+
+    public function getIdHebergement(): ?Hebergement
+    {
+        return $this->idHebergement;
+    }
+
+    public function setIdHebergement(?Hebergement $idHebergement): self
+    {
+        $this->idHebergement = $idHebergement;
+
+        return $this;
+    }
+
     public function getIdVol(): ?Vol
     {
         return $this->idVol;
@@ -222,30 +246,6 @@ class Reservation
     public function setIdVoyage(?Voyageorganise $idVoyage): self
     {
         $this->idVoyage = $idVoyage;
-
-        return $this;
-    }
-
-    public function getIdActivite(): ?Activite
-    {
-        return $this->idActivite;
-    }
-
-    public function setIdActivite(?Activite $idActivite): self
-    {
-        $this->idActivite = $idActivite;
-
-        return $this;
-    }
-
-    public function getIdHebergement(): ?Hebergement
-    {
-        return $this->idHebergement;
-    }
-
-    public function setIdHebergement(?Hebergement $idHebergement): self
-    {
-        $this->idHebergement = $idHebergement;
 
         return $this;
     }

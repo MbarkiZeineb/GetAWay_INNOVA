@@ -2,14 +2,23 @@
 
 namespace App\Controller;
 
+use App\Entity\Categorievoy;
 use App\Entity\Voyageorganise;
 use App\Form\VoyageorganiseType;
 use App\Repository\VoyOrgRepository;
+use App\Repository\categVoyRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use CMEN\GoogleChartsBundle\GoogleCharts\Charts\PieChart;
+use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Dompdf\Dompdf;
 use Dompdf\Options;
 
@@ -47,38 +56,31 @@ class VoyageorganiseController extends AbstractController
         ]);
     }
 
+
+
     /**
-     * @Route("/stats", name="stats")
+     * @Route ("/stat/{id}", name="statup")
      */
-    public function statistiques(){
-        // On va chercher toutes les voyages
-        $rep=$this->getDoctrine()->getRepository(Voyageorganise::class);
-        $Voyageorganise = $rep->findAll();
 
+    /**
+     * @Route ("/stats/", name="statistiquevoy", methods={"GET", "POST"})
+     */
+    public function stat(VoyOrgRepository $rep)
+    {
+        $Voyageorganise = $rep->stat();
+        $type = [];
+        $nbre= [];
+        foreach($Voyageorganise as $voy){
 
-        $categNom = [];
-        $categColor = [];
-        $categCount = [];
-
-        foreach ($Voyageorganise  as $voyorg ){
-
-
-            $categNom[] = $voyorg->getNomCategorie();
-            $categColor[] = $voyorg->getColor();
-            $categCount[] = count($voyorg->getOffres());
-
+            $type [] = $voy['type'];
+            $nbre[] = $voy['count'];
         }
-        return $this->render('voyageorganise/stat.html.twig', [
 
-
-
-
-            'categNom' => json_encode($categNom),
-            'categColor' => json_encode($categColor),
-            'categCount' => json_encode($categCount)
-
+        return $this->render('Voyageorganise/stat.html.twig',[
+            'type'=> json_encode($type),'nbre'=>json_encode($nbre),
         ]);
     }
+
 
 
     /**
@@ -154,7 +156,9 @@ class VoyageorganiseController extends AbstractController
     {
         $voyageorganise = new Voyageorganise();
         $form = $this->createForm(VoyageorganiseType::class, $voyageorganise);
+        dump($voyageorganise);
         $form->handleRequest($request);
+
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($voyageorganise);
@@ -168,16 +172,16 @@ class VoyageorganiseController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
-
+/*
     /**
      * @Route("/{idvoy}", name="app_voyageorganise_show", methods={"GET"})
      */
-    public function show(Voyageorganise $voyageorganise): Response
-    {
-        return $this->render('voyageorganise/show.html.twig', [
+   // public function show(Voyageorganise $voyageorganise): Response
+   /* {
+        //return $this->render('voyageorganise/show.html.twig', [
             'voyageorganise' => $voyageorganise,
         ]);
-    }
+    }*/
 
     /**
      * @Route("/{idvoy}/edit", name="app_voyageorganise_edit", methods={"GET", "POST"})
@@ -211,4 +215,64 @@ class VoyageorganiseController extends AbstractController
 
         return $this->redirectToRoute('app_voyageorganise_index', [], Response::HTTP_SEE_OTHER);
     }
+
+    //********************mobile
+    /**
+     * @Route("/getallVoyage")
+     */
+    public function getvoyage (VoyOrgRepository $repository , SerializerInterface  $serializer,EntityManagerInterface $entityManager)
+    {
+        $p = $entityManager
+            ->getRepository(Voyageorganise::class)
+            ->findAll();
+
+        $dataJson=$serializer->serialize($p,'json',['groups'=>'voyage']);
+        return new JsonResponse(json_decode($dataJson) );
+
+    }
+    /**
+     * @param Request $request
+     * @param NormalizerInterface $normalizer
+     * @return void
+     * @Route("/addRecJson",name="addRecJson")
+     */
+    public function addRecJson(Request $request)
+    {
+        $Voyagorganise=new voyageorganise();
+
+        $villedepart=$request->query->get("villedepart");
+        $villedest=$request->query->get("villedest");
+        $datedep=$request->query->get("datedepart");
+        $datearrive=$request->query->get("datearrive");
+        $nbrplace=$request->query->get("nbrplace");
+        $description=$request->query->get("description");
+        $idcat=$request->query->get("idcat");
+        $prix=$request->query->get("prix");
+
+        $em=$this->getDoctrine()->getManager();
+
+        $Voyagorganise->setVilledepart($villedepart);
+        $Voyagorganise->setVilledest($villedest);
+        $dated= new \DateTime($datedep);
+        $datea= new \DateTime($datearrive);
+        $Voyagorganise->setDatedepart($dated);
+        $Voyagorganise->setDatearrive($datea);
+        $Voyagorganise->setNbrplace($nbrplace);
+        $Voyagorganise->setDescription($description);
+        $Voyagorganise->setPrix($prix);
+        $Voyagorganise->setIdcat($this->getDoctrine()->getManager()->getRepository(Categorievoy::class)->find($idcat));
+
+        $em->persist($Voyagorganise);
+        $em->flush();
+        $encoder=new JsonEncoder();
+        $normalizer=new ObjectNormalizer();
+        $normalizer->setCircularReferenceHandler(function ($object){
+            return $object;
+        });
+        $serializer=new Serializer([$normalizer],[$encoder]);
+        $formatted =$serializer->normalize($Voyagorganise);
+        return new JsonResponse($formatted);
+    }
+
+
 }

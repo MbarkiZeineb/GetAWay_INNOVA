@@ -106,16 +106,6 @@ class Hebergement
     private $modelCaravane;
 
     /**
-     * @var \User
-     *
-     * @ORM\ManyToOne(targetEntity="User")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="offreur_id", referencedColumnName="id")
-     * })
-     */
-    private $offreur;
-
-    /**
      * @var \Category
      *
      * @ORM\ManyToOne(targetEntity="Category")
@@ -124,6 +114,16 @@ class Hebergement
      * })
      */
     private $idCateg;
+
+    /**
+     * @var \User
+     *
+     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="offreur_id", referencedColumnName="id")
+     * })
+     */
+    private $offreur;
 
     public function getReferance(): ?int
     {
@@ -274,18 +274,6 @@ class Hebergement
         return $this;
     }
 
-    public function getOffreur(): ?User
-    {
-        return $this->offreur;
-    }
-
-    public function setOffreur(?User $offreur): self
-    {
-        $this->offreur = $offreur;
-
-        return $this;
-    }
-
     public function getIdCateg(): ?Category
     {
         return $this->idCateg;
@@ -294,6 +282,18 @@ class Hebergement
     public function setIdCateg(?Category $idCateg): self
     {
         $this->idCateg = $idCateg;
+
+        return $this;
+    }
+
+    public function getOffreur(): ?User
+    {
+        return $this->offreur;
+    }
+
+    public function setOffreur(?User $offreur): self
+    {
+        $this->offreur = $offreur;
 
         return $this;
     }

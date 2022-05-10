@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html ">
+<html>
 <head>
     <meta charset="UTF-8">
     <title>Title of the PDF</title>
-
+    <a><img src={{ asset("front/img/logogetaway.png")}}></a>
 </head >
 <body style="
   background-size: 200px 200px;
@@ -50,7 +50,7 @@
             <td>{{ voyorganise.datedepart ? voyorganise.datedepart|date('Y-m-d H:i:s') : ''}}</td>
             <td>{{ voyorganise.datearrive ? voyorganise.datearrive|date('Y-m-d H:i:s') : ''}}</td>
             <td>{{ voyorganise.nbrplace }}</td>
-            <td>{{ voyorganise.idcat }}</td>
+            <td>{{ voyorganise.idcat.nomcat }}</td>
             <td>{{ voyorganise.prix }}</td>
             <td>{{ voyorganise.description }}</td>
         </tr>

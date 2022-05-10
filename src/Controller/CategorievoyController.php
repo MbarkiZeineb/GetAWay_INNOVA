@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Categorievoy;
 use App\Form\CategorievoyType;
+use app\Repository\categVoyRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;

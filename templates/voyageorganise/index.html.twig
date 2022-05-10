@@ -6,68 +6,6 @@
     <main id="main">
 
 
-        <li
-        <h2> chercher un voyage organise </h2>
-
-        <div class="sidebar-search">
-            <div class="input-group custom-search-form">
-                <input type="text" id="search" class="form-control" placeholder="rechercher">
-            </div>
-            <!-- /input-group -->
-        </div>
-        <ul class="nav" id="side-menu">
-            <li>
-
-                <ul class="nav nav-second-level" id="entitiesNav">
-                </ul>
-            </li>
-        </ul><br><br><br><br>
-
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-
-        <script type="text/javascript">
-            jQuery(document).ready(function() {
-                var searchRequest = null;
-                $("#search").keyup(function() {
-                    var minlength = 3;
-                    var that = this;
-                    var value = $(this).val();
-                    var entitySelector = $("#entitiesNav").html('');
-                    if (value.length >= minlength ) {
-                        if (searchRequest != null)
-                            searchRequest.abort();
-                        searchRequest = $.ajax({
-                            type: "GET",
-                            url: "{{ path('ajax_search') }}",
-                            data: {
-                                'q' : value
-                            },
-                            dataType: "text",
-                            success: function(msg){
-                                //we need to check if the value is the same
-                                if (value==$(that).val()) {
-                                    var result = JSON.parse(msg);
-                                    $.each(result, function(key, arr) {
-                                        $.each(arr, function(id, value) {
-
-                                            if (id != 'error') {
-                                                entitySelector.append('<li> idvoy:<h1  style="color:white !important;"class="headline">'+value[0]+'</h1> villedepart: <p  style="color:green !important;" class="para para-light py-3">'+value[1]+' </p> villedest :<p  style="color:green !important;" class="para para-light py-3">'+value[2]+' </p> datedepart : <p  style="color:green !important;" class="para para-light py-3">'+value[3]+' </p> datearrive : <p  style="color:green !important;" class="para para-light py-3">'+value[4]+' </p> nbrplace : <p  style="color:green !important;" class="para para-light py-3">'+value[5]+' </p> idcat : <p  style="color:green !important;" class="para para-light py-3">'+value[6]+' </p> prix : <p  style="color:green !important;" class="para para-light py-3">'+value[7]+' </p> description : <p  style="color:green !important;" class="para para-light py-3">'+value[8]+' </p></li>');
-                                            }
-
-                                            else {
-                                                entitySelector.append('<li style="color:red;">'+value+'</li>');
-                                            }
-
-                                        });
-                                    });
-                                }
-                            }
-                        });
-                    }
-                });
-            });
-        </script> </li>
-
 
         {% block title %}Voyageorganise {% endblock %}
 
@@ -87,7 +25,9 @@
             </tr>
         </thead>
         <tbody>
-        {% for voyageorganise in voyageorganises %}
+        <p style="margin-left: 950px"><label for="myInput"></label><input id="myInput" type="text" placeholder="Search..">
+        <tbody  id="myTable">
+            {% for voyageorganise in voyageorganises %}
             <tr>
                 <td>{{ voyageorganise.idvoy }}</td>
                 <td>{{ voyageorganise.villedepart }}</td>
@@ -95,14 +35,13 @@
                 <td>{{ voyageorganise.datedepart ? voyageorganise.datedepart|date('Y-m-d H:i:s') : ''}}</td>
                 <td>{{ voyageorganise.datearrive ? voyageorganise.datearrive|date('Y-m-d H:i:s') : ''}}</td>
                 <td>{{ voyageorganise.nbrplace }}</td>
-                <td>{{ voyageorganise.idcat }}</td>
+                <td>{{ voyageorganise.idcat.nomcat }}</td>
                 <td>{{ voyageorganise.prix }}</td>
                 <td>{{ voyageorganise.description }}</td>
                 <td>
-                    <a href="{{ path('app_voyageorganise_show', {'idvoy': voyageorganise.idvoy}) }}">show</a>
                     <a href="{{ path('app_voyageorganise_edit', {'idvoy': voyageorganise.idvoy}) }}">edit</a>
                     <a href="{{ path('app_voyageorganise_delete', {'idvoy': voyageorganise.idvoy}) }}">delete</a>
-                    <a href="{{ path('pdf', {'idvoy': voyageorganise.idvoy}) }}">printDoctrine\DBAL\Driver\Mysqli\Initializer\Options</a>
+                    <a href="{{ path('pdf', {'idvoy': voyageorganise.idvoy}) }}">print</a>
                 </td>
             </tr>
         {% else %}
@@ -112,9 +51,20 @@
         {% endfor %}
         </tbody>
     </table>
-
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script>
+            $(document).ready(function(){
+                $("#myInput").on("keyup", function() {
+                    var value = $(this).val().toLowerCase();
+                    $("#myTable tr").filter(function() {
+                        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                    });
+                });
+            });
+        </script>
     <a href="{{ path('app_voyageorganise_new') }}">Create new</a>
         <br>
-    <a href="{{ path('stats', {'id': 1}) }}" >statistiques</a>
+ <br>
+
 </main>
 {% endblock %}
