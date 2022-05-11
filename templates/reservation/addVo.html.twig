@@ -1,0 +1,84 @@
+{% extends 'base_front.html.twig ' %}
+ {% block panier %}
+     <span class="text hidden-xs hidden-sm">  {{ app.request.cookies.get('nombre') }} </span>
+ {% endblock %}
+{% block content %}
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+    <script type="text/javascript">
+        jQuery(document).ready(function(){
+            console.log("ss");
+            $("#nb").keyup(function() {
+                console.log("sfffs");
+                var value =$(this).val();
+
+                console.log(value);
+                var sum =  value *{{ prix }};
+               $.ajax({
+                    success : function() {
+
+                        $("#Prix").val(sum);
+                        console.log(sum);
+                }
+        });
+        });
+            console.log("ddd");
+        });
+
+    </script>
+
+
+    <main id="main">
+        <div class="inner-top">
+            <div class="container">
+                <h1 class="inner-main-heading"> Ajouter une Reservation</h1>
+            </div>
+        </div>
+        <div class="inner-main common-spacing container">
+            <div class="top-box" >
+                {% for message in  app.flashes('warning')%}
+
+                <div class="alert alert-danger" role="alert">{{ message }}</div>
+
+            </div>
+            <br>
+            {% endfor %}
+            <div class="form-holder">
+                <div class="wrap">
+
+                    {{ form_start(form) }}
+                    <form>
+                        <div class="col-md-6">
+                            <imput class="hold">
+                                <div>
+                                    {{ form_label(form.nbrPlace)}}
+                                    {{ form_widget(form.nbrPlace , {  'id':'nb','attr': {'class': 'form-control'}} ) }}
+
+                                </div>
+                            </imput>
+                            <div>
+                                <label > Prix </label>
+                                <input type="text"   disabled id="Prix" class="form-control">
+                            </div>
+                                <div class="has-error error">
+                                    {{ form_errors(form.nbrPlace) }}
+                                </div>
+                            </div>
+
+
+
+                            <div class="hold">{{ form_widget(form.Ajouter, { 'attr': {'class': 'btn btn-default'}} )}}
+                            </div>
+                        </div>
+                        {{ form_end(form) }}
+                    </form>
+                </div>
+            </div>
+
+
+</div>
+
+    </main>
+
+
+{% endblock %}

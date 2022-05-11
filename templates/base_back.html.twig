@@ -195,7 +195,8 @@
                 </a>
                 <div class="collapse" id="voyageorga" >
                     <ul class="nav flex-column sub-menu">
-                        <li class="nav-item"> <a class="nav-link" href="/voyageorganise/">Afficher</a></li>
+                        <li class="nav-item"> <a class="nav-link" href="/voyageorganise/back">Afficher</a></li>
+                        <li class="nav-item"> <a class="nav-link" href="/voyageorganise/stats">Statistique</a></li>
                     </ul>
                 </div>
             </li>
@@ -207,7 +208,7 @@
                 </a>
                 <div class="collapse" id="Categoriesvoy" >
                     <ul class="nav flex-column sub-menu">
-                        <li class="nav-item"> <a class="nav-link" href="/voyageorganise/">Afficher</a></li>
+                        <li class="nav-item"> <a class="nav-link" href="/categorievoy/">Afficher</a></li>
                     </ul>
                 </div>
             </li>
@@ -276,7 +277,7 @@
     <!-- page-body-wrapper ends -->
 </div>
 <!-- container-scroller -->
-
+{% block javascripts %}
 <!-- plugins:js -->
 <script src="{{ asset('back/vendors/js/vendor.bundle.base.js') }}"></script>
 
@@ -303,6 +304,7 @@
 <script src="{{ asset('bundles/mercuryseriesflashy/js/flashy.js') }}"></script>
 <!-- Include Flashy default partial -->
 {{ include('@MercurySeriesFlashy/flashy.html.twig') }}
+{% endblock %}
 </body>
 </body>
 

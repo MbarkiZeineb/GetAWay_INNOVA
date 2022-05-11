@@ -1,0 +1,58 @@
+{% extends 'base_back.html.twig' %}
+
+
+{% block content %}
+    <br>
+    <br>
+    <br>
+    <br>
+    <h1>Gestion Hebergement index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Referance</th>
+                <th>Paye</th>
+                <th>Adress</th>
+                <th>Prix</th>
+                <th>Description</th>
+                <th>Photoo</th>
+                <th>DateStart</th>
+                <th>DateEnd</th>
+                <th>Contact</th>
+                <th>NbrDetoile</th>
+                <th>NbrSuite</th>
+                <th>NbrParking</th>
+                <th>ModelCaravane</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for hebergement in hebergements %}
+            <tr>
+                <td>{{ hebergement.referance }}</td>
+                <td>{{ hebergement.paye }}</td>
+                <td>{{ hebergement.adress }}</td>
+                <td>{{ hebergement.prix }}</td>
+                <td>{{ hebergement.description }}</td>
+                <td><img src="{{ hebergement.photo }}" style="height:10px;width:10px"></td>
+                <td>{{ hebergement.dateStart ? hebergement.dateStart|date('Y-m-d') : '' }}</td>
+                <td>{{ hebergement.dateEnd ? hebergement.dateEnd|date('Y-m-d') : '' }}</td>
+                <td>{{ hebergement.contact }}</td>
+                <td>{{ hebergement.nbrDetoile }}</td>
+                <td>{{ hebergement.nbrSuite }}</td>
+                <td>{{ hebergement.nbrParking }}</td>
+                <td>{{ hebergement.modelCaravane }}</td>
+                <td>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="14">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+
+{% endblock %}

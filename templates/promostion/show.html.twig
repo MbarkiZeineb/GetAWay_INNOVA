@@ -1,0 +1,41 @@
+{% extends 'base_front.html.twig' %}
+
+
+{% block content %}
+    <br>
+    <br>
+    <br>
+    <br>
+    <center><h1> Promotion Selected</h1></center>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>IdRef</th>
+                <td>{{ promostion.idRef }}</td>
+            </tr>
+            <tr>
+                <th>Pourcentage</th>
+                <td>{{ promostion.pourcentage }}</td>
+            </tr>
+            <tr>
+                <th>DateStart</th>
+                <td>{{ promostion.dateStart ? promostion.dateStart|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>DateEnd</th>
+                <td>{{ promostion.dateEnd ? promostion.dateEnd|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Hebergement avait une promotion</th>
+                <td>{{ promostion.refHebergement }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a class="btn btn-default"  href="{{ path('app_promostion_index') }}">back to list</a>
+
+    <a class="btn btn-default" href="{{ path('app_promostion_edit', {'idRef': promostion.idRef}) }}">edit</a>
+
+    {{ include('promostion/_delete_form.html.twig') }}
+{% endblock %}

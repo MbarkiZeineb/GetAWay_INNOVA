@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Vol
@@ -18,27 +20,47 @@ class Vol
      * @ORM\Column(name="id_vol", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @Groups("vol")
      */
     private $idVol;
 
     /**
      * @var int|null
+     *@Assert\NotBlank
+     * @Assert\NotNull
+     * @Assert\Positive
      *
      * @ORM\Column(name="num_vol", type="integer", nullable=true)
+     * * @Assert\Range(
+     *      min = 1,
+     *      max = 10000,
+     *      notInRangeMessage = " Le nombre de place doit etre entre {{ min }} et {{ max }}")
+     *@Groups("vol")
      */
     private $numVol;
 
     /**
      * @var \DateTime
      *
+     *@Assert\NotBlank()
      * @ORM\Column(name="date_depart", type="datetime", nullable=false)
+     * @Assert\GreaterThan("today")
+     *@Groups("vol")
+     *
      */
     private $dateDepart;
 
     /**
      * @var \DateTime
      *
+     * @Assert\NotBlank()
+     * @Assert\Expression(
+     *     "this.getDateDepart() < this.getDateArrivee()",
+     *     message="La date fin ne doit pas être antérieure à la date début"
+     * )
      * @ORM\Column(name="date_arrivee", type="datetime", nullable=false)
+     *@Groups("vol")
+     *
      */
     private $dateArrivee;
 
@@ -46,6 +68,9 @@ class Vol
      * @var string
      *
      * @ORM\Column(name="ville_depart", type="string", length=60, nullable=false)
+     *
+     * @Assert\NotBlank
+     * @Groups("vol")
      */
     private $villeDepart;
 
@@ -53,6 +78,10 @@ class Vol
      * @var string
      *
      * @ORM\Column(name="ville_arrivee", type="string", length=50, nullable=false)
+     *
+     * @Assert\NotBlank
+     * @Groups("vol")
+     *
      */
     private $villeArrivee;
 
@@ -60,6 +89,15 @@ class Vol
      * @var int
      *
      * @ORM\Column(name="nbr_placedispo", type="integer", nullable=false)
+     * @Assert\NotBlank
+     * @Assert\Positive
+     * @Assert\Range(
+     *      min = 150,
+     *      max = 600,
+     *      notInRangeMessage = " Le nombre de place doit etre entre {{ min }} et {{ max }}")
+     *
+     * @Groups("vol")
+     *
      */
     private $nbrPlacedispo;
 
@@ -67,6 +105,15 @@ class Vol
      * @var float
      *
      * @ORM\Column(name="prix", type="float", precision=10, scale=0, nullable=false)
+     * @Assert\NotBlank
+     * @Assert\Positive
+     * @Assert\Range(
+     *      min = 100,
+     *      max = 3000,
+     *      notInRangeMessage = " Le prix doit etre entre {{ min }} et {{ max }}")
+     *
+     * @Groups("vol")
+     *
      */
     private $prix;
 
@@ -85,24 +132,18 @@ class Vol
         return $this->idVol;
     }
 
-    public function getNumVol(): ?int
+    public function setIdVol(?Vol $idVol): self
     {
-        return $this->numVol;
-    }
-
-    public function setNumVol(?int $numVol): self
-    {
-        $this->numVol = $numVol;
+        $this->idVol = $idVol;
 
         return $this;
     }
-
     public function getDateDepart(): ?\DateTimeInterface
     {
         return $this->dateDepart;
     }
 
-    public function setDateDepart(\DateTimeInterface $dateDepart): self
+    public function setDateDepart(?\DateTimeInterface $dateDepart): self
     {
         $this->dateDepart = $dateDepart;
 
@@ -114,7 +155,7 @@ class Vol
         return $this->dateArrivee;
     }
 
-    public function setDateArrivee(\DateTimeInterface $dateArrivee): self
+    public function setDateArrivee(?\DateTimeInterface $dateArrivee): self
     {
         $this->dateArrivee = $dateArrivee;
 
@@ -180,6 +221,25 @@ class Vol
 
         return $this;
     }
+
+    public function getNumVol(): ?int
+    {
+        return $this->numVol;
+    }
+
+    public function setNumVol(?int $numVol): self
+    {
+        $this->numVol = $numVol;
+
+        return $this;
+    }
+
+    public function getDuration(){
+        /** @noinspection PhpUndefinedMethodInspection */
+        $diff = $this->dateArrivee->diff($this->dateDepart);
+        return $diff->days;
+    }
+
 
 
 }

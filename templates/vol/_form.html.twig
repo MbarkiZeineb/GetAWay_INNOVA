@@ -1,0 +1,74 @@
+
+{{ form_start(form, {'attr': {'novalidate':'novalidate'}} ) }}
+<div class="card-body">
+
+<form>
+    <div class="form-group">
+        <label class="form-label" for="exampleInputname">num vol</label>
+        {{ form_widget(form.numVol , {'attr': {'class': 'form-control form-control-user' , 'placeholder' : 'numVol'}} ) }}
+        <div>
+            <p class="card-description"> <code> {{ form_errors(form.numVol) }}</code></p>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="form-label" for="exampleInputname">Date depart</label>
+        {{ form_widget(form.dateDepart , {'attr': {'class': 'form-control input-inline datetimepicker' }} ) }}
+        <div>
+            <p class="card-description"> <code>{{form_errors(form.dateDepart)}}</code></p>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="form-label" for="exampleInputname">Date arrivee</label>
+        {{ form_widget(form.dateArrivee , {'attr': {'class': 'form-control input-inline datetimepicker' }} ) }}
+        <div>
+            <p class="card-description"> <code> {{ form_errors(form.dateArrivee) }}</code></p>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="form-label" for="exampleInputEmail2">Ville depart</label>
+        {{ form_widget(form.villeDepart , {'attr': {'class': 'form-control form-control-user' , 'placeholder' : 'ville'}} ) }}
+        <div>
+            <p class="card-description"> <code> {{ form_errors(form.villeDepart) }}</code></p>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="form-label" for="exampleInputEmail2">Ville arrivee</label>
+        {{ form_widget(form.villeArrivee , {'attr': {'class': 'form-control form-control-user' , 'placeholder' : 'ville'}} ) }}
+        <div>
+            <p class="card-description"> <code> {{ form_errors(form.villeArrivee) }}</code></p>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="form-label" for="exampleInputPassword2">nbr Placedispo</label>
+        {{ form_widget(form.nbrPlacedispo , {'attr': {'class': 'form-control form-control-user' , 'placeholder' : 'nbr place'}} ) }}
+        <div>
+            <p class="card-description"> <code>  {{ form_errors(form.nbrPlacedispo) }}</code></p>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="form-label" for="exampleInputPassword2">id avion</label>
+        {{ form_widget(form.idAvion , {'attr': {'class': 'form-control form-control-user' , 'placeholder' : ' id avion'}} ) }}
+        <div>
+            <p class="card-description"> <code> {{ form_errors(form.idAvion) }}</code></p>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="form-label" for="exampleInputPassword2">prix</label>
+        {{ form_widget(form.prix , {'attr': {'class': 'form-control form-control-user' , 'placeholder' : ' prix'}} ) }}
+        <div>
+            <p class="card-description"> <code> {{ form_errors(form.prix) }}</code></p>
+    </div>
+    </div>
+
+    <div class="form-group mb-0">
+        <div class="checkbox checkbox-secondary">
+            {{ form_widget(form) }}
+            <button type="SubmitType" class="btn btn-primary ">{{ button_label|default('Save') }}</button>
+        </div>
+    </div>
+</form>
+</div>
+
+
+
+{{ form_end(form) }}

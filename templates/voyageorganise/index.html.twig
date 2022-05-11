@@ -1,0 +1,70 @@
+{% extends 'base_back.html.twig' %}
+
+
+
+{% block content %}
+    <main id="main">
+
+
+
+        {% block title %}Voyageorganise {% endblock %}
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Idvoy</th>
+                <th>Villedepart</th>
+                <th>Villedest</th>
+                <th>Datedepart</th>
+                <th>Datearrive</th>
+                <th>Nbrplace</th>
+                <th>Idcat</th>
+                <th>Prix</th>
+                <th>Description</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        <p style="margin-left: 950px"><label for="myInput"></label><input id="myInput" type="text" placeholder="Search..">
+        <tbody  id="myTable">
+            {% for voyageorganise in voyageorganises %}
+            <tr>
+                <td>{{ voyageorganise.idvoy }}</td>
+                <td>{{ voyageorganise.villedepart }}</td>
+                <td>{{ voyageorganise.villedest }}</td>
+                <td>{{ voyageorganise.datedepart ? voyageorganise.datedepart|date('Y-m-d H:i:s') : ''}}</td>
+                <td>{{ voyageorganise.datearrive ? voyageorganise.datearrive|date('Y-m-d H:i:s') : ''}}</td>
+                <td>{{ voyageorganise.nbrplace }}</td>
+                <td>{{ voyageorganise.idcat.nomcat }}</td>
+                <td>{{ voyageorganise.prix }}</td>
+                <td>{{ voyageorganise.description }}</td>
+                <td>
+                    <a class="btn btn-primary me-2" href="{{ path('app_voyageorganise_edit', {'idvoy': voyageorganise.idvoy}) }}">edit</a>
+                    <a class="btn btn-primary me-2"href="{{ path('pdf', {'idvoy': voyageorganise.idvoy}) }}">print</a>
+                    <a class="btn btn-primary me-2 col-lg-auto"> {{ include('voyageorganise/_delete_form.html.twig') }}</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="10">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script>
+            $(document).ready(function(){
+                $("#myInput").on("keyup", function() {
+                    var value = $(this).val().toLowerCase();
+                    $("#myTable tr").filter(function() {
+                        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                    });
+                });
+            });
+        </script>
+    <a href="{{ path('app_voyageorganise_new') }}">Create new</a>
+        <br>
+ <br>
+
+</main>
+{% endblock %}

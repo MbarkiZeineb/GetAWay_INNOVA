@@ -1,0 +1,52 @@
+{% extends 'base_front.html.twig' %}
+
+
+{% block content %}
+    <br>
+    <br>
+    <br>
+    <br>
+    <center><h1>Les promotion Disponible </h1></center>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Referance Promotion</th>
+                <th>Pourcentage de Promotion</th>
+                <th>Date Start</th>
+                <th>Date End</th>
+                <th>Hebergement</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for promostion in promostions %}
+            <tr>
+                <td>{{ promostion.idRef }}</td>
+                <td>{{ promostion.pourcentage }}</td>
+                <td>{{ promostion.dateStart ? promostion.dateStart|date('Y-m-d') : '' }}</td>
+                <td>{{ promostion.dateEnd ? promostion.dateEnd|date('Y-m-d') : '' }}</td>
+                <td>{{ promostion.refHebergement }}</td>
+                <td>
+                    <a href="{{ path('app_promostion_show', {'idRef': promostion.idRef}) }}">show</a>
+                    <a href="{{ path('app_promostion_edit', {'idRef': promostion.idRef}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <nav class="pagination-wrap">
+        <div class="navigation text-center">
+            <ul class="pagination">
+                <li> <div style="float:left;" >{{ knp_pagination_render(promostions) }}</div></li>
+            </ul>
+        </div>
+    </nav>
+
+    <a class="btn btn-default" href="{{ path('app_promostion_new') }}">Create new</a>
+
+{% endblock %}

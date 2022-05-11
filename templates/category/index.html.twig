@@ -1,0 +1,38 @@
+{% extends 'base_front.html.twig' %}
+
+
+{% block content %}
+    <br>
+    <br>
+    <br>
+    <br>
+    <center><h1>Gestion de Category</h1></center>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>IdCateg</th>
+                <th>NomCateg</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for category in categories %}
+            <tr>
+                <td>{{ category.idCateg }}</td>
+                <td>{{ category.nomCateg }}</td>
+                <td>
+                    <a class="btn btn-default" href="{{ path('app_category_show', {'idCateg': category.idCateg}) }}">show</a>
+                    <a class="btn btn-default" href="{{ path('app_category_edit', {'idCateg': category.idCateg}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a class="btn btn-default"  href="{{ path('app_category_new') }}">Create new</a>
+{% endblock %}

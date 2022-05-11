@@ -1,0 +1,14 @@
+{% extends 'base_front.html.twig' %}
+
+
+{% block content %}
+    <br>
+    <br>
+    <br>
+    <br>
+    <center><h1>Add New promotion</h1></center>
+
+    {{ include('promostion/_form.html.twig') }}
+
+    <a class="btn btn-default" href="{{ path('app_promostion_index') }}">back to list</a>
+{% endblock %}

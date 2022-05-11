@@ -53,7 +53,7 @@
                         <li>
                             <div class="info-left">
                                 <strong class="title">Date & Heure</strong>
-                                <span class="value">{{ activite.date|date ('d-m-y H:i') }}</span>
+                                <span class="value">{{ activite.date|date ('d-M-Y H:i') }}</span>
                             </div>
                             <div class="material-icons align right"><i class="material-icons">date_range</i></div>
 
@@ -82,24 +82,14 @@
 
                         <li>
                             <div class="info-center">
-                                <strong class="title">Reviews</strong>
-                                <span class="value">75 Reviews</span>
-                            </div>
-                            <div class="info-center">
-                                <div class="star-rating">
-                                    <span><span class="icon-star"></span></span>
-                                    <span><span class="icon-star"></span></span>
-                                    <span><span class="icon-star"></span></span>
-                                    <span><span class="icon-star"></span></span>
-                                    <span class="disable"><span class="icon-star"></span></span>
-                                </div>
-                                <span class="value">5/5</span>
+
+                            <div class="btn-holder">
+
+                                <a href="{{ path('cart_add',{'id':activite.RefAct}) }}" class="btn btn-lg btn-warning">Réserver</a>
                             </div>
                         </li>
                     </ul>
-                    <div class="btn-holder">
-                        <a href="#" class="btn btn-lg btn-warning">Réserver</a>
-                    </div>
+
 
                 </div>
             </div>

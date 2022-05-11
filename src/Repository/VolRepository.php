@@ -4,7 +4,11 @@ namespace App\Repository;
 
 use App\Entity\Vol;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\OptimisticLockException;
+use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Serializer\SerializerInterface;
 
 /**
  * @method Vol|null find($id, $lockMode = null, $lockVersion = null)
@@ -17,6 +21,53 @@ class VolRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Vol::class);
+    }
+
+
+    public function countByDate()
+    {
+        $query = $this->createQueryBuilder('a')
+            ->select('SUBSTRING(a.dateDepart, 1, 10) as date, COUNT(a) as count')
+            ->groupBy('date');
+        return $query->getQuery()->getResult();
+
+    }
+
+
+    /**
+     * @throws ORMException
+     * @throws OptimisticLockException
+     */
+    public function add(Vol $entity, bool $flush = true): void
+    {
+        $this->_em->persist($entity);
+        if ($flush) {
+            $this->_em->flush();
+        }
+    }
+
+    public function TriA()
+    {
+
+        return $this->createQueryBuilder('a')
+            ->orderBy('a.prix', 'ASC')
+            ->getQuery()
+            ->getResult();
+
+        return $query->getResult();
+
+    }
+
+    /**
+     * @throws ORMException
+     * @throws OptimisticLockException
+     */
+    public function remove(Vol $entity, bool $flush = true): void
+    {
+        $this->_em->remove($entity);
+        if ($flush) {
+            $this->_em->flush();
+        }
     }
 
     // /**
@@ -47,4 +98,28 @@ class VolRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    public function findByvilledest($villeArrivee){
+        return $this->getEntityManager()->createQuery(
+            'SELECT c
+                    FROM App\Entity\Vol c
+                    WHERE c.villeArrivee LIKE :villeArrivee'
+        )
+            ->setParameter('villeArrivee', '%'.$villeArrivee.'%')
+            ->getResult();
+    }
+
+    public function listByidv($id)
+    {
+        return $this->createQueryBuilder('v')
+            ->join('v.idAvion','a')
+            ->addSelect('a')
+            ->where('a.idAgence=:idAvion')
+            ->setParameter('idAvion',$id)
+            ->getQuery()->getResult();
+
+    }
+
+
+
 }

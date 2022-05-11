@@ -1,0 +1,86 @@
+{% extends 'base_back.html.twig' %}
+{% block content %}
+    <br>
+    <br>
+    <br>
+    <br>
+
+
+    <center><h1>Gestion de Hebergement</h1></center>
+    <table class="table">
+        <div class="pull-right">
+            <a href=" {{ path('sortedVol',{'id':1} ) }}" class="btn btn-info" > trier par prix</a>
+        </div>
+        <thead>
+        <tr>
+            <th>Referance</th>
+            <th>Paye</th>
+            <th>Adress</th>
+            <th>Prix</th>
+            <th>Category</th>
+            <th>Description</th>
+            <th>Photo</th>
+            <th>DateStart</th>
+            <th>DateEnd</th>
+            <th>Contact</th>
+            <th>NbrDetoile</th>
+            <th>NbrSuite</th>
+            <th>NbrParking</th>
+            <th>ModelCaravane</th>
+
+
+        </tr>
+        </thead>
+        <tbody>
+
+        <p style="margin-left: 950px"><label for="myInput"></label><input id="myInput" type="text" placeholder="Search..">
+
+        <tbody  id="myTable">
+        <button  class="btn btn-info mr-2" onclick="window.print()" ><i class="fa fa-print" aria-hidden="true"></i></i>  Imprimer</button>
+
+
+        {% for hebergement in hebergements %}
+            <tr>
+                <td>{{ hebergement.referance }}</td>
+                <td>{{ hebergement.paye }}</td>
+                <td>{{ hebergement.adress }}</td>
+                <td>{{ hebergement.prix }}</td>
+                <td>{{ hebergement.idcateg }}</td>
+                <td>{{ hebergement.description }}</td>
+                <td><img src="{{ hebergement.photo }}" style="height:100px;width:100px"></td>
+                <td>{{ hebergement.dateStart ? hebergement.dateStart|date('Y-m-d') : '' }}</td>
+                <td>{{ hebergement.dateEnd ? hebergement.dateEnd|date('Y-m-d') : '' }}</td>
+                <td>{{ hebergement.contact }}</td>
+                <td>{{ hebergement.nbrDetoile }}</td>
+                <td>{{ hebergement.nbrSuite }}</td>
+                <td>{{ hebergement.nbrParking }}</td>
+                <td>{{ hebergement.modelCaravane }}</td>
+
+                <td>
+
+
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="14">no records found</td>
+            </tr>
+
+        {% endfor %}
+
+
+        </tbody>
+    </table>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $("#myInput").on("keyup", function() {
+                var value = $(this).val().toLowerCase();
+                $("#myTable tr").filter(function() {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+            });
+        });
+    </script>
+
+{% endblock %}

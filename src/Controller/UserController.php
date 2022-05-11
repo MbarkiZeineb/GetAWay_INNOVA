@@ -9,6 +9,7 @@ use App\Form\ReclamationType;
 use App\Form\ResetPassType;
 use App\Form\UserbackType;
 use App\Form\UserType;
+use App\Repository\AvionRepository;
 use App\Repository\ReclamationRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -78,7 +79,19 @@ class UserController extends AbstractController
     }
 
 
-
+    /**
+     * @Route("/afficheAvion/{ida}", name="app_avion", methods={"GET"})
+     */
+    public function listByidagent(UserRepository $userRepository, AvionRepository $avionRepository,$ida): Response
+    {
+        $user=$userRepository->find($ida);
+        $avion=$avionRepository->listByida($ida);
+        dump($ida);
+        return $this->render('avion/index.html.twig', [
+            'user'=>$user,
+            'avions' => $avion,
+        ]);
+    }
 
 
 

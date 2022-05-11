@@ -1,0 +1,33 @@
+{% extends 'base_back.html.twig' %}
+
+
+{% block content %}
+    <h1>Avion</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>IdAvion</th>
+                <td>{{ avion.idAvion }}</td>
+            </tr>
+            <tr>
+                <th>NbrPlace</th>
+                <td>{{ avion.nbrPlace }}</td>
+            </tr>
+            <tr>
+                <th>NomAvion</th>
+                <td>{{ avion.nomAvion }}</td>
+            </tr>
+            <tr>
+                <th>Type</th>
+                <td>{{ avion.type }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_avion',{'ida':app.user.id}) }}">back to list</a>
+    <hr>
+    <a href="{{ path('app_avion_edit', {'idAvion': avion.idAvion}) }}">edit</a>
+
+    {{ include('avion/_delete_form.html.twig') }}
+{% endblock %}

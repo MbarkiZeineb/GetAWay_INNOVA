@@ -1,0 +1,8 @@
+{% extends 'base_back.html.twig' %}
+{% block content %}
+{% block title %}Create new Voyageorganise {% endblock %}
+
+    {{ include('voyageorganise/_form.html.twig') }}
+
+    <a href="{{ path('app_voyageorganise_index') }}">back to list</a>
+{% endblock %}

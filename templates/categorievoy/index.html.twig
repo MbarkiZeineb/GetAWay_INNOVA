@@ -1,0 +1,40 @@
+
+{% extends 'base_back.html.twig' %}
+
+{% block content %}
+    <h1>Categorievoy index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Idcat</th>
+                <th>Nomcat</th>
+                <th>Capacitevoy</th>
+                <th>Exigence</th>
+                <th>Reduction</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for categorievoy in categorievoys %}
+            <tr>
+                <td>{{ categorievoy.idcat }}</td>
+                <td>{{ categorievoy.nomcat }}</td>
+                <td>{{ categorievoy.capacitevoy }}</td>
+                <td>{{ categorievoy.exigence }}</td>
+                <td>{{ categorievoy.reduction }}</td>
+                <td>
+                    <a href="{{ path('app_categorievoy_show', {'idcat': categorievoy.idcat}) }}">show</a>
+                    <a href="{{ path('app_categorievoy_edit', {'idcat': categorievoy.idcat}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_categorievoy_new') }}">Create new</a>
+{% endblock %}

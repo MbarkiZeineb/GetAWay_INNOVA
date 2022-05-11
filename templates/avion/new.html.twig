@@ -1,0 +1,14 @@
+
+{% extends 'base_back.html.twig' %}
+
+
+
+{% block content %}
+
+    <h1>Create new Avion</h1>
+
+    {{ include('avion/_form.html.twig') }}
+
+    <a href="{{ path('app_avion',{'ida':app.user.id}) }}">back to list</a>
+    <br>
+{% endblock %}
