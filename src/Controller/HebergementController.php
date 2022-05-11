@@ -1,5 +1,4 @@
 <?php
-//test
 
 namespace App\Controller;
 

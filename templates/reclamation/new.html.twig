@@ -1,5 +1,5 @@
 {% extends 'base_front.html.twig' %}
-
+{% form_theme form 'bootstrap_4_layout.html.twig' %}
 {% block content %}
 
 <main id="main">
@@ -10,12 +10,9 @@
                 <div class="top-box">
                     <span class="holder height">Ajouter une reclamation </span>
                 </div>
-
                 {{ include('reclamation/_form.html.twig') }}
             </div>
         </div>
     </div>
 </main>
-
-
 {% endblock %}

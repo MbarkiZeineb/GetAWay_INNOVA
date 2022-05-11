@@ -195,6 +195,7 @@ class ReservationController extends AbstractController
         $check3=$repv->check3($id,$reservation->getDateDebut(),$reservation->getDateFin());
         $check4=$repv->check4($id,$reservation->getDateDebut(),$reservation->getDateFin());
         $check5=$repv->check5($id,$reservation->getDateDebut(),$reservation->getDateFin());
+
         dump($this->getUser());
         if($this->getUser()!=null)
         {          $user =$repU->find($this->getUser()->getUsername());

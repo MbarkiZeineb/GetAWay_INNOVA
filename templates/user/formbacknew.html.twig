@@ -1,28 +1,96 @@
-{{ form_start(form,{attr:{'novalidate':'novalidate'}}) }}
-{{ form_label(form.nom) }}{{ form_widget(form.nom) }}
 
-{{ form_label(form.prenom) }}{{ form_widget(form.prenom) }}
+{{ form_start(form, {'attr': {'novalidate':'novalidate'}} )}}
+<div class="card-body">
 
-{{ form_label(form.password) }}{{ form_widget(form.password) }}
+    <form>
+        <div class="form-group">
+            <label class="form-label" for="exampleInputname">{{ form_label(form.nom) }}</label>
+            {{ form_widget(form.nom, {'attr': {'class': 'form-control form-control-user' , 'placeholder' : 'nom'}} ) }}
+            <div>
+                <p class="card-description"> <code> {{ form_errors(form.nom) }}</code></p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-label" for="exampleInputname">{{ form_label(form.prenom) }} </label>
+            {{ form_widget(form.prenom, {'attr': {'class': 'form-control form-control-user' , 'placeholder' : 'prenom'}} ) }}
+            <div>
+                <p class="card-description"> <code>{{ form_errors(form.prenom) }}</code></p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-label" for="exampleInputname">{{ form_label(form.password) }} </label>
+            {{ form_widget(form.password, {'attr': {'class': 'form-control form-control-user' , 'placeholder' : 'password'}} ) }}
+            <div>
+                <p class="card-description"> <code>{{ form_errors(form.password) }}</code></p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-label" for="exampleInputname">{{ form_label(form.securityq) }} </label>
+            {{ form_widget(form.securityq, {'attr': {'class': 'form-control form-control-user' , 'placeholder' : 'securityq'}} ) }}
+            <div>
+                <p class="card-description"> <code>{{ form_errors(form.securityq) }}</code></p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-label" for="exampleInputname">{{ form_label(form.answer) }} </label>
+            {{ form_widget(form.answer, {'attr': {'class': 'form-control form-control-user' , 'placeholder' : 'answer'}} ) }}
+            <div>
+                <p class="card-description"> <code>{{ form_errors(form.answer) }}</code></p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-label" for="exampleInputname">{{ form_label(form.email) }} </label>
+            {{ form_widget(form.email, {'attr': {'class': 'form-control form-control-user' , 'placeholder' : 'email'}} ) }}
+            <div>
+                <p class="card-description"> <code>{{ form_errors(form.email) }}</code></p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-label" for="exampleInputname">{{ form_label(form.adresse) }} </label>
+            {{ form_widget(form.adresse, {'attr': {'class': 'form-control form-control-user' , 'placeholder' : 'adresse'}} ) }}
+            <div>
+                <p class="card-description"> <code>{{ form_errors(form.adresse) }}</code></p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-label" for="exampleInputname">{{ form_label(form.numtel) }} </label>
+            {{ form_widget(form.numtel, {'attr': {'class': 'form-control form-control-user' , 'placeholder' : 'numtel'}} ) }}
+            <div>
+                <p class="card-description"> <code>{{ form_errors(form.numtel) }}</code></p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-label" for="exampleInputname">{{ form_label(form.solde) }} </label>
+            {{ form_widget(form.solde, {'attr': {'class': 'form-control form-control-user' , 'placeholder' : 'adresse'}} ) }}
+            <div>
+                <p class="card-description"> <code>{{ form_errors(form.solde) }}</code></p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-label" for="exampleInputname">{{ form_label(form.role) }} </label>
+            {{ form_widget(form.role, {'attr': {'class': 'form-control form-control-user' , 'placeholder' : 'role'}} ) }}
+            <div>
+                <p class="card-description"> <code>{{ form_errors(form.role) }}</code></p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-label" for="exampleInputname">{{ form_label(form.nomagence) }} </label>
+            {{ form_widget(form.nomagence, {'attr': {'class': 'form-control form-control-user' , 'placeholder' : 'nomagence'}} ) }}
+            <div>
+                <p class="card-description"> <code>{{ form_errors(form.nomagence) }}</code></p>
+            </div>
+        </div>
 
-{{ form_label(form.securityq) }}{{ form_widget(form.securityq) }}
-{{ form_label(form.answer) }}{{ form_widget(form.answer) }}
+        <div class="btn-hold">
+            <div class="checkbox checkbox-secondary">
+                {{ form_widget(form) }}
+                <button type="submit" class="btn btn-primary me-2">Ajouter</button>
+            </div>
+        </div>
 
-{{ form_label(form.email) }}{{ form_widget(form.email) }}
-
-{{ form_label(form.adresse) }}{{ form_widget(form.adresse) }}
-
-{{ form_label(form.numtel) }}{{ form_widget(form.numtel) }}
-
-{{ form_label(form.solde) }}{{ form_widget(form.solde) }}
-
-{{ form_label(form.role) }}{{ form_widget(form.role) }}
-{{ form_label(form.nomagence) }}{{ form_widget(form.nomagence) }}
-
-<div class="btn-hold">
-    <button type="submit" class="btn btn-primary me-2">
-        Ajouter
-    </button>
+    </form>
 </div>
+
+
 
 {{ form_end(form) }}

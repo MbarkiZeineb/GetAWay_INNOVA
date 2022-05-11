@@ -3,8 +3,24 @@
 
 {% block content %}
 
+    <div class="app-content">
 
-<div >
-    {{ include('user/_formback.html.twig', {'button_label': 'Modifier'}) }}
-</div>
+        <div class="side-app">
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card m-b-20">
+                        <div class="card-header">
+                            <h3 class="card-title">Modifier un utilisateur</h3>
+
+                        </div>
+
+                        <div >
+                            {{ include('user/_formback.html.twig', {'button_label': 'Modifier'}) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

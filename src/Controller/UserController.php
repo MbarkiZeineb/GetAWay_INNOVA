@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Avion;
 use App\Entity\Reclamation;
 use App\Entity\User;
 use App\Form\ContactType;
@@ -54,7 +55,9 @@ class UserController extends AbstractController
      * @Route("/pro", name="app_user_profil", methods={"GET"})
      */
     public function profil(EntityManagerInterface $entityManager): Response
-    {
+    {$avions = $entityManager
+        ->getRepository(Avion::class)
+        ->findBy(['idAgence'=>$this->getUser()->getUsername()]);
         dump($this->getUser()->getSalt());
         if($this->getUser()->eraseCredentials()==0)
             return $this->redirectToRoute('security_login');
@@ -62,6 +65,8 @@ class UserController extends AbstractController
 
             return $this->render('user/index1.html.twig');
         else
+            if($this->getUser()->getSalt()=="Agent-Aerien")
+                return $this->render('avion/index.html.twig',['avions'=>$avions]);
 
             return $this->redirectToRoute('app_user_index');
 

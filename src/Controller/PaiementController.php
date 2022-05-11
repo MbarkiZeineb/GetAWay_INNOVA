@@ -108,36 +108,10 @@ class PaiementController extends AbstractController
         $date1 = new \DateTime('@'.strtotime('now'));
         $paiement->setDate($date1);
         $form = $this->createForm(PaiementType::class, $paiement);
-
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($paiement);
             $entityManager->flush();
-            if($paiement->getModalitePaiement()=="CARTE")
-            {    $user=$reservation->getIdClient()->getNom().'  '.$reservation->getIdClient()->getPrenom();
-                $produit=$reservation->getType().' Ville de arrrive : '.$reservation->getIdVoyage()->getVilledest().' : '.'  Date de depart :'.$reservation->getIdVoyage()->getVilledest();
-                Stripe::setApiKey($_ENV['STRIPE_SK']);
-                $session =Session::create([
-                    'payment_method_types'=>['card'],
-                    'line_items'=>[[
-                        'price_data'=>[
-                            'currency'=>'usd',
-                            'product_data'=>[
-                                'name'=>$produit,
-
-                            ],
-                            'unit_amount'=>$paiement->getMontant(),
-                        ],
-                        'quantity'=>$reservation->getNbrPlace(),
-                    ]],
-                    'mode'=>'payment',
-                    'success_url'=>$this->generateUrl('success_url', [], UrlGeneratorInterface::ABSOLUTE_URL),
-                    'cancel_url'=>$this->generateUrl('cancel_url', [], UrlGeneratorInterface::ABSOLUTE_URL),
-                ]);
-                dump($session->id);
-                return $this->redirect($session->url, 303);
-            }
             return $this->redirectToRoute('delete_items',array('id'=>$reservation->getIdHebergement()->getReferance()));
         }
 

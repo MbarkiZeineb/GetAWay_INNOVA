@@ -105,113 +105,30 @@
     <!-- partial:partials/_sidebar.html -->
     <nav class="sidebar sidebar-offcanvas" id="sidebar">
         <ul class="nav">
+
+
             <li class="nav-item">
-                <a class="nav-link" data-bs-toggle="collapse" href="#Activite" aria-expanded="false" aria-controls="ui-basic">
-                    <i class="menu-icon mdi mdi-floor-plan"></i>
-                    <span class="menu-title">Gestion des Activités</span>
+                <a class="nav-link" data-bs-toggle="collapse" href="#Vols" aria-expanded="false" aria-controls="icons">
+                    <i class="menu-icon mdi mdi-airplane-landing"></i>
+                    <span class="menu-title">Gestion des Vols</span>
                     <i class="menu-arrow"></i>
                 </a>
-                <div class="collapse" id="Activite">
+                <div class="collapse" id="Vols" >
                     <ul class="nav flex-column sub-menu">
-                        <li class="nav-item"> <a class="nav-link" href="/activite/">Afficher</a></li>
-                        <li class="nav-item"> <a class="nav-link" href="/activite/new">Ajouter</a></li>
-                        <li class="nav-item"> <a class="nav-link" href="/activite/stats">Statistique</a></li>
+                        <li class="nav-item"> <a class="nav-link" href="/vol/V">Afficher</a></li>
                     </ul>
                 </div>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link collapsed" data-bs-toggle="collapse" href="#Avis" aria-expanded="false" aria-controls="form-elements">
-                    <i class="menu-icon mdi mdi-comment-outline"></i>
-                    <span class="menu-title">Gestion des Avis</span>
+                <a class="nav-link collapsed" data-bs-toggle="collapse" href="#Avions" aria-expanded="false" aria-controls="form-elements">
+                    <i class="menu-icon mdi mdi mdi-airplane"></i>
+                    <span class="menu-title">Gestion des Avions</span>
                     <i class="menu-arrow"></i>
                 </a>
-                <div class="collapse" id="Avis" >
+                <div class="collapse" id="Avions" >
                     <ul class="nav flex-column sub-menu">
-                        <li class="nav-item"> <a class="nav-link" href="/avis/">Afficher</a></li>
-                        <li class="nav-item"> <a class="nav-link" href="pages/ui-features/typography.html">Statistique</a></li>
-                    </ul>
-                </div>
-            </li>
-
-            <li class="nav-item">
-                <a class="nav-link" data-bs-toggle="collapse" href="#Utilisateurs" aria-expanded="false" aria-controls="charts">
-                    <i class="menu-icon mdi mdi-account"></i>
-                    <span class="menu-title">Gestion des Utilisateurs</span>
-                    <i class="menu-arrow"></i>
-                </a>
-                <div class="collapse" id="Utilisateurs" >
-                    <ul class="nav flex-column sub-menu">
-                        <li class="nav-item"> <a class="nav-link" href="/user/">Afficher</a></li>
-                    </ul>
-                </div>
-            </li>
-
-
-            <li class="nav-item">
-                <a class="nav-link" data-bs-toggle="collapse" href="#Reclamations" aria-expanded="false" aria-controls="tables">
-                    <i class="menu-icon mdi mdi-comment-question-outline"></i>
-                    <span class="menu-title">Gestion des Réclamations</span>
-                    <i class="menu-arrow"></i>
-                </a>
-                <div class="collapse" id="Reclamations" >
-                    <ul class="nav flex-column sub-menu">
-                        <li class="nav-item"> <a class="nav-link" href="/reclamation/">Afficher</a></li>
-                    </ul>
-                </div>
-            </li>
-
-
-            <li class="nav-item">
-                <a class="nav-link" data-bs-toggle="collapse" href="#Hebergements" aria-expanded="false" aria-controls="icons">
-                    <i class="menu-icon mdi mdi-hotel"></i>
-                    <span class="menu-title">Gestion des Hébérgements</span>
-                    <i class="menu-arrow"></i>
-                </a>
-                <div class="collapse" id="Hebergements" >
-                    <ul class="nav flex-column sub-menu">
-                        <li class="nav-item"> <a class="nav-link" href="/hebergement/back">Afficher</a></li>
-                        <li class="nav-item"> <a class="nav-link" href="/category">Catégorie</a></li>
-                        <li class="nav-item"> <a class="nav-link" href="/promostion">Promotion</a></li>
-                    </ul>
-                </div>
-            </li>
-
-            <li class="nav-item">
-                <a class="nav-link collapsed" data-bs-toggle="collapse" href="#voyageorga" aria-expanded="false" aria-controls="form-elements">
-                    <i class="menu-icon mdi mdi mdi-tablet-ipad"></i>
-                    <span class="menu-title">Gestion des Voyages Organisés</span>
-                    <i class="menu-arrow"></i>
-                </a>
-                <div class="collapse" id="voyageorga" >
-                    <ul class="nav flex-column sub-menu">
-                        <li class="nav-item"> <a class="nav-link" href="/voyageorganise/back">Afficher</a></li>
-                        <li class="nav-item"> <a class="nav-link" href="/voyageorganise/stats">Statistique</a></li>
-                    </ul>
-                </div>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link collapsed" data-bs-toggle="collapse" href="#Categoriesvoy" aria-expanded="false" aria-controls="form-elements">
-                    <i class="menu-icon mdi mdi-card-text-outline"></i>
-                    <span class="menu-title">Gestion des Catégories</span>
-                    <i class="menu-arrow"></i>
-                </a>
-                <div class="collapse" id="Categoriesvoy" >
-                    <ul class="nav flex-column sub-menu">
-                        <li class="nav-item"> <a class="nav-link" href="/categorievoy/">Afficher</a></li>
-                    </ul>
-                </div>
-            </li>
-
-            <li class="nav-item">
-                <a class="nav-link collapsed" data-bs-toggle="collapse" href="#Reservations" aria-expanded="false" aria-controls="form-elements">
-                    <i class="menu-icon mdi mdi-cart-outline"></i>
-                    <span class="menu-title">Gestion des Réservations</span>
-                    <i class="menu-arrow"></i>
-                </a>
-                <div class="collapse" id="Reservations" >
-                    <ul class="nav flex-column sub-menu">
-                        <li class="nav-item"> <a class="nav-link" href="/reservation/backafficher">Afficher</a></li>
+                        <li class="nav-item"> <a class="nav-link" href="/avion/">Afficher</a></li>
                     </ul>
                 </div>
             </li>
@@ -221,7 +138,6 @@
             </li>
         </ul>
     </nav>
-
 
 
     <div class="content-wrapper">

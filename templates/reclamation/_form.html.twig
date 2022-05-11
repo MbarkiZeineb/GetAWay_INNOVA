@@ -1,9 +1,9 @@
 {{ form_start(form,{attr:{'novalidate':'novalidate'}}) }}
-{{ form_start(form) }}
+{{ form_label(form.objet) }}{{ form_widget(form.objet) }}
 <br>
-<br>
+{{ form_label(form.description) }}{{ form_widget(form.description) }}
 
-    {{ form_widget(form) }}
+
 <div class="btn-hold">
     <button type="submit" class="btn btn-default">
       Ajouter
