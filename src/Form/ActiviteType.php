@@ -41,7 +41,7 @@ class ActiviteType extends AbstractType
                 'required' => true,
                 'attr' => array('class' => 'form-control input-inline datetimepicker',
                     'data-provide' => 'datetimepicker',
-                    'data-format' => 'd-M-Y H:i',
+                    'data-format' => 'dd-mm-yyyy HH:ii',
                 ), ))
             ->add('type',  ChoiceType::class, [
                 'choices' => [

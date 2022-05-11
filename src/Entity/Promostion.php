@@ -3,7 +3,6 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Promostion
@@ -24,33 +23,28 @@ class Promostion
 
     /**
      * @var int
-     *@Assert\Length(
-     * min = 1,
-     * max = 2,
-     *   minMessage = "The Pourcentage must be at least 1%",
-     *   maxMessage = "The Pourcentage cannot be more thant 99%" )
+     *
      * @ORM\Column(name="pourcentage", type="integer", nullable=false)
      */
     private $pourcentage;
 
     /**
      * @var \DateTime
-     * @Assert\NotBlank
+     *
      * @ORM\Column(name="date_start", type="date", nullable=false)
      */
     private $dateStart;
 
     /**
      * @var \DateTime
-     *@Assert\NotBlank
-     * @Assert\GreaterThan(propertyPath="dateStart")
+     *
      * @ORM\Column(name="date_end", type="date", nullable=false)
      */
     private $dateEnd;
 
     /**
      * @var \Hebergement
-     *@Assert\NotBlank
+     *
      * @ORM\ManyToOne(targetEntity="Hebergement")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="ref_hebergement", referencedColumnName="referance")

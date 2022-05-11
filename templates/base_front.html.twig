@@ -62,20 +62,12 @@
                 href="{{ asset('front/vendors/revolution/css/settings.css')}}"
         />
     <script src="https://kit.fontawesome.com/96917c5f91.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fullcalendar/core@4.1.0/main.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@4.1.0/main.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fullcalendar/timegrid@4.1.0/main.min.css">
-
 </head>
 
 {% endblock %}
 
     {% block javascripts %}
         {#{{ encore_entry_script_tags('app') }}#}
-        <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/core@4.1.0/main.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/interaction@4.1.0/main.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@4.1.0/main.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/timegrid@4.1.0/main.min.js"></script>
         <script src="{{ asset('front/vendors/jquery/jquery-2.1.4.min.js')}}"></script>
         <!-- external scripts -->
         <script src="{{ asset('front/vendors/bootstrap/javascripts/bootstrap.min.js')}}"></script>
@@ -101,8 +93,6 @@
         <script src="{{ asset('front/js/jquery.main.js')}}"></script>
 
     {% endblock %}
-
-
 </head>
 <body class="default-page">
 <div class="preloader" id="pageLoad">
@@ -144,10 +134,132 @@
 
                     <ul class="nav navbar-nav">
                         <li><a href="">  Home  </a></li>
+                        <li class="nav-item">
+                            <a href="{{ path('app_user_newsecurity') }}" class="nav-link">
+                                S'inscrire
+                            </a>
+                        </li>
                         <li><a href="{{ path('app_activite_indexfront')}}"> Activites  </a></li>
-                        <li><a href="{{ path('heb_all')}}"> Hebergement </a></li>
-                        <li><a href="{{ path('app_voyageorganisefront_index')}}"> Voyage organise </a></li>
-                        <li><a href="{{ path('app_vol_index1')}}">Vol</a></li>
+                        <li><a href=""> Hebergement </a></li>
+                        <li><a href=""> Voyage organise </a></li>
+                        <li><a href="">  Vol  </a></li>
+                        <li class="dropdown has-mega-dropdown">
+                            <a href="{{ path('app_activite_index')}}" class="dropdown-toggle" data-toggle="dropdown"
+                            >Activities </a>
+                            <div class="dropdown-menu">
+                                <div class="drop-wrap">
+                                    <div class="drop-holder">
+                                        <div class="row">
+                                            <div class="col-sm-6 col-md-3">
+                                                <div class="col">
+                                                    <div class="img-wrap">
+                                                        <a href="{{ path('app_activite_index')}}"
+                                                        ><img
+                                                                    src="img/generic/img-01.jpg"
+                                                                    height="228"
+                                                                    width="350"
+                                                                    alt="image description"
+                                                            /></a>
+                                                    </div>
+                                                    <div class="des">
+                                                        <strong class="title"
+                                                        ><a href="hiking-camping.html"
+                                                            >Hiking/Camping</a
+                                                            ></strong
+                                                        >
+                                                        <p>
+                                                            A good backpacker minimizes their impact on
+                                                            the environment, including staying on
+                                                            established trails, not disturbing
+                                                            vegetation, and carrying garbage out.
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6 col-md-3">
+                                                <div class="col">
+                                                    <div class="img-wrap">
+                                                        <a href="jungle-safari.html"
+                                                        ><img
+                                                                    src="img/generic/img-02.jpg"
+                                                                    height="215"
+                                                                    width="370"
+                                                                    alt="image description"
+                                                            /></a>
+                                                    </div>
+                                                    <div class="des">
+                                                        <strong class="title"
+                                                        ><a href="jungle-safari.html"
+                                                            >Jungle Safari</a
+                                                            ></strong
+                                                        >
+                                                        <p>
+                                                            In the past, the trip was often a big-game
+                                                            hunt, but today, safari often refers to
+                                                            trips to observe and photograph wildlife—or
+                                                            hiking and sight-seeing as well.
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6 col-md-3">
+                                                <div class="col">
+                                                    <div class="img-wrap">
+                                                        <a href="city-tour.html"
+                                                        ><img
+                                                                    src="img/generic/img-03.jpg"
+                                                                    height="215"
+                                                                    width="370"
+                                                                    alt="image description"
+                                                            /></a>
+                                                    </div>
+                                                    <div class="des">
+                                                        <strong class="title"
+                                                        ><a href="city-tour.html"
+                                                            >Urban City Tour</a
+                                                            ></strong
+                                                        >
+                                                        <p>
+                                                            The type of urban city tour considered here
+                                                            is a full, partial-day, or longer tour of a
+                                                            historical, or cultural or artistic site in
+                                                            one or more tourist destinations.
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6 col-md-3">
+                                                <div class="col">
+                                                    <div class="img-wrap">
+                                                        <a href="family-fun.html"
+                                                        ><img
+                                                                    src="img/generic/img-04.jpg"
+                                                                    height="215"
+                                                                    width="370"
+                                                                    alt="image description"
+                                                            /></a>
+                                                    </div>
+                                                    <div class="des">
+                                                        <strong class="title"
+                                                        ><a href="family-fun.html"
+                                                            >Family Fun</a
+                                                            ></strong
+                                                        >
+                                                        <p>
+                                                            A community area is available on Trafalgar’s
+                                                            website offering members the opportunity to
+                                                            interact with fellow travelers by joining
+                                                            groups, contributing to forums.
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+
 
                         <li class="visible-xs visible-sm">
                             <a href="">
@@ -155,7 +267,11 @@
                                 <span class="text">Login</span>
                             </a>
                         </li>
-
+                        <li class="hidden-xs hidden-sm v-divider">
+                            <a href="{{ path('app_avis_indexfront')}}">
+                                <span class="icon icon-user"></span>
+                            </a>
+                        </li>
 
 
                         {% if not app.user %}
@@ -164,78 +280,85 @@
                                     Connexion
                                 </a>
                             </li>
-                            <li class="nav-item">
-                                <a href="{{ path('app_user_newsecurity') }}" class="nav-link">
-                                    S'inscrire
-                                </a>
-                            </li>
                         {% else %}
-
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Heberegement <b class="icon-angle-down"></b></a>
-                                <div class="dropdown-menu">
-                                    <ul>
-                                        <li>
-
-                                           <a href="{{ path('app_hebergement_new',{'ido':app.user.id}) }}">Ajouter un Hebergement</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </li>
-
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown"
-                                ><span class="icon icon-user"></span> Espace Client <b class="icon-angle-down"></b
+                                >Espace Réclamation <b class="icon-angle-down"></b
                                     ></a>
                                 <div class="dropdown-menu">
                                     <ul>
                                         <li>
-                                            <a href="{{ path('app_reclamation_new',{'idc':app.user.id}) }}"
+                                            <a href=""
                                             >Ajouter une réclamation</a
                                             >
                                         </li>
                                         <li>
-                                            <a href="{{ path('app_reclamationfront',{'idc':app.user.id}) }}"
+                                            <a href=""
                                             >Afficher la liste de vos reclamations</a
-                                            >
-                                        </li>
-
-                                        <li>
-                                            <a href="{{ path('app_avis_indexfront',{'idc':app.user.id}) }}"
-                                            >Vos Avis</a
-                                            >
-                                        </li>
-
-                                        <li>
-                                            <a href="{{  path('AfficherClient',{'id':app.user.id}) }}"
-                                            >Liste de Reservation </a
-                                            >
-                                        </li>
-                                        <li>
-                                            <a href="{{  path('booking_calendar') }}"
-                                            > Votre Calendrier  </a
                                             >
                                         </li>
                                     </ul>
                                 </div>
                             </li>
-
                             <li class="nav-item">
-                                <a href="{{ path('security_logout') }}" class="nav-link">Déconnexion</a>
+                                <a href="{{ path('security_logout') }}" class="nav-link">
+                                    Déconnexion
+                                </a>
                             </li>
-
+                            <li class="visible-xs visible-sm">
+                                <a href="login.html">
+                                    <span class="icon icon-user"></span>
+                                    <span class="text">Login</span>
+                                </a>
+                            </li>
+                            <li class="hidden-xs hidden-sm v-divider">
+                                <a href="{{ path('app_user_profil') }}">
+                                    <span class="icon icon-user"></span>
+                                </a>
+                            </li>
                         {% endif %}
+
+
+
                         <li
                                 class="visible-xs visible-sm nav-visible dropdown last-dropdown v-divider"
                         >
-                            <a href="{{ path('cart_panier')}}" >
-                                <span class="icon icon-cart"> Panier</span>
+                            <a href="my-cart.html" data-toggle="dropdown">
+                                <span class="icon icon-cart"></span>
                                 <span class="text hidden-md hidden-lg">Cart</span>
-                                {% block panier %}
-
-                                {% endblock %}
+                                <span class="text hidden-xs hidden-sm">3</span>
                             </a>
+                            <div class="dropdown-menu dropdown-md">
+                                <div class="drop-wrap cart-wrap">
+                                    <strong class="title">Shopping Cart</strong>
+                                    <ul class="cart-list">
+                                        <li>
 
+                                            <div class="text-holder">
+                                                <span class="amount">x 2</span>
+                                                <div class="text-wrap">
+                                                    <strong class="name"
+                                                    ><a href="#">Weekend in Paradise</a></strong
+                                                    >
+                                                    <span class="price">$199</span>
+                                                </div>
+                                            </div>
+                                        </li>
+
+                                        <li>
+                                            <div class="img">
+                                            </div>
+
+                                        </li>
+                                    </ul>
+                                    <div class="footer">
+                                        <a href="" class="btn btn-primary"
+                                        >View cart</a
+                                        >
+
+                                    </div>
+                                </div>
+                            </div>
                         </li>
 
 

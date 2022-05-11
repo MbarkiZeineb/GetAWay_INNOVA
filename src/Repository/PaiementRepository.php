@@ -4,8 +4,6 @@ namespace App\Repository;
 
 use App\Entity\Paiement;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\OptimisticLockException;
-use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -20,50 +18,6 @@ class PaiementRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Paiement::class);
     }
-
-    /**
-     * @throws ORMException
-     * @throws OptimisticLockException
-     */
-    public function add(Paiement $entity, bool $flush = true): void
-    {
-        $this->_em->persist($entity);
-        if ($flush) {
-            $this->_em->flush();
-        }
-    }
-
-    /**
-     * @throws ORMException
-     * @throws OptimisticLockException
-     */
-    public function remove(Paiement $entity, bool $flush = true): void
-    {
-        $this->_em->remove($entity);
-        if ($flush) {
-            $this->_em->flush();
-        }
-    }
-    public function showPaiement($id)
-    {
-        return $this->createQueryBuilder('p')
-            ->join('p.idReservation', 'r')
-            ->addSelect('r')
-            ->where('r.id=:id')
-            ->setParameter('id', $id)
-            ->getQuery()
-            ->getSingleResult();
-
-    }
-    public function showjoinpr()
-    {
-        return $this->createQueryBuilder('p')
-            ->join('p.idReservation','r')
-            ->addSelect('r')
-            ->getQuery()
-            ->getResult();
-    }
-
 
     // /**
     //  * @return Paiement[] Returns an array of Paiement objects

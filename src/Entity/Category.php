@@ -3,8 +3,6 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
-
 
 /**
  * Category
@@ -27,12 +25,6 @@ class Category
      * @var string|null
      *
      * @ORM\Column(name="nom_categ", type="string", length=15, nullable=true)
-     * @Assert\Length(
-     * min = 3,
-     * max = 50,
-     *   minMessage = "Name Category must be at least {{ limit }} characters long",
-     *   maxMessage = "Name Category cannot be longer than {{ limit }} characters" )
-     *
      */
     private $nomCateg;
 
@@ -53,8 +45,5 @@ class Category
         return $this;
     }
 
-    public function __toString() {
-        return $this->nomCateg;
-    }
 
 }

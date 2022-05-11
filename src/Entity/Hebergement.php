@@ -3,13 +3,12 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Hebergement
  *
- * @ORM\Table(name="hebergement", indexes={@ORM\Index(name="fk_off", columns={"offreur_id"}), @ORM\Index(name="fk_categ", columns={"id_categ"})})
- *  @ORM\Entity(repositoryClass="App\Repository\HebergementRepository")
+ * @ORM\Table(name="hebergement", indexes={@ORM\Index(name="fk_categ", columns={"id_categ"}), @ORM\Index(name="fk_off", columns={"offreur_id"})})
+ * @ORM\Entity(repositoryClass="App\Repository\HebergementRepository")
  */
 class Hebergement
 {
@@ -33,17 +32,12 @@ class Hebergement
      * @var string|null
      *
      * @ORM\Column(name="adress", type="string", length=50, nullable=true)
-     * @Assert\Length(
-     * min = 3,
-     * max = 50,
-     *   minMessage = "Your Adress must be at least {{ limit }} characters long",
-     *   maxMessage = "Your Adress cannot be longer than {{ limit }} characters" )
      */
     private $adress;
 
     /**
      * @var float|null
-     * @Assert\NotBlank
+     *
      * @ORM\Column(name="prix", type="float", precision=10, scale=0, nullable=true)
      */
     private $prix;
@@ -52,10 +46,6 @@ class Hebergement
      * @var string|null
      *
      * @ORM\Column(name="description", type="string", length=300, nullable=true)
-     *@Assert\Length(
-     * max = 500,
-     *
-     *   maxMessage = "The description cannot be longer than {{ limit }} characters" )
      */
     private $description;
 
@@ -68,105 +58,72 @@ class Hebergement
 
     /**
      * @var \DateTime|null
-     * @Assert\NotBlank
+     *
      * @ORM\Column(name="date_start", type="date", nullable=true)
      */
     private $dateStart;
 
     /**
      * @var \DateTime|null
-     *@Assert\NotBlank
-     * @Assert\GreaterThan(propertyPath="dateStart")
+     *
      * @ORM\Column(name="date_end", type="date", nullable=true)
      */
     private $dateEnd;
 
     /**
      * @var int|null
-     * @Assert\Type(
-     *     type="Integer"
-     * )
-     * @Assert\Length(
-     * min = 8,
-     * max = 80,
-     *   minMessage = "Your Contact must be at least {{ limit }} characters long",
-     *   maxMessage = "Your Contact cannot be longer than {{ limit }} characters" )
+     *
      * @ORM\Column(name="contact", type="integer", nullable=true)
      */
     private $contact;
 
     /**
      * @var int|null
-     * @Assert\Type(
-     *     type="Integer"
-     * )
-     * @Assert\Length(
-     * min = 0,
-     * max = 5,
-     *   minMessage = "Nombre de etoile must be at least {{ limit }} characters long",
-     *   maxMessage = "Nomber de etoile cannot be longer than {{ limit }} characters" )
+     *
      * @ORM\Column(name="nbr_detoile", type="integer", nullable=true)
      */
     private $nbrDetoile;
 
     /**
      * @var int|null
-     * @Assert\Type(
-     *     type="Integer"
-     * )
-     * @Assert\Length(
-     * min = 0,
-     * max = 100,
-     *   minMessage = "Nomber de Suite emust be at least {{ limit }} characters long",
-     *   maxMessage = "Nomber de Suite cannot be longer than {{ limit }} characters" )
+     *
      * @ORM\Column(name="nbr_suite", type="integer", nullable=true)
      */
     private $nbrSuite;
 
     /**
      * @var int|null
-     * @Assert\Type(
-     *     type="Integer"
-     * )
-     * @Assert\Length(
-     * min = 0,
-     * max = 5,
-     *   minMessage = "Nomber de Place de parking must be at least {{ limit }} characters long",
-     *   maxMessage = "Nomber de place de parking cannot be longer than {{ limit }} characters" )
+     *
      * @ORM\Column(name="nbr_parking", type="integer", nullable=true)
      */
     private $nbrParking;
 
     /**
      * @var string|null
-     *@Assert\Length(
-     * min = 2,
-     * max = 20,
-     *   minMessage = "Model caravane must be at least {{ limit }} characters long",
-     *   maxMessage = "Mode caravane cannot be longer than {{ limit }} characters" )
+     *
      * @ORM\Column(name="model_caravane", type="string", length=15, nullable=true)
      */
     private $modelCaravane;
 
     /**
-     * @var \Category
-     *
-     * @ORM\ManyToOne(targetEntity="Category",cascade={"persist", "remove"})
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_categ", referencedColumnName="id_categ")
-     * })
-     */
-    private $idCateg;
-
-    /**
      * @var \User
-     * * @Assert\NotBlank
+     *
      * @ORM\ManyToOne(targetEntity="User")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="offreur_id", referencedColumnName="id")
      * })
      */
     private $offreur;
+
+    /**
+     * @var \Category
+     *
+     * @ORM\ManyToOne(targetEntity="Category")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_categ", referencedColumnName="id_categ")
+     * })
+     */
+    private $idCateg;
 
     public function getReferance(): ?int
     {
@@ -317,6 +274,18 @@ class Hebergement
         return $this;
     }
 
+    public function getOffreur(): ?User
+    {
+        return $this->offreur;
+    }
+
+    public function setOffreur(?User $offreur): self
+    {
+        $this->offreur = $offreur;
+
+        return $this;
+    }
+
     public function getIdCateg(): ?Category
     {
         return $this->idCateg;
@@ -329,23 +298,5 @@ class Hebergement
         return $this;
     }
 
-    public function getOffreur(): ?User
-    {
-        return $this->offreur;
-    }
 
-    public function setOffreur(?User $offreur): self
-    {
-        $this->offreur = $offreur;
-        return $this;
-    }
-
-    public function __toString()
-    {
-        return strval($this->referance);
-    }
-    public function show(): string
-    {
-        return 'Paye :'. $this->paye .'adresse :'. $this->adress .'description :'. $this->description .'photo :'. $this->photo . ', date Start : ' . $this->dateStart->format('d/m/Y').', date end : '.$this->dateEnd->format('d/m/Y') .'contact :'. $this->contact . 'nbrDetoile :'. $this->nbrDetoile . 'nbrparking :'. $this->nbrParking. 'nbrsuite :'. $this->nbrSuite. 'nbrDetoile :'. $this->nbrDetoile . 'model caravane :'. $this->modelCaravane. 'id category :'. $this->idCateg      ;
-    }
 }

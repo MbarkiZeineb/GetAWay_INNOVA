@@ -2,16 +2,13 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Serializer\Annotation\Groups;
+
 /**
  * Reservation
  *
- * @ORM\Table(name="reservation", indexes={@ORM\Index(name="fk_act", columns={"id_activite"}), @ORM\Index(name="id_vol", columns={"id_vol"}), @ORM\Index(name="fk_client", columns={"id_client"}), @ORM\Index(name="fk_heb", columns={"id_hebergement"}), @ORM\Index(name="fk_voyage", columns={"id_voyage"})})
- *@ORM\Entity(repositoryClass="App\Repository\ReservationRepository")
+ * @ORM\Table(name="reservation", indexes={@ORM\Index(name="fk_heb", columns={"id_hebergement"}), @ORM\Index(name="fk_voyage", columns={"id_voyage"}), @ORM\Index(name="fk_act", columns={"id_activite"}), @ORM\Index(name="id_vol", columns={"id_vol"}), @ORM\Index(name="fk_client", columns={"id_client"})})
+ * @ORM\Entity(repositoryClass="App\Repository\ReservationRepository")
  */
 class Reservation
 {
@@ -21,8 +18,6 @@ class Reservation
      * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
-     * @Groups("reservation")
-     * @Groups("paiement")
      */
     private $id;
 
@@ -30,51 +25,27 @@ class Reservation
      * @var \DateTime
      *
      * @ORM\Column(name="date_reservation", type="date", nullable=false)
-     * @Groups("reservation")
      */
     private $dateReservation;
 
     /**
      * @var int
-     * @ORM\Column(name="nbr_place", type="integer", nullable=false)
-     * @Assert\NotBlank( message = " le champ nombre de place  ne doit pas etre vide  ",groups={"VVA"})
-     * @Assert\Type( type="integer",
-     * message="The value {{ value }} is not a valid {{ type }}",groups={"VVA"})
-     * @ORM\Column(name="nbr_place", type="integer", nullable=false)
-     * @Assert\Range(
-     *      min = 1,
-     *      max = 20,
-     *      notInRangeMessage = " nombre de place doit etre entre {{ min }} et {{ max }}",groups={"VVA"})
      *
-     *@Groups("reservation")
+     * @ORM\Column(name="nbr_place", type="integer", nullable=false)
      */
     private $nbrPlace;
 
     /**
      * @var \DateTime
-     * @Assert\NotBlank(
-     * message = " la date debut ne doit pas etre vide ",groups={"Hebergement"})
-     * @ORM\Column(name="date_debut", type="date", nullable=false)
-     * @Assert\GreaterThan("today",
-     *     message = " la date debut doit etre superieur a la date d'aujourd'hui ",
-     * groups={"Hebergement"})
-     * @Groups("reservation")
      *
+     * @ORM\Column(name="date_debut", type="date", nullable=false)
      */
     private $dateDebut;
 
     /**
      * @var \DateTime
      *
-     * @Assert\NotBlank(
-     * message = " la date fin  ne doit pas etre vide ",groups={"Hebergement"})
      * @ORM\Column(name="date_fin", type="date", nullable=false)
-     *@Assert\Expression(
-     * "this.getDateDebut()<this.getDateFin()",
-     *message="La date fin ne doit pas être  inferieur  à la date début"
-     *,groups={"Hebergement"})
-     * groups={"Hebergement"}
-     * @Groups("reservation")
      */
     private $dateFin;
 
@@ -82,7 +53,6 @@ class Reservation
      * @var string
      *
      * @ORM\Column(name="etat", type="string", length=30, nullable=false)
-     * @Groups("reservation")
      */
     private $etat;
 
@@ -90,42 +60,8 @@ class Reservation
      * @var string|null
      *
      * @ORM\Column(name="type", type="string", length=30, nullable=true)
-     * @Groups("reservation")
      */
     private $type;
-
-    /**
-     * @var \User
-     *
-     * @ORM\ManyToOne(targetEntity="User")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_client", referencedColumnName="id")
-     * })
-     * @Groups("reservation")
-     */
-    private $idClient;
-
-    /**
-     * @var \Voyageorganise
-     *
-     * @ORM\ManyToOne(targetEntity="Voyageorganise")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_voyage", referencedColumnName="idVoy")
-     * })
-     * @Groups("reservation")
-     */
-    private $idVoyage;
-
-    /**
-     * @var \Activite
-     *
-     * @ORM\ManyToOne(targetEntity="Activite")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_activite", referencedColumnName="RefAct")
-     * })
-     * @Groups("reservation")
-     */
-    private $idActivite;
 
     /**
      * @var \Hebergement
@@ -134,7 +70,6 @@ class Reservation
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="id_hebergement", referencedColumnName="referance")
      * })
-     * @Groups("reservation")
      */
     private $idHebergement;
 
@@ -145,18 +80,38 @@ class Reservation
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="id_vol", referencedColumnName="id_vol")
      * })
-     * @Groups("reservation")
      */
     private $idVol;
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Paiement", mappedBy="idReservation", orphanRemoval=true)
-     */
-    private $reservations;
 
-    public function __construct()
-    {
-        $this->reservations = new ArrayCollection();
-    }
+    /**
+     * @var \User
+     *
+     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_client", referencedColumnName="id")
+     * })
+     */
+    private $idClient;
+
+    /**
+     * @var \Voyageorganise
+     *
+     * @ORM\ManyToOne(targetEntity="Voyageorganise")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_voyage", referencedColumnName="idVoy")
+     * })
+     */
+    private $idVoyage;
+
+    /**
+     * @var \Activite
+     *
+     * @ORM\ManyToOne(targetEntity="Activite")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_activite", referencedColumnName="RefAct")
+     * })
+     */
+    private $idActivite;
 
     public function getId(): ?int
     {
@@ -192,7 +147,7 @@ class Reservation
         return $this->dateDebut;
     }
 
-    public function setDateDebut(?\DateTimeInterface $dateDebut): self
+    public function setDateDebut(\DateTimeInterface $dateDebut): self
     {
         $this->dateDebut = $dateDebut;
 
@@ -204,7 +159,7 @@ class Reservation
         return $this->dateFin;
     }
 
-    public function setDateFin(?\DateTimeInterface $dateFin): self
+    public function setDateFin(\DateTimeInterface $dateFin): self
     {
         $this->dateFin = $dateFin;
 
@@ -231,6 +186,30 @@ class Reservation
     public function setType(?string $type): self
     {
         $this->type = $type;
+
+        return $this;
+    }
+
+    public function getIdHebergement(): ?Hebergement
+    {
+        return $this->idHebergement;
+    }
+
+    public function setIdHebergement(?Hebergement $idHebergement): self
+    {
+        $this->idHebergement = $idHebergement;
+
+        return $this;
+    }
+
+    public function getIdVol(): ?Vol
+    {
+        return $this->idVol;
+    }
+
+    public function setIdVol(?Vol $idVol): self
+    {
+        $this->idVol = $idVol;
 
         return $this;
     }
@@ -271,65 +250,5 @@ class Reservation
         return $this;
     }
 
-    public function getIdHebergement(): ?Hebergement
-    {
-        return $this->idHebergement;
-    }
-
-    public function setIdHebergement(?Hebergement $idHebergement): self
-    {
-        $this->idHebergement = $idHebergement;
-
-        return $this;
-    }
-
-    public function getIdVol(): ?Vol
-    {
-        return $this->idVol;
-    }
-
-    public function setIdVol(?Vol $idVol): self
-    {
-        $this->idVol = $idVol;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Paiement>
-     */
-    public function getReservations(): Collection
-    {
-        return $this->reservations;
-    }
-
-    public function addReservation(Paiement $reservation): self
-    {
-        if (!$this->reservations->contains($reservation)) {
-            $this->reservations[] = $reservation;
-            $reservation->setIdReservation($this);
-        }
-
-        return $this;
-    }
-
-    public function removeReservation(Paiement $reservation): self
-    {
-        if ($this->reservations->removeElement($reservation)) {
-            // set the owning side to null (unless already changed)
-            if ($reservation->getIdReservation() === $this) {
-                $reservation->setIdReservation(null);
-            }
-        }
-
-        return $this;
-    }
-
-
-
-    public function show(): string
-    {
-        return 'Type :'. $this->type . ', dateR : ' . $this->dateReservation->format('d/m/Y').', DateDebut : '.$this->dateDebut->format('d/m/Y') .'DateDebut '. $this->dateFin->format('d/m/Y') .'Nom Client ' .$this->getIdClient()->getNom()  ;
-    }
 
 }
