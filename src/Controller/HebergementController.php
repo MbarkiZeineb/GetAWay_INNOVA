@@ -7,6 +7,7 @@ use App\Entity\Hebergement;
 use App\Entity\User;
 use App\Form\HebergementType;
 use App\Repository\HebergementRepository;
+use App\Repository\UserRepository;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Endroid\QrCode\Builder\Builder;
@@ -45,9 +46,9 @@ class HebergementController extends AbstractController
 
 
     /**
-     * @Route("/mobile/edit",name="edit_mobile_heb")
+     * @Route("/mobile/edit",name="modiferhebmobile")
      */
-    public function editHeb(Request $request)
+    public function modifierdithebmobile(Request $request)
     {
         $reference = $request->query->get("reference");
         $paye = $request->query->get('paye');
@@ -187,7 +188,7 @@ class HebergementController extends AbstractController
 
 
     /**
-     * @Route("/trier/{id}", name="sortedVol")
+     * @Route("/trierh/{id}", name="sortedHeb")
      */
     public function TriA(HebergementRepository $rep, $id, Request $request)
     {
@@ -236,7 +237,7 @@ class HebergementController extends AbstractController
      * @Route("/mobile/add", name="add_mobile_hebergement")
      * @throws Exception
      */
-    public function addHeb(Request $request)
+    public function addHeb(Request $request,UserRepository $repuser)
     {
         $paye = $request->query->get('paye');
         $adress = $request->query->get('adress');
@@ -251,7 +252,7 @@ class HebergementController extends AbstractController
         $nbrParking = $request->query->get('nbrParking');
         $modelCaravane = $request->query->get('modelCaravane');
         $idCateg = $request->query->get('idCateg');
-
+        $offreur=$repuser->find($request->query->get('ido'));
         $category = $this->getDoctrine()->getRepository(Category::class)->findOneBy(['idCateg' => $idCateg]);
 
         $hebergement = new Hebergement();
@@ -271,6 +272,7 @@ class HebergementController extends AbstractController
             $hebergement->setNbrParking($nbrParking);
             $hebergement->setIdCateg($category);
             $hebergement->setModelCaravane($modelCaravane);
+            $hebergement->setOffreur($offreur);
 
             //dd($hebergement);
 

@@ -1,8 +1,9 @@
 <?php
 
 namespace App\Entity;
-
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Reclamation
@@ -18,6 +19,7 @@ class Reclamation
      * @ORM\Column(name="idR", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @Groups ("post:read")
      */
     private $idr;
 
@@ -25,6 +27,8 @@ class Reclamation
      * @var string
      *
      * @ORM\Column(name="objet", type="string", length=100, nullable=false)
+     *  @Assert\NotBlank(message="vous devez remplir ce champ")
+     * @Groups ("post:read")
      */
     private $objet;
 
@@ -32,6 +36,8 @@ class Reclamation
      * @var string
      *
      * @ORM\Column(name="description", type="string", length=200, nullable=false)
+     *  @Assert\NotBlank(message="vous devez remplir ce champ")
+     * @Groups ("post:read")
      */
     private $description;
 
@@ -39,16 +45,18 @@ class Reclamation
      * @var string
      *
      * @ORM\Column(name="etat", type="string", length=50, nullable=false)
+     *  @Groups ("post:read")
      */
     private $etat = '0';
 
     /**
      * @var \User
      *
-     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\ManyToOne(targetEntity="User",inversedBy="reclamation")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="idClient", referencedColumnName="id")
      * })
+     *@Groups("post:read")
      */
     private $idclient;
 
@@ -104,6 +112,5 @@ class Reclamation
 
         return $this;
     }
-
 
 }

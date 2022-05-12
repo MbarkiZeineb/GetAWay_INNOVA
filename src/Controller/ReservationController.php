@@ -474,10 +474,8 @@ class ReservationController extends AbstractController
         $reservation->setIdVoyage($voy);
         $date  = new \DateTime('@' . strtotime('now'));
         $reservation->setDateReservation( $date);
-        $dated= new \DateTime($voy->getDatedepart());
-        $datef= new \DateTime($voy->getDatearrive());
-        $reservation->setDateDebut($dated);
-        $reservation->setDateFin($datef);
+        $reservation->setDateDebut($voy->getDatedepart());
+        $reservation->setDateFin($voy->getDatearrive());
         $reservation->setType("voyageOrganise");
         $reservation->setEtat("Approuve");
         $em->persist($reservation);

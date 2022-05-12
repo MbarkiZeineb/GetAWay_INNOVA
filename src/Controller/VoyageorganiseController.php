@@ -272,6 +272,19 @@ class VoyageorganiseController extends AbstractController
         $formatted =$serializer->normalize($Voyagorganise);
         return new JsonResponse($formatted);
     }
+    /**
+     * @Route ("/deletevoy/{idvoy}" ,  name="deletevoy", methods={"GET", "POST"})
+     */
+    public function deletevoy(Request $request , NormalizerInterface $normalizer ,$idvoy){
+
+        $em=$this->getDoctrine()->getManager();
+        $Voyagorganise = $em->getRepository(Voyageorganise::class)->find($idvoy);
+
+        $em->remove($Voyagorganise);
+        $em->flush();
+        $dataJson=$normalizer->normalize($Voyagorganise,'json',['groups'=>'Voyagorganise']);
+        return new Response("voyage deleted successfully".json_encode($dataJson));
+    }
 
 
 }

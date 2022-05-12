@@ -26,13 +26,14 @@ use Symfony\Component\Serializer\Serializer;
 class ReclamationController extends AbstractController
 {
     /**
-     * @Route("/d/{idr}", name="deleterec", methods={"GET"})
+     * @Route("/DeleteReclam/{idr}", name="deleterec", methods={"GET"})
      */
     public function delete1(EntityManagerInterface $entityManager,UserRepository $userrep,$idr): Response
     {
         $rec = $entityManager
             ->getRepository(Reclamation::class)
             ->find($idr);
+
         $entityManager->remove($rec);
         $entityManager->flush();
         $user=$userrep->find($rec->getIdclient()->getId());
@@ -54,6 +55,7 @@ class ReclamationController extends AbstractController
         ]);
     }
 
+
     /**
      * @return void
      * @Route("/displayReclamations",name="displayReclamations")
@@ -65,34 +67,6 @@ class ReclamationController extends AbstractController
         return new Response(json_encode($jsonContent));
     }
 
-
-    /**
-     * @param Request $request
-     * @param NormalizerInterface $normalizer
-     * @return void
-     * @Route("/addRecJson",name="addRecJson")
-     */
-    public function addRecJson(Request $request)
-    {
-        $reclamation=new Reclamation();
-        $description=$request->query->get('description');
-        $objet=$request->query->get("objet");
-        $em=$this->getDoctrine()->getManager();
-        $iduser=$request->query->get("idclient");
-        $reclamation->setObjet($objet);
-        $reclamation->setDescription($description);
-        $reclamation->setIdclient($this->getDoctrine()->getManager()->getRepository(User::class)->find($iduser));
-        $em->persist($reclamation);
-        $em->flush();
-        $encoder=new JsonEncoder();
-        $normalizer=new ObjectNormalizer();
-        $normalizer->setCircularReferenceHandler(function ($object){
-            return $object;
-        });
-        $serializer=new Serializer([$normalizer],[$encoder]);
-        $formatted =$serializer->normalize($reclamation);
-        return new JsonResponse($formatted);
-    }
 
 
     /**
@@ -124,15 +98,7 @@ class ReclamationController extends AbstractController
 
 
 
-    /**
-     * @Route("/{idr}", name="app_reclamation_show", methods={"GET"})
-     */
-    public function show(Reclamation $reclamation): Response
-    {
-        return $this->render('reclamation/show.html.twig', [
-            'reclamation' => $reclamation,
-        ]);
-    }
+
 
     /**
      * @Route("/{idr}/edit", name="app_reclamation_edit", methods={"GET", "POST"})
@@ -202,6 +168,30 @@ class ReclamationController extends AbstractController
 
     }
 
+    /**
+     * @Route("/addRecmobile",name="addReclamationmobile", methods={"GET", "POST"})
+     */
+    public function addreclamationmobile(Request $request)
+    {
+        $reclamation=new Reclamation();
+        $description=$request->query->get('description');
+        $objet=$request->query->get("objet");
+        $em=$this->getDoctrine()->getManager();
+        $iduser=$request->query->get("idclient");
+        $reclamation->setObjet($objet);
+        $reclamation->setDescription($description);
+        $reclamation->setIdclient($this->getDoctrine()->getManager()->getRepository(User::class)->find($iduser));
+        $em->persist($reclamation);
+        $em->flush();
+        $encoder=new JsonEncoder();
+        $normalizer=new ObjectNormalizer();
+        $normalizer->setCircularReferenceHandler(function ($object){
+            return $object;
+        });
+        $serializer=new Serializer([$normalizer],[$encoder]);
+        $formatted =$serializer->normalize($reclamation);
+        return new JsonResponse($formatted);
 
 
+    }
 }

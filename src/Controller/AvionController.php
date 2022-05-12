@@ -139,11 +139,11 @@ class AvionController extends AbstractController
 
     //********************mobile
     /**
-     * @Route("/getallAvion",name="getavion")
+     * @Route("/getallAvion/{id}",name="getavion")
      */
-    public function getvoyage (AvionRepository $repository , SerializerInterface  $serializer)
-    {
-        $p = $repository->findAll();
+    public function getvoyage (AvionRepository $repository,$id , SerializerInterface  $serializer,UserRepository $repu)
+    {      $user=$repu->find($id);
+        $p = $repository->findBy(['idAgence'=>$user]);
         $dataJson=$serializer->serialize($p,'json',['groups'=>'avion']);
         return new JsonResponse(json_decode($dataJson) );
 
@@ -152,15 +152,16 @@ class AvionController extends AbstractController
     //***************************************Mobile*******
 
     /**
-     * @Route ("/addavion" ,  name="addavion")
+     * @Route ("/addavion/" ,  name="addavion" , methods={"GET", "POST"})
      */
-    public function addavion(Request $request , NormalizerInterface $normalizer ){
-
+    public function addavion(Request $request , NormalizerInterface $normalizer,UserRepository $repu){
+        $user=$repu->find($request->get('idagence'));
         $em=$this->getDoctrine()->getManager();
         $avion = new Avion();
         $avion->setNbrPlace($request->get('nbrPlace'));
         $avion->setNomAvion($request->get('nomAvion'));
-        //$avion->setIdAgence($request->get('idAgence'));
+
+        $avion->setIdAgence($user);
 
         $em->persist($avion);
         $em->flush();
@@ -183,6 +184,8 @@ class AvionController extends AbstractController
         $dataJson=$normalizer->normalize($avion,'json',['groups'=>'avion']);
         return new Response("avion delete successfully".json_encode($dataJson));
     }
+
+
 
 
 

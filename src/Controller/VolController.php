@@ -17,6 +17,7 @@ use Dompdf\Dompdf;
 use Dompdf\Options;
 use CMEN\GoogleChartsBundle\GoogleCharts\Charts\PieChart;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 
 /**
@@ -214,7 +215,6 @@ class VolController extends AbstractController
     }
 
 
-    //********************mobile
     /**
      * @Route("/getallVol",name="getvol")
      */
@@ -226,6 +226,17 @@ class VolController extends AbstractController
 
     }
 
+
+    /**
+     * @Route("/order_By_PrixJSON", name="order_By_PrixJSON")
+     */
+    public function order_By_PrixJSON(NormalizerInterface $Normalizer,VolRepository $volRepository)
+    {
+        // $repository= $this->getDoctrine()->getRepository(Vol::class);
+        $vol = $volRepository->TriA();
+        $jsonContent = $Normalizer->normalize($vol,'json',['groups'=>'vol']);
+        return new Response(json_encode($jsonContent));
+    }
 
 
 

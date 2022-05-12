@@ -57,6 +57,17 @@ class HebergementRepository extends ServiceEntityRepository
 
     }
 
+    public function listhebbyoffreur($id)
+    {
+        return $this->createQueryBuilder('r')
+            ->join('r.offreur','u')
+            ->addSelect('u')
+            ->where('u.id=:id')
+            ->setParameter('id',$id)
+            ->getQuery()->getResult();
+
+    }
+
     // /**
     //  * @return Hebergement[] Returns an array of Hebergement objects
     //  */

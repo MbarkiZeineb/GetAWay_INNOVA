@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Avion;
+use App\Entity\Hebergement;
 use App\Entity\Reclamation;
 use App\Entity\User;
 use App\Form\ContactType;
@@ -371,11 +372,11 @@ class UserController extends AbstractController
 
     /**
      * @return void
-     * @Route("/getrecbyidc/{idc}",name="getrecbyidc")
+     * @Route("/getrecbyidc/",name="getrecbyidc")
      */
-    public function allRec(UserRepository $userRepository,NormalizerInterface $Normalizer,$idc)
+    public function allRec(UserRepository $userRepository,NormalizerInterface $Normalizer,Request $request)
     {
-        $user=$userRepository->find($idc);
+        $user=$userRepository->find($request->get('idc'));
         $reclamation=$this->getDoctrine()->getManager()->getRepository(Reclamation::class)->listReclamationByidc($user->getId());
         $jsonContent=$Normalizer->normalize($reclamation,'json',['groups'=>'post:read']);
         return new Response(json_encode($jsonContent));
@@ -552,7 +553,49 @@ class UserController extends AbstractController
 
     }
 
+    /**
+     * @return void
+     * @Route("/getavionbyida/{ida}",name="getavionbyida")
+     */
+    public function allavionbyida(UserRepository $userRepository,NormalizerInterface $Normalizer,$ida)
+    {
+        $user=$userRepository->find($ida);
+        $avion=$this->getDoctrine()->getManager()->getRepository(Avion::class)->listByida($user->getId());
+        $jsonContent=$Normalizer->normalize($avion,'json',['groups'=>'avion']);
+        return new Response(json_encode($jsonContent));
+    }
 
+    /**
+     * @Route("/gethebbyido/{ida}",name="gethebbyidoff")
+     */
+    public function allavionbyidoffreur(UserRepository $userRepository,$ida) :Response
+    {
+        $user=$userRepository->find($ida);
+
+
+        $hebergement = $this->getDoctrine()->getManager()->getRepository(Hebergement::class)->findBy(['offreur'=>$user]);
+        $hebergementList = [];
+        foreach ($hebergement as $cat) {
+            $hebergementList[] = [
+                'reference' => $cat->getReferance(),
+                'paye' => $cat->getPaye(),
+                'adress' => $cat->getAdress(),
+                'prix' => $cat->getPrix(),
+                'description' => $cat->getDescription(),
+                'dateStart' => $cat->getDateStart()->format('y-m-d'),
+                'dateEnd' => $cat->getDateEnd()->format('y-m-d'),
+                'contact' => $cat->getContact(),
+                'nbrDetoile' => $cat->getNbrDetoile(),
+                'nbrSuite' => $cat->getNbrSuite(),
+                'nbrParking' => $cat->getNbrParking(),
+                'modelCaravane' => $cat->getModelCaravane(),
+                'photo' => $cat->getPhoto(),
+            ];
+        }
+        return new Response(json_encode($hebergementList));
+
+
+    }
 
 
 

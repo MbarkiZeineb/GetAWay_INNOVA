@@ -8,6 +8,7 @@ use App\Form\ActiviteType;
 use App\Repository\ActivitelikeRepository;
 use App\Repository\ActiviteRepository;
 
+use CalendarBundle\Serializer\SerializerInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use MercurySeries\FlashyBundle\FlashyNotifier;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -28,6 +29,53 @@ class ActiviteController extends AbstractController
         $this->flashy = $flashy;
     }
 
+    //Mobile
+    /**
+     * @Route ("/actgetting")
+     */
+    public function getactivite(): Response
+    {
+        $activite = $this->getDoctrine()->getRepository(Activite::class)->findAll();
+        $activiteList = [];
+        foreach ($activite as $act){
+            $activiteList[] = [
+                'refact' => $act->getRefAct(),
+                'nom' => $act->getNom(),
+                'descrip' => $act->getDescrip(),
+                'duree' => $act->getDuree(),
+                'nbrplace' => $act->getNbrPlace(),
+                'date' => $act->getDate()->format('y-m-d'),
+                'type' => $act->getType(),
+                'location' => $act->getLocation(),
+                'prix' => $act->getPrix(),
+                'image' => $act->getImage(),
+            ];
+        }
+        return new Response(json_encode($activiteList));
+    }
+    /**
+     * @Route ("/help")
+     */
+
+    public function help(EntityManagerInterface $entityManager)
+    {
+        $act=$entityManager->getRepository(Activite::class)->findNbrplacedispo();
+        $act2=$entityManager->getRepository(Activite::class)->findNbrAct();
+
+        if($act2<10 && $act>0){
+            return new JsonResponse("Il y a $act activites avec 0 place disponible. Total des activites: $act2");
+        }
+        else
+            if($act>0) {
+                return new JsonResponse("Il y a $act activites avec 0 place disponible");
+            }
+            else
+                if ($act2<6)
+                    return new JsonResponse("Total activite disponible: $act2 activites");
+
+
+    }
+//Web
 
     /**
      * @Route("/", name="app_activite_index", methods={"GET"})
@@ -231,4 +279,5 @@ class ActiviteController extends AbstractController
 
         return $this->json(['code' => 200, 'likes' => $likeRepo->getCountForPost($activite)], 200);
     }
+
 }

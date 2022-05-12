@@ -216,7 +216,7 @@ class PaiementController extends AbstractController
             $entityManager->flush();
             dump("aaaa");
             dump($paiement);
-            return $this->redirectToRoute('AfficherClient');
+            return $this->redirectToRoute('AfficherClient',['id'=>$this->getUser()->getUsername()]);
 
 
 
