@@ -9,6 +9,8 @@ use App\Entity\Avis;
 use App\Entity\User;
 
 use App\Form\AvisType;
+use App\Repository\AvisRepository;
+use App\Repository\UserRepository;
 use App\Services\SmsService;
 use Doctrine\ORM\EntityManagerInterface;
 use MercurySeries\FlashyBundle\FlashyNotifier;
@@ -17,6 +19,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Services\GetUser;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
+use Symfony\Component\Serializer\SerializerInterface;
 
 /**
  * @Route("/avis")
@@ -27,6 +31,66 @@ class AvisController extends AbstractController
     public function __construct(FlashyNotifier $flashy)
     {
         $this->flashy = $flashy;
+    }
+
+
+    //Mobile
+
+    /**
+     * @Route ("/avisgetting")
+     */
+    public function getavis(AvisRepository $repository , SerializerInterface  $serializer): Response
+    {
+        $avis = $this->getDoctrine()->getRepository(Avis::class)->findAll();
+        $avisList = [];
+        foreach ($avis as $avi){
+            $avisList[] = [
+                'refavis' => $avi->getRefavis(),
+                'message' => $avi->getMessage(),
+                'date' => $avi->getDate()->format('d-M-Y'),
+                'rating' => $avi->getRating(),
+                'id' => $avi->getId()->getNom(),
+                'refactivite' => $avi->getRefactivite()->getNom(),
+            ];
+        }
+        return new Response(json_encode($avisList));
+    }
+
+    /**
+     * @Route ("/addavis")
+     */
+    public function addavis(Request $request , NormalizerInterface $normalizer, UserRepository $repuser, ActiviteRepository $rep,SmsService $smsService){
+
+        $em=$this->getDoctrine()->getManager();
+        $client=$repuser->find($request->get("id"));
+        $activite=$rep->find($request->get('refactivite'));
+        $avis = new Avis();
+        $avis->setMessage($request->get('message'));
+        $avis->setRating($request->get('rating'));
+        $date1 = new \DateTime('@'.strtotime('now'));
+        $avis->setDate($date1);
+        $avis->setId($client);
+        $avis->setRefactivite($activite);
+        $em->persist($avis);
+        $em->flush();
+        $jsonContent =$normalizer->normalize($avis,'json',['groups'=>'avis']);
+        $smsService->sendSms("+21693781904",
+            "Votre avis à été bien enregistrer");
+        return new Response(json_encode($jsonContent));
+    }
+
+    /**
+     * @Route ("/deleteavis/{id}")
+     */
+    public function deleteavis(Request $request , NormalizerInterface $normalizer ,$id){
+
+        $em=$this->getDoctrine()->getManager();
+        $avis = $em->getRepository(Avis::class)->find($id);
+
+        $em->remove($avis);
+        $em->flush();
+        $dataJson=$normalizer->normalize($avis,'json',['groups'=>'avis']);
+        return new Response("Avis delete successfully".json_encode($dataJson));
     }
 
     /**

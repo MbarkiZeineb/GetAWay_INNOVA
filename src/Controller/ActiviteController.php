@@ -15,6 +15,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\SerializerInterface;
 use function PHPUnit\Framework\countOf;
 
 /**
@@ -28,11 +29,87 @@ class ActiviteController extends AbstractController
         $this->flashy = $flashy;
     }
 
+//Mobile
+    /**
+     * @Route ("/actgetting")
+     */
+    public function getactivite(ActiviteRepository $repository , SerializerInterface  $serializer): Response
+    {
+        $activite = $this->getDoctrine()->getRepository(Activite::class)->findAll();
+        $activiteList = [];
+        foreach ($activite as $act){
+            $activiteList[] = [
+                'refact' => $act->getRefAct(),
+                'nom' => $act->getNom(),
+                'descrip' => $act->getDescrip(),
+                'duree' => $act->getDuree(),
+                'nbrplace' => $act->getNbrPlace(),
+                'date' => $act->getDate()->format('y-m-d'),
+                'type' => $act->getType(),
+                'location' => $act->getLocation(),
+                'prix' => $act->getPrix(),
+                'image' => $act->getImage(),
+            ];
+        }
+        return new Response(json_encode($activiteList));
+    }
+
+    /**
+     * @Route ("/actedit")
+     */
+    public function editact(Request $request)
+    {
+        $refact = $request->query->get("refact");
+        $nom = $request->query->get('nom');
+        $descrip = $request->query->get('descrip');
+        $duree = $request->query->get('duree');
+        $nbrplace = $request->query->get('nbrplace');
+        $date = $request->query->get('date');
+        $type = $request->query->get('type');
+        $location = $request->query->get('location');
+        $prix = $request->query->get('prix');
+        $image = $request->query->get('image');
+
+        $firstDate = new DateTime($date);
+        $activite = $this->getDoctrine()->getRepository(Hebergement::class)->findOneBy(['refact' => $refact]);
+        $activite->setDescription($nom);
+        $activite->setPaye($descrip);
+        $activite->setAdress($duree);
+        $activite->setPrix($nbrplace);
+        $activite->setPhoto($firstDate);
+        $activite->setDateStart($type);
+        $activite->setDateEnd($location);
+        $activite->setContact($prix);
+        $activite->setNbrDetoile($image);
+
+        try {
+            $em = $this->getDoctrine()->getManager();
+            $em->flush();
+            return new JsonResponse("Activite modifier");
+        } catch (Exception $e) {
+            return new JsonResponse("Erreur lors de la modification");
+        }
+    }
 
 
+    /**
+     * @Route ("/deleteact")
+     */
+    public function deleteact(Request $request)
+    {
+        $id = $request->query->get('reference');
+        $act = $this->getDoctrine()->getRepository(Activite::class)->findOneBy(['referance' => $id]);
 
-
-
+        try {
+            $em = $this->getDoctrine()->getManager();
+            $em->remove($act);
+            $em->flush();
+            return new JsonResponse("heb deleted successfully");
+        } catch (Exception $e) {
+            return new JsonResponse("error on " . $e->getMessage());
+        }
+    }
+//Web
     /**
      * @Route("/", name="app_activite_index", methods={"GET"})
      */
@@ -48,7 +125,7 @@ class ActiviteController extends AbstractController
         dump($act2);
 
 
-     if($act2<6 && $act>0){
+     if($act2<10 && $act>0){
                 $this->flashy->error("Vous avez '$act' activites avec 0 place disponible et Total des activites: $act2");
         }
         else
@@ -174,16 +251,6 @@ class ActiviteController extends AbstractController
         ]);
     }
 
-
-
-
-
-
-
-
-
-
-
     /**
      * @Route("/{refact}/edit", name="app_activite_edit", methods={"GET", "POST"})
      */
@@ -259,8 +326,6 @@ class ActiviteController extends AbstractController
 
         return $this->json(['code' => 200, 'likes' => $likeRepo->getCountForPost($activite)], 200);
     }
-
-
 
 
 }

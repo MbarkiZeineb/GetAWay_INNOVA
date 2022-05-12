@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
 /**
  * Avis
  *
@@ -19,6 +20,7 @@ class Avis
      * @ORM\Column(name="RefAvis", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @Groups("avis")
      */
     private $refavis;
 
@@ -26,6 +28,7 @@ class Avis
      * @var string
      * @Assert\NotBlank(message="Message ne doit pas être vide")
      * @ORM\Column(name="Message", type="string", length=250, nullable=false)
+     * @Groups("avis")
      */
     private $message;
 
@@ -33,6 +36,7 @@ class Avis
      * @var \DateTime
      *
      * @ORM\Column(name="Date", type="date", nullable=false)
+     * @Groups("avis")
      */
     private $date;
 
@@ -40,7 +44,11 @@ class Avis
      * @var int
      * @Assert\NotBlank(message="Rating ne doit pas être vide")
      * @Assert\Positive(message="Le rating ne dois pas etre négatif")
+     * @Assert\Range(
+     *      min = 1,
+     *      max = 5)
      * @ORM\Column(name="Rating", type="integer", nullable=false)
+     * @Groups("avis")
      */
     private $rating;
 
@@ -51,6 +59,7 @@ class Avis
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="Id", referencedColumnName="id")
      * })
+     * @Groups("avis")
      */
     private $id;
 
@@ -61,6 +70,7 @@ class Avis
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="RefActivite", referencedColumnName="RefAct")
      * })
+     * @Groups("avis")
      */
     private $refactivite;
 

@@ -147,6 +147,13 @@ class User implements UserInterface
         return $this->id;
     }
 
+    public function setId(string $id): self
+    {
+        $this->id = $id;
+
+        return $this;
+    }
+
     public function getNom(): ?string
     {
         return $this->nom;

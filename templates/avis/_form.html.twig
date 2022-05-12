@@ -13,20 +13,10 @@
                     <p class="card-description"> <code> {{ form_errors(form.message) }}</code></p>
                 </div>
             </div>
-            <div class="col-sm-6 form-group">
-                {{ form_widget(form.Id , {'attr': {'class': 'form-control' , 'placeholder' : 'client'}} ) }}
-            </div>
             <div class="col-sm-6 form-group form-rate">
                 {{ form_widget(form.rating , {'attr': {'class': 'form-control' , 'placeholder' : 'Rating'}} ) }}
                 <div>
                     <p class="card-description"> <code> {{ form_errors(form.rating) }}</code></p>
-                </div>
-                <div class="star-rating">
-                    <span class="disable"><span class="icon-star"></span></span>
-                    <span class="disable"><span class="icon-star"></span></span>
-                    <span class="disable"><span class="icon-star"></span></span>
-                    <span class="disable"><span class="icon-star"></span></span>
-                    <span class="disable"><span class="icon-star"></span></span>
                 </div>
             </div>
 
